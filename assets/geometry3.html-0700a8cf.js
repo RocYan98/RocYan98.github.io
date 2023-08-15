@@ -1,1 +1,0 @@
-import{_ as t,o,c as a,a as e,d as c}from"./app-28ac25b0.js";const r={},s=e("h1",{id:"几何-网格处理-、阴影图",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#几何-网格处理-、阴影图","aria-hidden":"true"},"#"),c(" 几何（网格处理）、阴影图")],-1),n=e("p",null,"Todo",-1),_=[s,n];function d(i,l){return o(),a("div",null,_)}const f=t(r,[["render",d],["__file","geometry3.html.vue"]]);export{f as default};
