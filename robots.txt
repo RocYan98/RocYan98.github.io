@@ -2,4 +2,4 @@
 User-agent:*
 Disallow:
 
-Sitemap: https://rocyan98.github.io/sitemap.xml
+Sitemap: https://rocyan.top/sitemap.xml
