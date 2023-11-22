@@ -1,0 +1,18 @@
+.vp-project-panel {
+  margin-left: -16px;
+  margin-top: -6px;
+  a {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .vp-project-card {
+    margin: 6px 0 6px 16px;
+    .vp-project-image {
+      border-radius: 50%;
+    }
+  }
+  .language-yaml {
+    display: none;
+  }
+}
