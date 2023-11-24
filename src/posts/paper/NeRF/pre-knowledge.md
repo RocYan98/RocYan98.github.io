@@ -22,7 +22,7 @@ order: 3
 
 ### 1.2 光线投射 (Ray Casting) 算法
 
-条光线，光线在经过体数据时进行采样，再利用后文提到的体渲染模型来求出每条光线的辐射强度。在体数据内进行采样的同时，会生成对应的**强度剖面 (Intensity Profile)**，图 3 中的 (c) 就是 NeRF 在体渲染过程中生成的强度剖面，横坐标表示采样点的位置，纵坐标表示该点的密度。
+每个像素对应一条光线，光线在经过体数据时进行采样，再利用后文提到的体渲染模型来求出每条光线的辐射强度。在体数据内进行采样的同时，会生成对应的**强度剖面 (Intensity Profile)**，图 3 中的 (c) 就是 NeRF 在体渲染过程中生成的强度剖面，横坐标表示采样点的位置，纵坐标表示该点的密度。
 
 ![Fig. 2：光线投射算法示意图](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/v9llod.png)
 
@@ -47,7 +47,7 @@ order: 3
 
 ![Fig. 5](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/ga8o4u.jpg)
 
-如图 5 所示，粒子的半径为 $r$，投影面积 $A=\pi r^2$，单位体积内粒子数为$\rho$，底面积为 $E$，宽度为 $\Delta S$，光沿着垂直于底面的方向传播，$L_i$ 表示入射光，$L_o$ 表示出射光。圆柱体体积为 $E\Delta s$，包含 $N=\rho E \Delta s$ 个粒子，假设 $\Delta s$足够小，且粒子没有重叠，那么这些粒子在底面上遮挡的总面积是 $NA=\rho AE\Delta s$。所以一束光通过这个圆柱体的时候，有 $\frac{\rho AE\Delta s}{E}=\rho A\Delta s$ 的概率会被遮挡，即出射光的辐射强度是入射光辐射强度的 $\rho A\Delta s$ 倍，数学上可以表示为：
+如图 5 所示，粒子的半径为 $r$，投影面积 $A=\pi r^2$，单位体积内粒子数为$\rho$，底面积为 $E$，宽度为 $\Delta S$，光沿着垂直于底面的方向传播，$L_i$ 表示入射光，$L_o$ 表示出射光。圆柱体体积为 $E\Delta s$，包含 $N=\rho E \Delta s$ 个粒子，假设 $\Delta s$足够小，且粒子没有重叠，那么这些粒子在底面上遮挡的总面积是 $NA=\rho AE\Delta s$。所以一束光通过这个圆柱体的时候，有 $\frac{\rho AE\Delta s}{E}=\rho A\Delta s$ 的概率会被遮挡，即出射光的辐射强度是入射光辐射强度的 $(1-\rho A\Delta s)$ 倍，数学上可以表示为：
 $$
 \begin{equation}
 \Delta I=-\rho(s)A\Delta sI(s)
