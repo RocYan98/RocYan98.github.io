@@ -31,7 +31,7 @@ export default hopeTheme({
 
   // footer: "默认页脚",
 
-  copyright: "Copyright © 2023-至今 Roc Yan <br> Total View Times: <span class=\"waline-pageview-count\" data-path=\"/\" />",
+  copyright: "Copyright © 2023-至今 Roc Yan <br> Total View Times: <span class=\"waline-pageview-count\" data-path=\"/\" /> <br> 浙ICP备2023046172号-1",
 
   displayFooter: true,
 
