@@ -49,6 +49,11 @@ lastUpdated: false
   name: Medic
   desc: Cogito, ergo sum
   link: https://ginkgo.org.cn
+
+- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/5imy0g.jpg
+  name: Ayene
+  desc: 水沢绫音
+  link: https://pat-chou-li.github.io/ayene-no-blog/
 ```
 :::
 
