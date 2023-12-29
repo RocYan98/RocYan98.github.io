@@ -5,7 +5,7 @@ tag:
   - Paper
   - Analysis
   - NeRF
-title: 论文解析
+title: NeRF-论文解析
 order: 2
 ---
 

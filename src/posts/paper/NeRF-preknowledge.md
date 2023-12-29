@@ -6,7 +6,7 @@ tag:
   - Volume Rendering
   - Sampling
   - NeRF
-title: 前置知识
+title: NeRF-前置知识
 order: 3
 ---
 

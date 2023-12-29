@@ -5,7 +5,7 @@ tag:
   - Paper
   - Translation
   - NeRF
-title: 论文翻译
+title: NeRF-论文翻译
 order: 1
 ---
 

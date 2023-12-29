@@ -43,14 +43,7 @@ export default sidebar({
                     icon: "paper",
                     prefix: "paper/",
                     collapsible: true,
-                    children: [
-                        {
-                            text: "NeRF",
-                            prefix: "NeRF/",
-                            collapsible: true,
-                            children: "structure"
-                        }
-                    ]
+                    children: "structure"
                 },
                 {
                     text: "PAT",
