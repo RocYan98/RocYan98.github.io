@@ -111,46 +111,81 @@ $$
 
 用公式 (1) 就能求出不同体格对于 shape 的偏移。
 
-### 3.2 基于姿态的混合成形（Pose Blend Shapes）
+### 3.2 骨骼点位置估计
 
-本文采用轴角（Axis-angle）表示旋转，$\vec\omega=(x,y,z)$ 表示以 $\bar{\omega}=\frac{\vec\omega}{\lVert\vec\omega\rVert}$ 为旋转轴，旋转 $\lVert\vec\omega\rVert$ 度。原文中姿态参数 $\vec\theta=[\vec\omega_0^T,...,\vec\omega_{23}^T]^T$ 表示总共24个关节（0 号是根节点，1 ~ 23 是关节点）的旋转，总共有 $3 \times 23 + 3 = 72$ 个参数。
+当经过基于体格的混合成形后，骨骼点的位置也会发生变换，不再是平均模板下的骨骼位置，因此需要对骨骼点进行位置估计，骨骼点的位置由它本身最为接近的若干个mesh的端点加权决定。
+$$
+\begin{equation}
+J(\vec\beta;\mathcal{J},\bar{\mathbf{T}},\mathcal{S})=\mathcal{J}(\bar{\mathbf{T}}+B_S(\vec\beta;\mathcal{S}))
+\tag{2}
+\end{equation}
+$$
+
+- $\mathcal{J}\in\R^{3N\times 3K}$ 骨骼点位置估计矩阵
+
+![Fig. 6：骨骼点位置估计的可视化](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/890tuo.png)
+
+### 3.3 基于姿态的混合成形（Pose Blend Shapes）
+
+本文采用轴角（Axis-angle）表示旋转，$\vec\omega=(x,y,z)$ 表示以 $\bar{\omega}=\frac{\vec\omega}{\lVert\vec\omega\rVert}$ 为旋转轴，旋转 $\lVert\vec\omega\rVert$ 度。原文中姿态参数 $\vec\theta=[\vec\omega_0^T,...,\vec\omega_{23}^T]^T$ 表示总共24个关节（0 号是根节点，1 ~ 23 是关节点）关于其父节点的旋转，总共有 $3 \times 23 + 3 = 72$ 个参数。
 $$
 \begin{equation}
 \exp(\vec\omega_j)=\mathcal{I}+\hat{\bar{\omega}}_j\sin(\lVert\vec\omega_j\rVert)+\hat{\bar{\omega}}_j^2\cos(1-\lVert\vec\omega_j\rVert)
-\tag{2}
+\tag{3}
 \end{equation}
 $$
 这个公式叫做 Rodrigues 公式，论文中是错的，原作者后面也进行了勘误。通过 Rodrigues 公式可以将轴角式转换成旋转矩阵，同时每个关节点参数也由原来的 3 个变成了旋转矩阵的 9 个。
 $$
 \begin{equation}
 B_P(\vec\theta;\mathcal{P})=\sum_{n=1}^{9K}(R_n(\vec\theta)-R_n(\vec\theta^*))\mathbf{P}_n
-\tag{3}
+\tag{4}
 \end{equation}
 $$
 
-- $R(\vec\theta):\R^{\lvert\vec\theta\rvert}\mapsto\R^{9K}$ 表示的是 Rodrigues 公式，参数个数变为 $23 \times 9 = 207$ 个
-- 
+- $R(\vec\theta):\R^{\lvert\vec\theta\rvert}\mapsto\R^{9K}$ 表示 Rodrigues 公式，参数个数变为 $23 \times 9 = 207$ 个
+- $\mathbf{P}_n\in\R^{3N}$ 表示姿态的 PCA 基
+- $\mathcal{P}=[\mathbf{P}_1,...,\mathbf{P}_{207}]\in\R^{3N\times 9K}$ 表示姿态的 PCA 基矩阵
 
-### 3.3 骨骼点位置估计
+因为每个 pose 都是从 T-pose 变换过去的，如果想要保持线性，那就必须把 T-pose 下的旋转给减掉，这样才是相对于 T-pose 下的变换。
+
 
 ### 3.4 线性混合蒙皮LBS（Linear Blend Skinning）
 
 $$
 \begin{equation}
-\bar{\mathbf{t}}'_i=\sum_{k=1}^Kw_{k,i}G'_k(\vec\theta,\mathbf{J})\bar{\mathbf{t}}_i
-\tag{4}
+\mathbf{t}'_i=\sum_{k=1}^Kw_{k,i}G'_k(\vec\theta,\mathbf{J})\mathbf{t}_i
+\tag{5}
 \end{equation}
 $$
 
-- $\bar{\mathbf{t}}_i$ 表示第 $i$ 个顶点蒙皮前的位置
+- $\mathbf{t}_i$ 表示第 $i$ 个顶点蒙皮前的位置
 
-- $\bar{\mathbf{t}}'_i$ 表示第 $i$ 个顶点蒙皮后的位置
+- $\mathbf{t}'_i$ 表示第 $i$ 个顶点蒙皮后的位置
 
 - $w_{k,i}$ 表示第 $k$ 个关节对第 $i$ 个顶点的蒙皮权重，是混合权重矩阵 $\mathcal{W}$ 中的一个元素
 
 - $G'_k(\vec\theta,\mathbf{J})$ 表示从标准姿态到当前姿态的仿射变换矩阵。
 
 对于 LBS 的更详细的介绍可以看[这篇文章](https://yunyang1994.gitee.io/2021/08/21/三维人体模型-SMPL-A-Skinned-Multi-Person-Linear-Model/)。
+
+在经过 3.1、3.2 和 3.3 的之后，公式 (5) 可以进一步写为：
+$$
+\begin{equation}
+\mathbf{t}'_i=\sum_{k=1}^Kw_{k,i}G'_k(\vec\theta,J(\vec\beta;\mathcal{J},\bar{\mathbf{T}},\mathcal{S}))\mathbf{t}_{P,i}(\vec\beta,\vec\theta;\bar{\mathbf{T},\mathcal{S},\mathcal{P}})
+\tag{6}
+\end{equation}
+$$
+其中
+$$
+\begin{equation}
+\mathbf{t}_{P,i}(\vec\beta,\vec\theta;\bar{\mathbf{T},\mathcal{S},\mathcal{P}})=\bar{\mathbf{t}}_i+\sum_{m=1}^{\lvert\vec\beta\rvert}\beta_m\mathbf{s}_{m,i}+\sum_{n=1}^{9K}(R_n(\vec\theta)-R_n(\vec\theta^*))\mathbf{p}_{n,i}
+\tag{7}
+\end{equation}
+$$
+
+- $\bar{\mathbf{t}}_i$ 表示平均模板上的第 $i$ 个顶点蒙皮前的位置
+
+公式 (7) 就是对平均模板进行基于体格的混合成形和基于姿态的混合成形后的 shape，也就是加偏移的过程。
 
 ## Reference
 
