@@ -4,7 +4,7 @@ category: 论文
 tag:
   - Paper
   - SMPL
-title: SMPL: A Skinned Multi-Person Linear Model
+title: SMPL-论文解析
 order: 4
 ---
 
