@@ -40,7 +40,7 @@ export default hopeTheme({
   blog: {
     avatar: "/logo.svg",
     name: "Roc Yan",
-    description: "复旦大学IPASS实验室研究生",
+    description: "废物研究生",
     intro: "/intro.html",
     timeline: "未来已来，将至已至",
     articleInfo: ["Date", "Category", "Tag"],

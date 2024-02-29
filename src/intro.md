@@ -26,5 +26,4 @@ sticky: true
 - :memo: 欢迎大家在下方积极留言评论！
 
 ### TODO
-- [ ] GAMES101
-- [ ] 动手学深度学习（PyTorch版）
+- [ ] 摆烂
