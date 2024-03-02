@@ -10,7 +10,7 @@ title: REC-MV-论文笔记
 order: 5
 ---
 
-##REC-MV: REconstructing 3D Dynamic Cloth from Monocular Videos 
+## REC-MV: REconstructing 3D Dynamic Cloth from Monocular Videos 
 
 [项目地址](https://lingtengqiu.github.io/2023/REC-MV/)
 
@@ -34,7 +34,7 @@ CVPR 2023
 
 使用特征曲线（领口、袖口、衣服下摆、裙摆等）确定服装的轮廓，使用 SDF 来表示服装的表面。首先从视频中获取显式特征曲线和隐式服装表面，然后应用非刚性服装模板配准来提取开放边界服装 mesh。
 
-**Preprocessing：**通过 Videoavatar 生成初始**体格参数（shape parameters）**$\beta$，相机内参 $\pi$ 和每帧的 SMPL **姿态参数（pose parameters）**$\vec\theta$。使用 [Self-Correction-Human-Parsing](https://github.com/GoGoDuck912/Self-Correction-Human-Parsing) 的方法来估计服装 mask。还需要 2D 可见曲线 $\zeta=\{\zeta_{l,t}|l=1,...N_l,t=1,...,N_i\}$（其中 $N_l$ 表示曲线的数量，$N_i$ 表示视频的帧数）来恢复 3D 曲线，2D 可见曲线分析服装 mask 的边界时会自动生成。
+**Preprocessing**：通过 Videoavatar 生成初始**体格参数（shape parameters）**$\beta$，相机内参 $\pi$ 和每帧的 SMPL **姿态参数（pose parameters）**$\vec\theta$。使用 [Self-Correction-Human-Parsing](https://github.com/GoGoDuck912/Self-Correction-Human-Parsing) 的方法来估计服装 mask。还需要 2D 可见曲线 $\zeta=\{\zeta_{l,t}|l=1,...N_l,t=1,...,N_i\}$（其中 $N_l$ 表示曲线的数量，$N_i$ 表示视频的帧数）来恢复 3D 曲线，2D 可见曲线分析服装 mask 的边界时会自动生成。
 
 ### 特征曲线和表面重建
 
@@ -103,7 +103,15 @@ $$
 
 在经过刚性优化后，将 $\bar{\mathbf{L}}$ 设置为特征曲线集 $\{\mathcal{C}_i|i=1,...,N_l\}$ 的初始位置，用于之后的非刚性优化。
 
-**表面感知曲线的可见性估计**：
+**表面感知曲线的可见性估计**：由于 2D 特征曲线 $\gamma$ 仅包含可见点，因此检测相机空间中 3D 曲线 $\mathcal{C}$ 上的点是否被人体遮挡至关重要。用**等值面提取算法（marching cube）**将标准空间的 SDF $S(\eta)$ 转换成显式的 mesh $\mathbf{T}_{\mathbf{s}}$，再通过变换场 $\Phi(\mathbf{T}_{\mathbf{s}})$ 将 mesh 从标准空间变换到相机空间，然后就可以基于 z-buffer 检测特征曲线上的点 $\Phi(\mathcal{C}(i))$ 是否被mesh 遮挡。
+
+然而 3D 曲线 $\mathcal{C}$ 有时可能会移动到 mesh 的外部或者比 mesh 大，只依靠 z-buffer 检测可能会出现一些错误。因此本文还检测了相机空间中曲线上的点是否被 SMPL 身体上离其最近的点遮挡，能这么做是因为之前的无交点曲线变形几乎没有改变两者之间的关系。如果两项检测都通过，就被视为可见的。
+
+### 曲线和表面协同优化
+
+服装的表面由隐式 SDF 表示。由于特征曲线可见性估计取决于服装表面，因此曲线和表面在优化过程中必须保持一致性。为了确保优化过程中曲线可见性的准确性，我们联合优化曲线和曲面，同时进行正则化，使曲线位于 SDF 的零等值面上。通过基于可微表面渲染的光度损失最小化隐式表面。
+
+**曲线感知表面初始化**：
 
 ## Reference
 
