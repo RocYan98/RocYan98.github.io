@@ -34,7 +34,7 @@ CVPR 2023
 
 使用特征曲线 (领口、袖口、衣服下摆、裙摆等) 确定服装的轮廓，使用 SDF 来表示服装的表面。首先从视频中获取显式特征曲线和隐式服装表面，然后应用非刚性服装模板配准来提取开放边界服装 mesh。
 
-**Preprocessing**：通过 Videoavatar 生成初始**体格参数 (shape parameters)** $\beta$，相机内参 $\pi$ 和每帧的 SMPL **姿态参数 (pose parameters)**$\vec\theta$。使用 [Self-Correction-Human-Parsing](https://github.com/GoGoDuck912/Self-Correction-Human-Parsing) 的方法来估计服装 mask。还需要 2D 可见曲线 $\zeta=\{\zeta_{l,t}|l=1,...N_l,t=1,...,N_i\}$ (其中 $N_l$ 表示曲线的数量，$N_i$ 表示视频的帧数) 来恢复 3D 曲线，2D 可见曲线分析服装 mask 的边界时会自动生成。
+**Preprocessing**：通过 Videoavatar 生成初始**体格参数 (shape parameters)** $\beta$，相机内参 $\pi$ 和每帧的 SMPL **姿态参数 (pose parameters)** $\vec\theta$。使用 [Self-Correction-Human-Parsing](https://github.com/GoGoDuck912/Self-Correction-Human-Parsing) 的方法来估计服装 mask。还需要 2D 可见曲线 $\zeta=\{\zeta_{l,t}|l=1,...N_l,t=1,...,N_i\}$ (其中 $N_l$ 表示曲线的数量，$N_i$ 表示视频的帧数) 来恢复 3D 曲线，2D 可见曲线分析服装 mask 的边界时会自动生成。
 
 ### 特征曲线和表面重建
 
