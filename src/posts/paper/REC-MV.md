@@ -56,7 +56,7 @@ $$
 
 ![Fig. 1: 可视化无交点曲线变形](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/efocab.png)
 
-**标准空间的隐式 SDF (Implicit SDF in Canonical Space)**：UDF 是可以表示开放表面的隐函数，但是在接近表面的点处不可微。因此本文用 SDF 来表示一个封闭的衣服表面，然后使用非刚性服装模板配准来提取开放表面的服装。本文并不使用一整个 SDF 来表示整个衣服表面，而是拆分成三种表面类型 (上衣、下衣和连体衣物 )，SDF 由具有可学习权重 $\eta$ 的 MLP $f$ 表示：$S(\eta)=\{\mathbf{p}\in\R^3|f(\mathbf{p};\eta)=0\}$
+**标准空间的隐式 SDF (Implicit SDF in Canonical Space)**：UDF 是可以表示开放表面的隐函数，但是在接近表面的点处不可微。因此本文用 SDF 来表示一个封闭的衣服表面，然后使用服装模板配准来提取开放表面的服装。本文并不使用一整个 SDF 来表示整个衣服表面，而是拆分成三种表面类型 (上衣、下衣和连体衣物 )，SDF 由具有可学习权重 $\eta$ 的 MLP $f$ 表示：$S(\eta)=\{\mathbf{p}\in\R^3|f(\mathbf{p};\eta)=0\}$
 
 ### 基于蒙皮的运动建模
 
