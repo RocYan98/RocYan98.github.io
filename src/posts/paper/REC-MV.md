@@ -111,7 +111,110 @@ $$
 
 服装的表面由隐式 SDF 表示。由于特征曲线可见性估计取决于服装表面，因此曲线和表面在优化过程中必须保持一致性。为了确保优化过程中曲线可见性的准确性，我们联合优化曲线和曲面，同时进行正则化，使曲线位于 SDF 的零等值面上。通过基于可微表面渲染的光度损失最小化隐式表面。
 
-**曲线感知表面初始化**：
+**曲线感知表面初始化**：首先得到公式 (4) 中初始化后的特征曲线 $\bar{\mathbf{L}}$​ ，然后用**基于句柄的变形（handle-based deformation）**方法使服装模板发生变形，使其特征曲线与 $\bar{\mathbf{L}}$​ 对其。然后使用**隐式几何正则化（Implicit Geometric Regularization, IGR）**的方法初始化隐式表面 $S(\eta)$​ ，使其拟合成变形后的服装模板。
+
+**可微表面渲染**：SelfRecon 里的方法，具体内容看 SelfRecon。
+$$
+\begin{equation}
+C_{\mathbf{p}}=f_c(\mathbf{p},\mathbf{n}_{\mathbf{p}}\mathbf{v}_{\mathbf{p}},\mathbf{z},E(\mathbf{p});\psi)
+\tag{5}
+\end{equation}
+$$
+
+- $\mathbf{p}$ 表示表面上的交点
+- $\mathbf{n}_{\mathbf{p}}=\nabla f(\mathbf{p};\eta)$ 表示交点的梯度
+- $\mathbf{v}_{\mathbf{p}}$ 表示变换点 $\Phi(\mathbf{p})$ 的雅可比矩阵，用于将相机空间转换到标准空间
+- $\mathbf{z}$ 表示视频帧的 latent code
+- $f_c$ 表示颜色渲染网络
+- $C_{\mathbf{p}}$ 表示点 $\mathbf{p}$ 的颜色
+
+### 损失函数
+
+#### 显式特征曲线损失
+
+**特征曲线投影损失**：
+$$
+\begin{equation}
+\mathcal{L}_{proj}=\mathrm{CD}(V_{\mathcal{C}}\otimes\Pi(\Phi(\mathcal{C})),\zeta)
+\tag{6}
+\end{equation}
+$$
+
+- $\mathcal{C}$ 表示 3D 特征曲线
+- $\Phi(\cdot)$ 表示变形场，用于将点从标准空间变形到相机空间
+- $\Pi$ 表示投影矩阵
+- $V_{\mathcal{C}}$​ 表示曲线的可见性 mask
+- $\otimes$ 表示 mask 选择操作
+- $\zeta$ 表示 2D 可见曲线
+- CD 表示倒角距离
+
+**特征曲线斜率正则化**：为了保持 3D 曲线的曲率（使整体曲线平滑且连续），设置了斜率损失来保证相邻点之间的斜率一致性：
+$$
+\begin{equation}
+\mathcal{L}_{slop}=\sum_{i=1}^{N_p}(1-\cos<\mathbf{s_{i+1},\mathbf{s}_i}>)
+\tag{7}
+\end{equation}
+$$
+
+- $\mathbf{s}_i=\mathcal{C}(i+1)-\mathcal{C}(i)$ 表示相邻两点组成的向量
+- $N_p$ 表示曲线上点的数量
+- $\cos<>$ 表示余弦相似度函数
+
+**表面正则化**：为了保证特征曲线在对应服装的表面，因此设定了**尽可能接近（as near as possible）**损失：
+$$
+\begin{equation}
+\mathcal{L}_{anap}=\sum_{i=1}^{N_p}|f(\mathcal{C}(i);\eta)|
+\tag{8}
+\end{equation}
+$$
+
+- $f(\mathcal{C}(i);\eta))$ 是求曲线上一点 $\mathcal{C}(i)$​ 的 SDF 值
+
+整体的显式特征曲线的损失如下：
+$$
+\begin{equation}
+\mathcal{L}_{curve}=\lambda_{proj}\mathcal{L}_{proj}+\lambda_{slop}\mathcal{L}_{slop}+\lambda_{anap}\mathcal{L}_{anap}
+\tag{9}
+\end{equation}
+$$
+
+#### 服装表面损失
+
+对于 $N_i$ 帧的单目视频，可学习的隐式表面重建参数可以表示为 $\Theta=\{\eta,\phi,\psi\}\cup\{\mathbf{h}_i,\mathbf{z}_i|i=1,...,N_i\}$。
+
+**表面渲染损失**：我们用 SelfRecon 的方法渲染表面，先求出光线和标准空间表面的交点，然后用公式 (6) 的表面渲染网络预测颜色，其光度损失如下：
+$$
+\begin{equation}
+\mathcal{L}_{RGB}=\frac{1}{|\mathcal{R}|}\sum_{\mathbf{p}\in\mathcal{R}}|C_{\mathbf{p}}(\Theta)-I_{\mathbf{p}}|
+\tag{10}
+\end{equation}
+$$
+
+- $\mathcal{R}$ 表示采样点集
+- $I_{\mathbf{p}}$ 表示输入图像的像素值的 ground-truth
+
+**Mask 引导的隐式一致性损失**：也是 SelfRecon 的方法，定期从标准空间的 SDF 中提取显示表面 mesh $\mathbf{T}_{\mathbf{s}}$，使用可微渲染器基于表面 mask 来迭代优化 mesh $\mathbf{T}_{\mathbf{s}}$，更新后的显示表面 $\hat{\mathbf{T}}_{\mathbf{s}}$ 将被用来监督 SDF $f$：
+$$
+\begin{equation}
+\mathcal{L}_{mcons}=\frac{1}{|\hat{\mathbf{T}}_{\mathbf{s}}|}\sum_{\mathbf{p}\in\hat{\mathbf{T}}_{\mathbf{s}}}|f(\mathbf{p};\eta)|
+\tag{11}
+\end{equation}
+$$
+**曲线引导的隐式一致性损失**：通过 mask 损失来更新显示 mesh 可能导致衣服表面有洞或者发生塌陷，为了接近这个问题，设计了显式曲线和表面一致性损失。具体来说，对于属于两个服装的特征曲线 $\mathcal{C}$ （比如腰部曲线既属于上衣又属于下衣），先生成闭合表面 $\mathbf{T}_\mathcal{C}$，然后从闭合表面 $\mathbf{T}_\mathcal{C}$ 采样 $N_a$ 个点来约束 SDF：
+$$
+\begin{equation}
+\mathcal{L}_{ccons}=\frac{1}{|\mathbf{T}_{\mathcal{C}}|}\sum_{\mathbf{p}\in\mathbf{T}_{\mathcal{C}}}|f(\mathbf{p};\eta)|
+\tag{12}
+\end{equation}
+$$
+**常见隐式损失**：用了 Eikonal 损失 $\mathcal{L}_{eik}$ 来优化 SDF；为了避免非刚性变换的扭曲，使用刚性损失 $\mathcal{L}_{arap}$ 来约束非刚性变换；计算标准空间的法向损失 $\mathcal{L}_{norm}$ 来精细化表面；计算骨架平滑度损失以减少帧间 SMPL 姿态的高频抖动。总体隐式表面损失可以写为：
+$$
+\begin{equation}
+\mathcal{L}_{ims}=\mathcal{L}_{RGB}+\lambda_{mcons}\mathcal{L}_{mcons}+\lambda_{ccons}\mathcal{L}_{ccons}+\lambda_{arap}\mathcal{L}_{arap}+\lambda_{eik}\mathcal{L}_{eik}+\lambda_{norm}\mathcal{L}_{norm}
+\tag{13}
+\end{equation}
+$$
+
 
 ## Reference
 
