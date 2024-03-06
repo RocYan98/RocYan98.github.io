@@ -109,9 +109,9 @@ $$
 
 ### 曲线和表面协同优化
 
-服装的表面由隐式 SDF 表示。由于特征曲线可见性估计取决于服装表面，因此曲线和表面在优化过程中必须保持一致性。为了确保优化过程中曲线可见性的准确性，我们联合优化曲线和曲面，同时进行正则化，使曲线位于 SDF 的零等值面上。通过基于可微表面渲染的光度损失最小化隐式表面。
+服装的表面由隐式 SDF 表示。由于特征曲线可见性估计取决于服装表面，因此曲线和表面在优化过程中必须保持一致性。为了确保优化过程中曲线可见性的准确性，我们联合优化曲线和和表面，同时进行正则化，使曲线位于 SDF 的零等值面上。通过基于可微表面渲染的光度损失最小化隐式表面。
 
-**曲线感知表面初始化 (Curve-aware Surface Initialization)**：首先得到公式 (4) 中初始化后的特征曲线 $\bar{\mathbf{L}}$ ，然后用**基于句柄的变形 (handle-based deformation)** 方法使服装模板发生变形，使其特征曲线与 $\bar{\mathbf{L}}$ 对其。最后使用**隐式几何正则化 (Implicit Geometric Regularization, IGR)** 的方法，通过拟合成变形后的服装模板来初始化隐式表面 $S(\eta)$。
+**曲线感知表面初始化 (Curve-aware Surface Initialization)**：首先得到公式 (4) 中初始化后的特征曲线 $\bar{\mathbf{L}}$ ，然后用**基于句柄的变形 (handle-based deformation)** 方法使服装模板发生变形，使其特征曲线与 $\bar{\mathbf{L}}$ 对齐。最后使用**隐式几何正则化 (Implicit Geometric Regularization, IGR)** 的方法，通过拟合成变形后的服装模板来初始化隐式表面 $S(\eta)$。
 
 **可微表面渲染 (Differentiable Surface Rendering)**：SelfRecon 里的方法，具体内容看 SelfRecon。
 $$
