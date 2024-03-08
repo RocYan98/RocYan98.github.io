@@ -38,10 +38,8 @@ NeRF 在采样中使用了一个 trick，就是**分层采样 (Hierarchical Samp
 
 NeRF 中的另一个 trick，就是**位置编码 (Positional Encoding)**。NeRF 的团队在他们的另一篇论文 *Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains* 表明 MLP 更倾向于学习低频信息。解决这个问题的方法就是位置编码，使用**傅里叶特征映射 (Fourier Features Mapping)**：
 $$
-\begin{equation}
 \gamma(p)=(\sin(2^0\pi p),\cos(2^0\pi p),\cdots,\sin(2^{L-1}\pi p),\cos(2^{L-1}\pi p))
 \tag{1}
-\end{equation}
 $$
 
 

@@ -57,13 +57,15 @@ $$
 
 最终目的是训练一个网络 $\mathcal{M}$，该网络可以学习标准空间的服装模板映射到姿态空间时相应的混合权重和混合形状矩阵：
 $$
-\begin{equation}
 \mathcal{M}:\{\mathbf{T},\mathbf{F}\}\rarr\{\mathbf{W},\mathbf{D}_{PSD}\}
 \tag{2}
-\end{equation}
 $$
 
 - $\mathbf{T}$ 表示标准空间下模板服装的顶点
 - $\mathbf{F}$ 表示服装的 mesh
 - $\mathbf{W}$ 表示混合权重
 - $\mathbf{D}_{PSD}$ 表示混合形状矩阵，其实就是 SMPL 中的表示姿态的 PCA 基矩阵 $\mathcal{P}$
+
+### PBS 数据和物理一致性 (PBS Data and Physical Consistency)
+
+从姿态空间到服装空间的映射是一个多值函数，不同的物理引擎、初始条件、动作速度、时间步长和积分器等会对相同 shape 和 pose 下的相同服装产生不同的模拟结果。所以用 PBS 数据训练是错误地把它映射为一个单值函数。如果样本有着相似的 $X$ 但是显著不同的 $Y$，那么会影响网络的性能，最终导致网络收敛到平均顶点位置。

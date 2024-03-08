@@ -49,66 +49,52 @@ order: 3
 
 如图 5 所示，粒子的半径为 $r$，投影面积 $A=\pi r^2$，单位体积内粒子数为$\rho$，底面积为 $E$，宽度为 $\Delta S$，光沿着垂直于底面的方向传播，$L_i$ 表示入射光，$L_o$ 表示出射光。圆柱体体积为 $E\Delta s$，包含 $N=\rho E \Delta s$ 个粒子，假设 $\Delta s$足够小，且粒子没有重叠，那么这些粒子在底面上遮挡的总面积是 $NA=\rho AE\Delta s$。所以一束光通过这个圆柱体的时候，有 $\frac{\rho AE\Delta s}{E}=\rho A\Delta s$ 的概率会被遮挡，即出射光的辐射强度是入射光辐射强度的 $(1-\rho A\Delta s)$ 倍，数学上可以表示为：
 $$
-\begin{equation}
 \Delta I=-\rho(s)A\Delta sI(s)
 \tag{1}
-\end{equation}
 $$
 其中 $s$ 是光进入 Volume (也可以称为**物体空间 Object Space**) 后的距离，$I(s)$ 是 $s$ 处的辐射强度。当 $\Delta s \to 0$ 时，就有如下的微分方程：
 $$
-\begin{equation}
 \frac{dI}{ds}=-\rho(s)AI(s)=-\tau(s)I(s)
 \tag{2}
-\end{equation}
 $$
 $\tau(s)=\rho(s)A$ 称为**消光系数(Extinction Coefficien)**，定义了光子被遮挡的比例。该微分方程的解是：
 $$
-\begin{equation}
 I(s)=I_0\exp
 \begin{pmatrix}
 -\int_0^s\tau(t)dt
 \end{pmatrix}
 \tag{3}
-\end{equation}
 $$
 其中 $I_0$ 是 $s=0$ 处的辐射强度，即光进入 Volume 的位置。可以定义
 $$
-\begin{equation}
 T(s)=\exp
 \begin{pmatrix}
 -\int_0^s\tau(t)dt
 \end{pmatrix}
 \tag{4}
-\end{equation}
 $$
 为 0 到 $s$ 处的**透明度** (**Transparency **，在 NeRF 中称为**透射率 Transmittance**)。
 
 在体渲染中，消光系数 $\tau$ 经常也被简称为**不透明度 (Opacity)**，但是对于边长为 $l$ 的体素，从平行于一条边的角度看过去，其不透明度 $\alpha$ 实际上是：
 $$
-\begin{equation}
 \alpha=1-T(l)=1-\exp
 \begin{pmatrix}
 -\int_0^l\tau(t)dt
 \end{pmatrix}
 \tag{5}
-\end{equation}
 $$
 
 ### 2.2 放射模型 (Emission Only)
 
 假设图 1 中的参与介质是透明的 (即这些粒子不会吸收光)，单位投影面积的辐射强度为 $C$，由之前推导出来的投影面积 $\rho AE\Delta s$可知，这些粒子总共提供 $C\rho AE\Delta s$ 的光通量，则单位面积的平均光通量为 $\frac{C\rho AE\Delta s}{E}=C\rho A\Delta s$，同样可以得到微分方程：
 $$
-\begin{equation}
 \frac{dI}{ds}=C(s)\rho(s)A=C(s)\tau(s)=g(s)
 \tag{6}
-\end{equation}
 $$
 其中 $g(s)$ 称为 **源项 (Source Term)**，表示 $s$ 处放射的辐射强度。这个微分方程的解如下：
 $$
-\begin{equation}
 I(s)=I_0+\int_0^sg(t)dt
 \tag{7}
-\end{equation}
 $$
 和公式 3 中的指数不同，公式 7 中的积分是没有上限的，因为辐射强度可以随着宽度 $s$ 的增加不断累积。
 
@@ -116,15 +102,12 @@ $$
 
 实际上，参与介质既会吸收光子导致入射光的辐射强度减少，同时自身又会发光增加辐射强度。所以结合前两个模型可以得到以下微分方程：
 $$
-\begin{equation}
 \frac{dI}{ds}=g(s)-\tau(s)I(s)
 \tag{8}
-\end{equation}
 $$
 
 微分方程的解为：
 $$
-\begin{equation}
 I(D)=I_0\exp
 \begin{pmatrix}
 -\int_0^D\tau(t)dt
@@ -135,21 +118,17 @@ I(D)=I_0\exp
 \end{pmatrix}
 ds
 \tag{9}
-\end{equation}
 $$
 其中积分下限 0 表示 Volume 的边界位置，上限 D 表示眼睛的位置，第一项表示背景光的辐射强度乘上整个 Volume 的透明度，第二项是源项在每个位置 $s$ 提供的辐射强度乘上该位置 $s$ 到 眼睛 $D$ 的透明度 $T'(s)=\exp\begin{pmatrix}-\int_s^D\tau(t)dt\end{pmatrix}$，因此最后整理为：
 $$
-\begin{equation}
 I(D)=I_0T(D)+\int_0^Dg(s)T'(s)ds
 \tag{10}
-\end{equation}
 $$
 
 ::: details 微分方程求解过程
 
 对于公式 8，将 $\tau(s)I(s)$ 移到等式左边，两边同乘积分因子 $\exp\begin{pmatrix}\int_0^s\tau(t)dt\end{pmatrix}$ 得到：
 $$
-\begin{equation}
 \begin{pmatrix}
 \frac{dI}{ds}+\tau(s)I(s)
 \end{pmatrix}
@@ -161,11 +140,9 @@ $$
 \int_0^s\tau(t)dt
 \end{pmatrix}
 \tag{A}
-\end{equation}
 $$
 等式左边是两个乘积的微分：
 $$
-\begin{equation}
 \frac{d}{ds}(I(s)\exp\begin{pmatrix}
 \int_0^s\tau(t)dt
 \end{pmatrix})=g(s)\exp
@@ -173,11 +150,9 @@ $$
 \int_0^s\tau(t)dt
 \end{pmatrix}
 \tag{B}
-\end{equation}
 $$
 对等式两边同时从 $s=0$ 到 $s=D$ 进行积分得到：
 $$
-\begin{equation}
 I(D)\exp
 \begin{pmatrix}
 \int_0^D\tau(t)dt
@@ -188,7 +163,6 @@ g(s)\exp
 \end{pmatrix}
 \end{pmatrix}ds
 \tag{C}
-\end{equation}
 $$
 将 $I_0$ 移到等式右侧，并且两边同乘 $\exp\begin{pmatrix}-\int_0^D\tau(t)dt\end{pmatrix}$ 就可以得到公式 9。
 
@@ -200,12 +174,10 @@ $$
 
 将公式 10 与 NeRF 最后的颜色积分方程 $C(\textbf{r})$ ：
 $$
-\begin{equation}
 C(\textbf{r})=\int_{t_n}^{t_f}T(t)\sigma(\textbf{r}(t))\textbf{c}(\textbf{r}(t),\textbf{d})dt, \ where\ T(t)=\exp
 \begin{pmatrix}-\int_{t_n}^t\sigma(\textbf{r}(s))ds
 \end{pmatrix}
 \tag{11}
-\end{equation}
 $$
 对比可以发现：
 
@@ -288,10 +260,8 @@ $$
 
 粗采样是在光线上均匀采样 64 个点，采样集通过公式 15 可以初步算出颜色 $\hat{C}_c(\textbf{r})=\sum_{i=1}^{N_c}T_i\alpha_i\textbf{c}_i$，进一步把 $T_i\alpha_i$ 整合成一个权重 $w_i$ 就可以得到：
 $$
-\begin{equation}
 \hat{C}_c(\textbf{r})=\sum_{i=1}^{N_c}w_i\textbf{c}_i
 \tag{17}
-\end{equation}
 $$
 $\alpha_i$ 表示第 $i$ 个区间的不透明度，不透明度越大表示这个区间内的参与介质密度越高；$T_i$ 表示的是从近平面 $t_n$ 到第 $i$ 个采样点 $t_i$ 所累积的透射率，透射率越大光线从 $t_n$ 传播到 $t_i$ 过程中没有碰撞到其他参与介质的概率就越高。因此把这两项的乘积当作权重 $w_i$，当 $w_i$ 越大时，该区间的辐射强度就越大，越值得被采样。将权重归一化为 $\hat{w}_i=w_i/\sum_{j=1}^{N_c}w_j$，得到的就是**概率密度函数 (PDF)**。细采样根据得到的 PDF 使用**逆变换采样 (Inverse Transform Sampling)** 采样 128 个点，将粗采样的 64 个点和细采样的 128 个点作为采样集最后算出 $\hat{C}_f(\textbf{r})$。(图 8 粗采样和细采样的示意图中，白色的点是粗采样的点，橙色的点是细采样的点，红色的曲线就是 PDF)
 

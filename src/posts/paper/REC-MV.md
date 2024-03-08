@@ -42,10 +42,8 @@ CVPR 2023
 
 **无交点曲线变形 (Intersection-free Curve Deformation)**：如果直接将特征曲线表示为离散的点集，那么优化时对每个点进行 3D 变形偏移的时候，点的顺序可能会打乱，导致曲线交叉。所以本文提出了**无交点曲线变形 (Intersection-free Curve Deformation)** 的方法，点点变形由曲线中心和两个正交方向控制：
 $$
-\begin{equation}
 \mathcal{C}'(i)=\mathbf{p}_{\mathbf{c}}+S^d_i\mathbf{n}^{\mathbf{d}}_{\mathbf{i}}+S^c_i\mathbf{n}^{\mathbf{c}}
 \tag{1}
-\end{equation}
 $$
 
 - $\mathcal{C}'(i)$​ 表示偏移后的点
@@ -66,10 +64,8 @@ $$
 
 **非刚性变形 (Non-rigid Deformation)**：蒙皮使服装表面能够以与身体大规模运动一致的方式变形。然而，距离身体较远的部分服装的细节不能通过蒙皮完全表示。因此，要用非刚性变形 MLP 对这些细粒度变化进行建模。用 MLP $\mathcal{D}$ 来表示这个非刚性变形 ($\phi$ 是可学习的参数)：
 $$
-\begin{equation}
 \mathbf{p}'=\mathcal{D}(\mathbf{p},\mathbf{h},E(\mathbf{p});\phi)
 \tag{2}
-\end{equation}
 $$
 
 - $\mathbf{p}$ 表示标准空间中的点
@@ -83,17 +79,13 @@ $$
 
 **初始化特征曲线 (Feature Curve Initialization)**：使用服装模板提供的预定义的 3D 特征曲线几何集 $\mathbf{L}=\{\mathbf{L}_i|i=1,...,N_l\}$，本文直接最小化相机空间的 3D 特征曲线在的 2D 投影与 2D 可见曲线之间的**倒角距离 (Chamfer Distance, CD)**：
 $$
-\begin{equation}
 s,\mathbf{t},\mathbf{R}=\arg\min \mathrm{CD}(\Pi(\mathcal{W}(\bar{\mathbf{L}}_i)),\zeta)
 \tag{3}
-\end{equation}
 $$
 
 $$
-\begin{equation}
 \bar{\mathbf{L}}_i=s\mathbf{R}(\mathbf{L}_i)+t
 \tag{4}
-\end{equation}
 $$
 
 - $\Pi$ 表示投影矩阵
@@ -115,10 +107,8 @@ $$
 
 **可微表面渲染 (Differentiable Surface Rendering)**：SelfRecon 里的方法，具体内容看 SelfRecon。
 $$
-\begin{equation}
 C_{\mathbf{p}}=f_c(\mathbf{p},\mathbf{n}_{\mathbf{p}}\mathbf{v}_{\mathbf{p}},\mathbf{z},E(\mathbf{p});\psi)
 \tag{5}
-\end{equation}
 $$
 
 - $\mathbf{p}$ 表示表面上的交点
@@ -134,10 +124,8 @@ $$
 
 **特征曲线投影损失 (Feature Curve Projection Loss)**：
 $$
-\begin{equation}
 \mathcal{L}_{proj}=\mathrm{CD}(V_{\mathcal{C}}\otimes\Pi(\Phi(\mathcal{C})),\zeta)
 \tag{6}
-\end{equation}
 $$
 
 - $\mathcal{C}$ 表示 3D 特征曲线
@@ -150,10 +138,8 @@ $$
 
 **特征曲线斜率正则化 (Feature Curve Slope Regularization)**：为了保持 3D 曲线的曲率 (使整体曲线平滑且连续)，设置了斜率损失来保证相邻点之间的斜率一致性：
 $$
-\begin{equation}
 \mathcal{L}_{slop}=\sum_{i=1}^{N_p}(1-\cos<\mathbf{s_{i+1},\mathbf{s}_i}>)
 \tag{7}
-\end{equation}
 $$
 
 - $\mathbf{s}_i=\mathcal{C}(i+1)-\mathcal{C}(i)$ 表示相邻两点组成的向量
@@ -162,20 +148,16 @@ $$
 
 **表面正则化 (On-surface Regularization)**：为了保证特征曲线在对应服装的表面，因此设定了**尽可能接近 (as near as possible)** 损失：
 $$
-\begin{equation}
 \mathcal{L}_{anap}=\sum_{i=1}^{N_p}|f(\mathcal{C}(i);\eta)|
 \tag{8}
-\end{equation}
 $$
 
 - $f(\mathcal{C}(i);\eta))$ 是求曲线上一点 $\mathcal{C}(i)$​ 的 SDF 值
 
 整体的显式特征曲线的损失如下：
 $$
-\begin{equation}
 \mathcal{L}_{curve}=\lambda_{proj}\mathcal{L}_{proj}+\lambda_{slop}\mathcal{L}_{slop}+\lambda_{anap}\mathcal{L}_{anap}
 \tag{9}
-\end{equation}
 $$
 
 #### 服装表面损失
@@ -184,10 +166,8 @@ $$
 
 **表面渲染损失 (Surface Rendering Loss)**：我们用 SelfRecon 的方法渲染表面，先求出光线和标准空间表面的交点，然后用公式 (6) 的表面渲染网络预测颜色，其光度损失如下：
 $$
-\begin{equation}
 \mathcal{L}_{RGB}=\frac{1}{|\mathcal{R}|}\sum_{\mathbf{p}\in\mathcal{R}}|C_{\mathbf{p}}(\Theta)-I_{\mathbf{p}}|
 \tag{10}
-\end{equation}
 $$
 
 - $\mathcal{R}$ 表示采样点集
@@ -195,24 +175,18 @@ $$
 
 **Mask 引导的隐式一致性损失 (Mask-guided Implicit Consistency Loss)**：也是 SelfRecon 的方法，定期从标准空间的 SDF 中提取显示表面 mesh $\mathbf{T}_{\mathbf{s}}$，使用可微渲染器基于表面 mask 来迭代优化 mesh $\mathbf{T}_{\mathbf{s}}$，更新后的显示表面 $\hat{\mathbf{T}}_{\mathbf{s}}$ 将被用来监督 SDF $f$：
 $$
-\begin{equation}
 \mathcal{L}_{mcons}=\frac{1}{|\hat{\mathbf{T}}_{\mathbf{s}}|}\sum_{\mathbf{p}\in\hat{\mathbf{T}}_{\mathbf{s}}}|f(\mathbf{p};\eta)|
 \tag{11}
-\end{equation}
 $$
 **曲线引导的隐式一致性损失 (Curve-guided Implicit Consistency Loss)**：通过 mask 损失来更新显示 mesh 可能导致衣服表面有洞或者发生塌陷，为了接近这个问题，设计了显式曲线和表面一致性损失。具体来说，对于属于两个服装的特征曲线 $\mathcal{C}$  (比如腰部曲线既属于上衣又属于下衣)，先生成闭合表面 $\mathbf{T}_\mathcal{C}$，然后从闭合表面 $\mathbf{T}_\mathcal{C}$ 采样 $N_a$ 个点来约束 SDF：
 $$
-\begin{equation}
 \mathcal{L}_{ccons}=\frac{1}{|\mathbf{T}_{\mathcal{C}}|}\sum_{\mathbf{p}\in\mathbf{T}_{\mathcal{C}}}|f(\mathbf{p};\eta)|
 \tag{12}
-\end{equation}
 $$
 **常见隐式损失 (Common Implicit Loss)**：用了 Eikonal 损失 $\mathcal{L}_{eik}$ 来优化 SDF；为了避免非刚性变换的扭曲，使用刚性损失 $\mathcal{L}_{arap}$ 来约束非刚性变换；计算标准空间的法向损失 $\mathcal{L}_{norm}$ 来精细化表面；计算骨架平滑度损失以减少帧间 SMPL 姿态的高频抖动。总体隐式表面损失可以写为：
 $$
-\begin{equation}
 \mathcal{L}_{ims}=\mathcal{L}_{RGB}+\lambda_{mcons}\mathcal{L}_{mcons}+\lambda_{ccons}\mathcal{L}_{ccons}+\lambda_{arap}\mathcal{L}_{arap}+\lambda_{eik}\mathcal{L}_{eik}+\lambda_{norm}\mathcal{L}_{norm}
 \tag{13}
-\end{equation}
 $$
 
 

@@ -61,28 +61,22 @@ Fig. 4：我们直观的展示了，与视角相关的辐射强度和通过高�
 我们的 5D 神经辐射场将场景表示为空间中任意点的体积密度和方向发射辐射强度。我们利用经典的体渲染的原理渲染穿过场景的任意光线的颜色。体积密度 $\sigma(\textbf{x})$ 可以解释为射线终止于 $\textbf{x}$ 处的无限小粒子的微分概率。预期颜色的方程 $C(\textbf{r})$ 如下 (其中 $\textbf{r}(t)=\textbf{o}+t\textbf{d}$ 是相机光线，$t_n$ 和 $t_f$ 分别是近平面和远平面)：
 
 $$
-\begin{equation}
 C(\textbf{r})=\int_{t_n}^{t_f}T(t)\sigma(\textbf{r}(t))\textbf{c}(\textbf{r}(t),\textbf{d})dt, \ \mathrm{where}\ T(t)=\exp\left(-\int_{t_n}^t\sigma(\textbf{r}(s))ds\right)
 \tag{1}
-\end{equation}
 $$
 
 方程 $T(t)$ 表示沿着光线从 $t_n$ 到 $t$ 累积的透射率，也就是光线从 $t_n$ 传播到 $t$ 过程中没有碰撞到其他粒子的概率。从我们的连续神经辐射场中渲染一个新的视图，需要为每一个像素的相机光线求一次 $C(\textbf{r})$ 的积分。
 我们对这个连续积分进行数值估计，确定性积分法常常用来渲染离散的体素网格。因为 MLP 只能在一组固定的离散位置进行采样，所以这将限制我们表示的分辨率，因此我们使用分层采样法，我们将 $[t_n,t_f]$ 分成 N 个均匀的区间，然后从每个区间内均匀随机地采样：
 $$
-\begin{equation}
 t_i\backsim U\left[t_n+\frac{i-1}N(t_f-t_n),t_n+\frac{i}N(t_f-t_n)\right]
 \tag{2}
-\end{equation}
 $$
 
 尽管在积分过程中使用了离散样本集，通过分层采样策略，在整个优化过程中 MLP 在连续的位置上进行训练，这有助于连续场景的表示。我们利用这些样本，用 Max 在体渲染中提到过的积分法来对 $C(\textbf{r})$ 进行估计：
 
 $$
-\begin{equation}
 \hat{C}(\textbf{r})=\displaystyle\sum_{i=1}^NT_i(1-exp(-\sigma_i\delta_i))\textbf{c}_i,\ \mathrm{where}\ T_i=\exp\left(-\displaystyle\sum_{j=1}^{i-1}\sigma_j\delta_j\right)
 \tag{3}
-\end{equation}
 $$
 
 其中 $\delta_i=t_{i+1}-t_i$ 是相邻采样点之间的距离。这个方程是通过集合 $(\textbf{c}_i,\sigma_i)$ 来计算 $\hat{C}(\textbf{r})$ ，通常是可微的并且可以简化为传统的阿尔法合成，其阿尔法值为 $\alpha_i=1-exp(-\sigma_i\delta_i)$ 。
@@ -96,10 +90,8 @@ $$
 尽管神经网络是通用函数近似器，我们发现当直接把坐标 $xyz\theta\phi$ 输入网络 $F_\varTheta$ 进行运算时，其渲染的结果在表示颜色和几何的高频变化方面效果较差。这和 Rahaman 等人最近的研究相一致，他们的研究表明深度网络更偏向于学习低频函数。他们还表明想要拟合包含高频变化的数据，可以在将数据输入到网络之前，使用高频函数将其映射到更高维的空间。
 我们在神经场景表示的背景下利用这些发现，并且发现将 $F_\varTheta$ 重新定义为两个函数的组合 $F_\varTheta=F_\varTheta'\circ\gamma$ (一个已经学习，一个还没有)，可以显著提高性能 (见图 4 和表 2)。其中 $\gamma$ 可以将参数从 $\R$ 映射到更高维空间 $\R^{2L}$，$F'_\varTheta$ 依然是一个普通的 MLP。我们所使用的编码方程：
 $$
-\begin{equation}
 \gamma(p)=(\sin(2^0\pi p),\cos(2^0\pi p),\cdots,\sin(2^{L-1}\pi p),\cos(2^{L-1}\pi p))
 \tag{4}
-\end{equation}
 $$
 
 这个方程 $\gamma(\cdot)$ 分别应用于 $\textbf{x}$  (归一化到 $[-1,1]$) 中的三个坐标还有笛卡尔视角单位向量 $\textbf{d}$  (归一化到 $[-1,1]$) 的三个分量。在我们的实验中，我们对 $\gamma(\textbf{x})$ 设置 $L=10$ ，对 $\gamma(\textbf{d})$ 设置 $L=4$ 。
@@ -110,10 +102,8 @@ $$
 我们的渲染策略是在每条摄像机光线上的 N 个点上密集评估神经辐射场网络，但这种策略效率不高：对渲染图像没有意义的自由空间和遮挡区域仍然需要重复采样。我们从体渲染的研究中获取灵感，提出了分层表示法，根据最终渲染的预期效果按比例分配采样，提升了渲染效率。
 我们同时优化两个网络 (一个粗网络和一个细网络) 而不是只使用一个网络来表示场景，我们首先使用分层采样对 $N_c$ 个位置进行采样，然后如公式 2 和 3 所述，评估这些位置的粗网络。在得到这个粗网络的输出后，我们会对每条光线的点进行更有依据的采样，更偏向于采样与体积相关的部分。为此，我们首先将公式 3 中的粗网络中的阿尔法合成颜色 $\hat{C}_c(\textbf{r})$ 重写为沿光线采样到的所有颜色 $c_i$ 的加权和：
 $$
-\begin{equation}
 \hat{C}_c(\textbf{r})=\displaystyle\sum_{i=1}^{N_c}w_ic_i,\quad w_i=T_i(1-\exp(-\sigma_i\delta_i))
 \tag{5}
-\end{equation}
 $$
 
 将权重归一化为 $\hat{w}_i=w_i/\sum_{j=1}^{N_c}w_j$ ，就能得到沿着射线的分段常数概率密度函数 (PDF)。我们使用逆变换采样 (inverse transform sampling) 在该分布中的 $N_f$ 个位置进行第二组采样，结合两组采样对细网络进行评估，并且使用所有 $N_c+N_f$ 个样本结合公式 3 计算最后渲染出的光线颜色 $\hat{C}_f(\textbf{r})$。这一过程将在更多有可见内容的区域进行采样。这达到了一个类似重要性采样的目的，但是我们使用采样的值作为整个积分域的非均匀离散化，而不是将每个样本视为对整个积分的独立概率估计。
@@ -123,13 +113,11 @@ $$
 我们为每个场景优化了一个单独的神经连续体表示网络。这只需要一个场景的 RGB 图片的数据集，对应的相机姿态和内在参数以及场景边界 (对于合成物体的图片就使用真正的相机姿态、内在参数还有边界，对于真实拍摄的图片就使用 COLMAP 来估计这些参数)。在每轮优化迭代中，我们从数据集中的所有像素集中随机采样一个 batch 的相机光线，然后根据 5.2 节中提到的分层采样技术，从粗网络中采样 $N_c$ 个样本，从细网络中采样 $N_c+N_f$ 个样本。使用第 4 节中提到的体渲染技术根据两组样本渲染每条光线的颜色。我们的损失函数是简单地计算渲染出的像素颜色和真实颜色之间的平方差 (分别计算出粗渲染和细渲染，再求两者之和)：
 
 $$
-\begin{equation}
 L=\displaystyle\sum_{\textbf{r}\in R}
 \left[
 \begin{Vmatrix}\hat{C}_c(\textbf{r})-C(\textbf{r})\end{Vmatrix}^2_2+\begin{Vmatrix}\hat{C}_f(\textbf{r})-C(\textbf{r})\end{Vmatrix}^2_2
 \right]
 \tag{6}
-\end{equation}
 $$
 
 其中 $R$ 是每个 batch 中的光线的集合，$C(\textbf{r})$，$\hat{C}_c(\textbf{r})$ 和 $\hat{C}_f(\textbf{r})$ 分别是光线 $\textbf{r}$ 的真实的 RGB 颜色，粗网络预测的 RGB 颜色和细网络预测的 RGB 颜色。尽管最后渲染的结果是 $\hat{C}_f(\textbf{r})$ ，我们也需要最小化 $\hat{C}_c(\textbf{r})$ 的损失，因为从粗网络得到的权重分布可以用来分配细网络中的采样点。
