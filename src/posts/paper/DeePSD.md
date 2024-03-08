@@ -42,7 +42,11 @@ PBS 能够以巨大的计算成本为代价获得高度真实的布料动力学�
 
 ## Methodology
 
-给定一个动作序列中穿着在 SMPL 人体上的服装的 PBS 数据，定义 $\mathcal{S}=\{X,Y\},其中X=\{\mathbf{T},\mathbf{F},\theta,\beta,g\},Y=\{\mathbf{V}_{PBS}\}$
+给定一个动作序列中穿着在 SMPL 人体上的服装的 PBS 数据，定义 
+$$
+\mathcal{S}=\{X,Y\},其中X=\{\mathbf{T},\mathbf{F},\theta,\beta,g\},Y=\{\mathbf{V}_{PBS}\}
+\tag{1}
+$$
 
 - $\mathbf{T}$ 表示标准空间下模板服装的顶点
 - $\mathbf{F}$ 表示服装的 mesh
@@ -55,7 +59,7 @@ PBS 能够以巨大的计算成本为代价获得高度真实的布料动力学�
 $$
 \begin{equation}
 \mathcal{M}:\{\mathbf{T},\mathbf{F}\}\rarr\{\mathbf{W},\mathbf{D}_{PSD}\}
-\tag{1}
+\tag{2}
 \end{equation}
 $$
 
