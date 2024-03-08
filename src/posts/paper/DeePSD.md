@@ -42,5 +42,24 @@ PBS 能够以巨大的计算成本为代价获得高度真实的布料动力学�
 
 ## Methodology
 
+给定一个动作序列中穿着在 SMPL 人体上的服装的 PBS 数据，定义 $\mathcal{S}=\{X,Y\},其中X=\{\mathbf{T},\mathbf{F},\theta,\beta,g\},Y=\{\mathbf{V}_{PBS}\}$
 
+- $\mathbf{T}$ 表示标准空间下模板服装的顶点
+- $\mathbf{F}$ 表示服装的 mesh
+- $\theta$ 表示姿态参数
+- $\beta$ 表示体格参数
+- $g$ 表示性别
+- $\mathbf{V}_{PBS}$ 表示动画模拟后的服装顶点的位置
 
+最终目的是训练一个网络 $\mathcal{M}$，该网络可以学习标准空间的服装模板映射到姿态空间时相应的混合权重和混合形状矩阵：
+$$
+\begin{equation}
+\mathcal{M}:\{\mathbf{T},\mathbf{F}\}\rarr\{\mathbf{W},\mathbf{D}_{PSD}\}
+\tag{1}
+\end{equation}
+$$
+
+- $\mathbf{T}$ 表示标准空间下模板服装的顶点
+- $\mathbf{F}$ 表示服装的 mesh
+- $\mathbf{W}$ 表示混合权重
+- $\mathbf{D}_{PSD}$ 表示混合形状矩阵，其实就是 SMPL 中的表示姿态的 PCA 基矩阵 $\mathcal{P}$
