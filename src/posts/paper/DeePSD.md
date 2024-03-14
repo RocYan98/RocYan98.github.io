@@ -95,3 +95,48 @@ $$
 ![Fig. 1: 模型架构](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/2jg5x2.png)
 
 输入衣服顶点，首先通过卷积神经网络获得局部描述符；局部描述符先由全连接层处理，再通过最大池化层 (每套服装对应一个池化层) 进行聚合得到全局描述符；描述符通过三个 MLP 分别得到混合权重和混合形状矩阵。
+
+### Training
+
+$$
+\mathcal{L}_{data}=\sum||\mathbf{V}_{\theta,data}-\mathbf{V}_{PBS}||^2
+\tag{3}
+$$
+
+这个 Loss 很简单，就是让网络预测出来的顶点位置和物理模拟出来的顶点位置越接近越好，这部分是有监督的。
+
+
+$$
+\mathcal{L}_{cloth}=\mathcal{L}_E+\lambda_B\mathcal{L}_B=\sum_{e\in E}||e-e_\mathbf{T}||^2+\lambda_B\Delta (\mathbf{n})^2
+\tag{4}
+$$
+
+- $L_E$ 表示边的损失，防止边过度的拉伸或压缩
+- $\mathcal{L}_B$ 表示弯曲损失，通过约束相邻顶点之间的法线，控制局部表面平滑
+- $E$ 表示边的集合
+- $e$ 表示预测出来的边的长度
+- $e_{\mathbf{T}}$ 表示模板上的边的长度
+- $\Delta(\mathbf{n})$​​ 表示应用于预测出来的服装顶点法线的 Laplace-Beltrami 算子
+
+这个 Loss 用来约束边和控制局部表面平滑，参考了弹簧置点模型。
+
+
+$$
+\mathcal{L}_{collision}=\sum_{(i,j)\in A}min(\mathbf{d}_{j,i}\cdot\mathbf{n}_j-\epsilon,0)^2
+\tag{5}
+$$
+
+- A 表示预测的服装上的点和其最接近的人体上的点的对应关系 $(i,j)$ 集
+- $\mathbf{d}_{i,j}$ 表示人体第 $j$ 个顶点到服装第 $i$ 个顶点的向量
+- $\mathbf{n}_j$ 是人体第 $j$ 个顶点的法向量
+- $\epsilon$ 是用来提高鲁棒性的小的正阈值，本文设置为 5 mm
+
+这个 Loss 假定服装是紧贴皮肤的，并对穿透进皮肤的服装进行惩罚。
+
+
+$$
+\mathcal{L}_{phys}=\mathcal{L}_{cloth}+\lambda_{collision}\mathcal{L}_{collision}
+\tag{6}
+$$
+最终的无监督损失定义为公式 (6)。
+
