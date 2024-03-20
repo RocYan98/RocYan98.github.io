@@ -12,7 +12,8 @@ export default defineUserConfig({
   base: "/",
 
   lang: "zh-CN",
-  title: "Roc Yan's Blog",
+  // title: "Roc Yan's Blog",
+  title: "小严学习日记",
   description: "Roc Yan 的博客",
 
   head: [
