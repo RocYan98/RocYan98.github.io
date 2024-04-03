@@ -67,3 +67,7 @@ $$
 - 对于每个 tile 里的高斯球按照深度顺序进行排序 (没有逐像素进行排序)；
 - 对于光栅化，为每个 tile 启动了一个线程块。每个线程块首先将高斯球加载在到共享的存储器中，然后对于每个给定的像素，按照深度从前到后累计颜色和 $\alpha$ 值；
 - 当在一个像素中， $\alpha$ 值累积到目标饱和度后，对应的线程就会停止。每经过固定的间隔，一个 tile 中的线程就会被查询，当其中的所有像素都达到饱和度的时候这个 tile 就会终止；
+
+## Reference
+
+[3D Gaussian Splatting for Real-Time Radiance Field Rendering](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/3d_gaussian_splatting_low.pdf)

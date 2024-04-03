@@ -106,3 +106,9 @@ $$
 ### Pose Dependent Deformation
 
 后续关于 pose 的变形也不是本文的重点，先不看。
+
+## Reference
+
+[SMPLicit: Topology-aware Generative Model for Clothed People](http://www.iri.upc.edu/people/ecorona/smplicit/paper.pdf)
+
+[CVPR 2021 | SMPL人体模型有了，是不是还缺个衣服模型？SMPLicit来了](https://zhuanlan.zhihu.com/p/362132005)
