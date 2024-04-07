@@ -45,7 +45,7 @@ $$
 
 ### SMPLicit-Core Formulation
 
-![Fig. 1](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/lwux7n.png)
+![Fig. 1](http://img.rocyan.cn/blog/2024/04/6612bafb89855.png)
 
 本文用 2 个参数 $\mathbf{z}=[\mathbf{z}_{cut},\mathbf{z}_{style}]\in\R^{N}$ 分别来控制服装的剪裁和款式，用身体形状来控制服装的合身程度。
 

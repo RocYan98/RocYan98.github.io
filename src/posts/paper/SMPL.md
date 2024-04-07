@@ -19,7 +19,7 @@ SIGGRAPH Asia 2015
 
 SMPL 是一种基于顶点的蒙皮模型，能准确表现自然人体姿势中的各种体形。简单来说就是可以表现各种姿态下不同体格 (高矮胖瘦) 的人。SMPL 分别用**形状参数 (shape parameters)** 来控制体格，用**姿态参数 (pose parameters)** 来控制不同的姿态，并且这些控制都是线性的。SMPL 模型包含 6890​ 个顶点和 24 个关节 (23 个关节点 + 1 个根节点)。
 
-![Fig. 1: SMPL模型的24个关节](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/ps9e7y.png)
+![Fig. 1: SMPL模型的24个关节](http://img.rocyan.cn/blog/2024/04/6612bb070251f.png)
 
 
 
@@ -67,19 +67,19 @@ SMPL 模型可以分为 4 个阶段：**平均模版形状 (mean template shape)
 
 先定义一个在 T-pose 下的平均模板，可以认为它是一个基模板，后续基于体格和姿态的混合成形都是在这个集模板上进行参数的变化。这个模板是通过统计大量的真实人体 mesh，得到的均值形状，由 $N=6890$ 个**顶点 (vertex)** 和 13776 个**面片 (mesh)** 组成。
 
-![Fig. 2: 平均模板的 mesh，混合权重用颜色表示，关节用白点表示](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/hym0vq.png)
+![Fig. 2: 平均模板的 mesh，混合权重用颜色表示，关节用白点表示](http://img.rocyan.cn/blog/2024/04/6612bb070251f.png)
 
 ### 2.2 基于体格的混合成形 (Shape Blend Shapes)
 
 基于体格的混合成形就是在平均模板的基础上，加上基于体格的混合形状函数的偏移，形成新的 shape。这一步主要是用于改变人物的高矮胖瘦等体格特征，每个体格参数 $\beta$ 可以控制一项体格特征，具体的可视化可以参考[SMPL模型Shape和Pose参数](https://wap.sciencenet.cn/blog-465130-1177111.html)。
 
-![Fig. 3: 在平均模板上加上基于形状的偏移并且预测关节](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/3k6z3u.png)
+![Fig. 3: 在平均模板上加上基于形状的偏移并且预测关节](http://img.rocyan.cn/blog/2024/04/6612bb0b8f75d.png)
 
 ### 2.3 基于姿态的混合成形 (Pose Blend Shapes)
 
 不同的 pose 也会改变人物的 shape，比如弯腰的时候肚子上的肉会压缩，视觉上可能会显得变大。所以先把某一帧的 pose 导致的 shape 的改变加到 T-pose 下。
 
-![Fig. 4: 姿态对 T-pose 下的 shape 的影响](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/f2actb.png)
+![Fig. 4: 姿态对 T-pose 下的 shape 的影响](http://img.rocyan.cn/blog/2024/04/6612bb0f3c6ee.png)
 
 ### 2.4 蒙皮 (Skinning)
 
@@ -87,7 +87,7 @@ SMPL 模型可以分为 4 个阶段：**平均模版形状 (mean template shape)
 
 
 
-![Fig. 5: 蒙皮后的模型](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/tmpmmi.png)
+![Fig. 5: 蒙皮后的模型](http://img.rocyan.cn/blog/2024/04/6612bb127a080.png)
 
 ## 3 模型中的公式
 
@@ -120,7 +120,7 @@ $$
 
 - $\mathcal{J}\in\R^{3N\times 3K}$ 骨骼点位置估计矩阵
 
-![Fig. 6: 骨骼点位置估计的可视化](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/890tuo.png)
+![Fig. 6: 骨骼点位置估计的可视化](http://img.rocyan.cn/blog/2024/04/6612bb16612c7.png)
 
 ### 3.3 基于姿态的混合成形 (Pose Blend Shapes)
 

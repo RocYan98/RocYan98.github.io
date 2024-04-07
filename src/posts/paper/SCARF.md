@@ -31,7 +31,7 @@ Siggraph Asia 2022
 
 ## Methods
 
-![Fig. 1：Pipeline](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/kndevp.png)
+![Fig. 1: Pipeline](http://img.rocyan.cn/blog/2024/04/6612bac663038.png)
 
 ### 混合表示 (Hybrid Representation)
 
@@ -86,7 +86,7 @@ $$
 - $\mathbf{x}$ 表示观测空间的一个点
 - $\mathbf{v}^p_{nn(x)}$ 表示观测空间的身体表示中距离 $\mathbf{x}$​ 最近的那个点
 
-预测结果 $d^c$ 是偏移量，因此最后输入 $F_c$ 的是 $\mathbf{x}^c+\mathbf{d}^c$，这部分看不懂看 Canonicalization 的部分。
+预测结果 $d^c$ 是偏移量，因此最后输入 $F_c$ 的是 $\mathbf{x}^c+\mathbf{d}^c$。
 
 ### 标准化 (Canonicalization)
 
@@ -103,7 +103,16 @@ $$
 $$
 
 - $\mathcal{N}(\mathbf{x})$ 表示在 $\mathrm{V}$ 中距离 $\mathbf{x}$ 最近的点集，$\mathrm{V}$ 表示观测空间中 body mesh 的点集
-- 
+
+### 损失函数
+
+$$
+L_{recon}=\lambda_{vol}L_{\delta}(\mathcal{R}_v-I)+\lambda_{mrf}L_{mrf}(\mathcal{R}_v-I)
+$$
+
+
+
+
 
 ## Reference
 

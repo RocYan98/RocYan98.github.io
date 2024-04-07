@@ -13,11 +13,11 @@ order: 2
 
 想知道一个模型是干什么的，最简单的方式就是看这个模型的输入输出。先忽略内部细节，NeRF 的输入就是对一个物体从不同角度拍摄的多张图片，输出就是渲染出来的输入集中所没有的新视角下的图片 (如图 1 所展示的那样)，简而言之 NeRF 就是合成新视角下的视图的模型。
 
-![Fig. 1](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/a5o42t.png)
+![Fig. 1](http://img.rocyan.cn/blog/2024/04/6612bb8823bd3.png)
 
 ## NeRF 是怎么做的
 
-![Fig. 2：Pipeline](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/n4t4pk.png)
+![Fig. 2：Pipeline](http://img.rocyan.cn/blog/2024/04/6612bb8b449df.png)
 
 ### Pipeline
 
@@ -32,7 +32,7 @@ order: 2
 
 NeRF 在采样中使用了一个 trick，就是**分层采样 (Hierarchical Sampling)**，简单来说就是训练两个网络 ，**粗网络 (Coarse)** 和**细网络 (Fine)**。粗网络会沿着光线均匀采样 64 个点，通过粗网络的结果可以知道 Volume 中哪些地方密度更大更值得被采样 (原理在 [前置知识 (4.2节)](pre-knowledge.html) 中有详细解释)。细网络会采样 64 + 128 个点，其中 64 个就是粗网络采样的点，剩下 128 个是基于粗网络的结果，使用**逆变换采样 (Inverse Transform Sampling)** 的方法在密度大的地方进行采样。
 
-![Fig. 3：分层采样](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/wbg795.png)
+![Fig. 3：分层采样](http://img.rocyan.cn/blog/2024/04/6612bb8e5afba.png)
 
 #### 位置编码
 
@@ -45,7 +45,7 @@ $$
 
 可以将参数从 $\R$ 映射到更高维的空间 $\R^{2L}$，NeRF 中对空间坐标 $\textbf{x}$ 和视角 $\textbf{d}$ 分别设置 $L=10$ 和 $L=4$，即将 $\textbf{x}$ 和 $\textbf{d}$ 都从 3 维 (在论文中视角 $\textbf{d}=(\theta,\phi)$ 是 2 维的，但是输入模型前会转换成 3 维) 分别映射到 60 维和 24 维。当把输入从低维转换到高维之后，就可以让 MLP 学会高频信息。
 
-![Fig. 4：有无傅里叶特征对训练结果的影响](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/mulumr.gif)
+![Fig. 4：有无傅里叶特征对训练结果的影响](http://img.rocyan.cn/blog/2024/04/6612bbd156327.gif)
 
 图像中的高频信息是灰度变化比较大的地方，也就是边缘和纹理，图 4 中也可以看出，没有使用位置编码，学习出来的图像在边缘和纹理上效果很差。
 
@@ -53,7 +53,7 @@ $$
 
 NeRF 的模型架构如图 5 所示，并且具体代码实现用相同颜色的框进行了标注。
 
-![Fig. 5：模型](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/j834e4.png)
+![Fig. 5：模型](http://img.rocyan.cn/blog/2024/04/6612bbffa7088.png)
 
 
 
