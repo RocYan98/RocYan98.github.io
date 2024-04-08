@@ -15,49 +15,49 @@ order: 3
 
 注意：线性变换的矩阵是与向量同维度的，如果不同维度的则是齐次坐标（3.2的内容）
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/xmkzhk.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d55518a9.png)
 
 ### 1.1 缩放变换
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/olyaws.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d58b9d1b.png)
 
 ### 1.2 镜像变换
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/558i9p.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d5c0cac6.png)
 
 ### 1.3 剪切变换
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/opj2o4.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d5f74ea5.png)
 
 ### 1.4 旋转变换
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/ujqeni.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d61e43c8.png)
 
 推导过程：
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/yc9qsv.jpg)
+![](http://img.rocyan.cn/blog/2024/04/66134d6498bf1.jpg)
 
 ## 2 齐次坐标
 
 引入齐次坐标的原因：无法用与向量同维度的矩阵来表示平移变换
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/7u3xwi.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d67aa83d.png)
 
 增加一个维度来表示齐次坐标，其中二维中的点的第三维为 1，二维向量的第三维为 0
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/wdvxxv.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d6a551c7.png)
 
 只要第三维非0表示的就是点，两个点相加表示的是两个点所连成的线的中点
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/9p89xm.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d6d36ace.png)
 
 仿射变换=线性变换+平移变换，可以用齐次坐标来表示仿射变换
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/pyxxhr.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d70a46c2.png)
 
 因此线性变换也可以用齐次坐标来表示
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/36gpk3.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d7504484.png)
 
 齐次坐标的代价（trade off）：多一个维度
 
@@ -76,15 +76,15 @@ order: 3
 
 与二维类似，齐次坐标用 4 维表示即可，其他与二维的类似
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/xxrjw2.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d78adc7d.png)
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/vin1jn.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d7b59af5.png)
 
 先线性变换再平移变换
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/glw030.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d7e20010.png)
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/kjfuq1.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d81224be.png)
 
 ![pitch：俯仰，将物体绕 X 轴旋转](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/j7sbvt.jpg)
 
@@ -94,6 +94,6 @@ order: 3
 
 对于以 n 为轴转动 $\alpha$ 角度可以使用罗德里格斯公式，n 轴是过原点的；要想真的绕任意轴 m 旋转，可以先将图像平移到旋转轴 m 过原点，再利用罗德里格斯公式（I 为单位矩阵），最后对平移进行逆变换。
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/ufk0a2.png)
+![](http://img.rocyan.cn/blog/2024/04/66134d910770b.png)
 
 初始向量 v 绕 n 轴转 $\alpha$角得到$v_{rot}$，$v_{rot}=R(n,\alpha)v,R(n,\alpha)$ 是对应的旋转矩阵

@@ -19,11 +19,9 @@ order: 7
 - Specular
 - Ambient
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/bkf31c.png)
+![](http://img.rocyan.cn/blog/2024/04/66134bf03f66d.png)
 
 着色具有局部性，对着色的描述是一个点，v、l、n（法线）都是单位向量，shininess表示的是表面有多亮（不是指亮度）
-
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/arxpyi.png)
 
 暂时先不考虑阴影
 
@@ -35,38 +33,38 @@ order: 7
 
 对于任意一个着色点，它周围的单位面积能接收到的能量，是与光照方向l和着色点表面的法线方向n的余弦成正比的
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/pipsh7.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c167f310.png)
 
 ### 1.3 光照衰减
 
 点光源是向周围所有方向辐射出能量（即以点光源为球心辐射能量），能量集中在球壳上且能量是守恒的，因此当能量辐射到距离点光源越远的地方，球体的表面积就越大，单位面积的能量就越小。根据球的表面积公式：$S=4\pi r^2$可知，单位面积的能力是与半径的平方$r^2$成反比的。
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/s1lckp.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c20d6ad3.png)
 
 根据7.1.2能得出多少能量被着色点接收，根据7.1.3能得出多少能量能传播到着色点，最后再根据着色点的漫反射系数$k_d$（即颜色的RGB值），就能得到漫反射公式（即多少能量能从着色点反射出去），可以看到漫反射与观测方向v没有任何关系
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/h7qie8.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c1d0f8c7.png)
 
 ## 2 镜面反射
 
 镜面反射与观测方向v有关，当观测方向v与镜面反射方向R越接近，则产生的高光也越亮
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/t7uasa.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c1ed77b3.png)
 
 可以转换成计算半程向量h与法线n之间的远近来判断，因为高光通常是白色的，因此镜面反射系数$k_s$通常就是白色；布林·冯模型简化了7.1.2的部分，理论上来说任何反射都应该考虑有多少能量被着色点接收。
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/ighhky.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c21a4d88.png)
 
 因为能看到高光的角度范围很小，因此需要指数p来限制角度，通常p在布林·冯模型中取100到200之间
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/xa8kyx.png)![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/hy8gx8.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c2539813.png)![](http://img.rocyan.cn/blog/2024/04/66134c27e5389.png)
 
 ## 3 环境光
 
 布林·冯模型对于环境光是一个大胆的简化，从下图可以看出是一个常数，与光照方向l、法线n和观测方向v都无关。这只是一个近似值，如果要很精确的计算需要运用到全局光照的知识
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/aa4dge.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c2e3e932.png)
 
 将漫反射、镜面反射和环境光相加，就能得到最后的布林·冯反射模型的结果
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/hasdac.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c328018f.png)

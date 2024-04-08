@@ -67,15 +67,15 @@ service ssh restart
 
 找到 pycharm 中 Tools-Deployment-Configuration，点击左上角的 + 创建一个 SFTP 连接
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/e0iby9.png)
+![](http://img.rocyan.cn/blog/2024/04/66135479c74b2.png)
 
 先通过 9000 端口建立 ssh 连接
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/kth8q5.png)
+![](http://img.rocyan.cn/blog/2024/04/6613547f1d77c.png)
 
 在 Mappings 中设置好本地路径和 docker 容器的路径的映射关系
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/o9cnl8.png)
+![](http://img.rocyan.cn/blog/2024/04/661354837c592.png)
 
 ### 3 设置 pycharm 的 python 解释器
 
@@ -90,23 +90,23 @@ which python
 
 找到 Settings 中的解释器页面添加解释器
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/uromdv.png)
+![](http://img.rocyan.cn/blog/2024/04/6613548804d3d.png)
 
 选择 SSH
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/7bhe71.png)
+![](http://img.rocyan.cn/blog/2024/04/6613548b7accb.png)
 
 因为之前在 SFTP 中已经配置过 SSH 连接了，所以在 Existing 中可以找到之前的设置，直接选择就行
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/o5rrza.png)
+![](http://img.rocyan.cn/blog/2024/04/6613548f3e835.png)
 
 Automaticlly upload project files to the server 勾选则会自动同步本地和 docker 中的文件
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/tfo5p3.png)
+![](http://img.rocyan.cn/blog/2024/04/661354949b814.png)
 
 右侧绿色的就是 docker 中的项目内容
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/w5wi56.png)
+![](http://img.rocyan.cn/blog/2024/04/6613549b580bc.png)
 
 ## Reference
 

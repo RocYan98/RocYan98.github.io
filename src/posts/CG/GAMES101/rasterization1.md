@@ -20,17 +20,17 @@ order: 5
 
 两根红线之间的夹角就是 fovY
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/p3gi7t.png)
+![](http://img.rocyan.cn/blog/2024/04/66134b6fb1eec.png)
 
 可以通过宽高比和可视角度来求出 l，r，b，t（默认相机已经在原点，因此可观测区域的 l=-r, b=-t）
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/ovzah0.png)
+![](http://img.rocyan.cn/blog/2024/04/66134b71c10f4.png)
 
 ## 1 屏幕空间
 
 定义如下：
 
- ![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/d63z7b.png)
+ ![](http://img.rocyan.cn/blog/2024/04/66134b74a34e4.png)
 
 ## 2 视口变换
 
@@ -55,14 +55,14 @@ order: 5
 
 给定一个三角形，在像素的中心进行采样，来判断中心是否落在三角形内（如何判断是否在三角形内，可以看2.2的内容）
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/ww0yub.png)
+![](http://img.rocyan.cn/blog/2024/04/66134b7c0002c.png)
 
 但是遍历所有像素开销太大，如下图中白色那一列的像素根本没有碰到三角形，所以只要遍历蓝色区域就可以了，我们知道三角形三个顶点的坐标，有了 Xmin, Ymin, Xmax, Ymax 就可以得到蓝色的区域，蓝色区域就叫做包围盒 。
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/8xmmmr.png)
+![](http://img.rocyan.cn/blog/2024/04/66134b7dce2e2.png)
 
 采样完成后，因为每个像素都是最小单位，像素内的颜色必须一样，所以我们会得到这样一副图
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/p9xsoo.png)
+![](http://img.rocyan.cn/blog/2024/04/66134b80dcda5.png)
 
 这看起来和初始的三角形差别很大，有明显的锯齿（jaggies），锯齿的学名叫走样（aliasing），之后就会学抗锯齿/反走样

@@ -21,7 +21,7 @@ order: 1
 
 略
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/ag6uox.png)
+![](http://img.rocyan.cn/blog/2024/04/66134b69a95e3.png)
 
 
 

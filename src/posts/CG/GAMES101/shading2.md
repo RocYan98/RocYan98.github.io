@@ -15,19 +15,19 @@ order: 8
 
 下图分别对应平面着色、顶点着色和像素着色
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/oh57zq.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c3c38e90.png)
 
 ### 1.1 平面着色（Flat Shading）
 
 求每个面的法向量并着色
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/1rx56r.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c3f0062b.png)
 
 ### 1.2 顶点着色（Gouraud Shading）
 
 求每个顶点的法向量并着色
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/yqc32j.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c41a6d3f.png)
 
 顶点的法线是顶点所关联的面的法线的加权（面积）平均
 
@@ -35,7 +35,7 @@ order: 8
 
 求每个像素的法向量并着色 
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/t3c4xk.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c44577f8.png)
 
 在求每个像素的法向量时需要用到[着色（插值、高级纹理映射）](shading3.html)中的第 1 节重心插值（Barycentric interpolation）的方法
 
@@ -43,13 +43,13 @@ order: 8
 
 当顶点数量够多时，平面着色也可以取得不错的效果
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/cgzoqk.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c46e0e36.png)
 
 ## 2 图形/实时渲染管线
 
 片段（Fragment）是 OpenGL 里的一个概念，可以理解为就是像素
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/h9omyt.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c490c061.png)
 
 GPU 就是专门负责执行图形渲染管线的设备
 
@@ -59,16 +59,16 @@ GPU 就是专门负责执行图形渲染管线的设备
 
  物体的表面其实是 2D 的，任意 3D 物体上的任意一点都可以映射到 2D 平面之上。（映射的过程是美工的工作，我们默认是已知的）
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/qznmyd.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c4bae734.png)
 
 ### 3.1 纹理坐标UV
 
 规定 U 和 V 的范围是 [0, 1]
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/hrsj0d.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c519aacf.png)
 
 ### 3.2 特殊纹理tiled
 
 tile 纹理有上下左右重复拼接都是连续的特性，多用在贴在墙面或地板上。
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/o9a5a8.png)
+![](http://img.rocyan.cn/blog/2024/04/66134c579e7fd.png)

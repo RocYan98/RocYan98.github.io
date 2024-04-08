@@ -18,7 +18,7 @@ vim 是一个全屏幕纯文本编辑器，是 vi 编辑器的增强版
 
 ## 一、vim 的工作模式
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/yftjux.png)
+![](http://img.rocyan.cn/blog/2024/04/66134e088a8e1.png)
 
 - 命令模式：是主要使用快捷键的模式，命令模式想要进入输入模式，可以使用以下的方式
 
@@ -163,7 +163,7 @@ vim 是一个全屏幕纯文本编辑器，是 vi 编辑器的增强版
 
 ### 2.9 其他
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/bsaccv.png)
+![](http://img.rocyan.cn/blog/2024/04/66134e0cdef3d.png)
 
 
 

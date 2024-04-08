@@ -13,7 +13,7 @@ order: 3
 
 Tensor 是头信息区（Tensor）和数据区（storage）分开存储的，Tensor 的形状 size、步长 stride、数据的索引等信息都存储在头信息区，而数据是存放在数据区。可能多个 Tensor 是共用一个 storage 的，类似于多个头节点指向同一片数据区。
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/nzolbv.jpg)
+![](http://img.rocyan.cn/blog/2024/04/661353a9e3a74.jpg)
 
 可以通过`tensor.storage.data_ptr()`获取 tensor 的存储区的地址
 
@@ -38,7 +38,7 @@ print(a.stride()) # 输出 (3, 1)
 
 
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/2dgi29.jpg)
+![](http://img.rocyan.cn/blog/2024/04/661353af2062e.jpg)
 
 有了之前关于[维度](dimension)的讲解，这里为什么 (3, 1) 应该比较好理解
 
@@ -81,7 +81,7 @@ print(a.storage().data_ptr() == b.storage().data_ptr()) # 输出 True
 
 b 是 a 的转置，b 的 stride 应该为 (2, 1) 而不是 (1, 3)，因此 b 就不兼容（或者称不满足连续性）。同时可以看出 b 其实与 a 还是共享同一个 storage，并没有真的改变数据的存放顺序，只是改变了 b 的 stride而已。
 
-![](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/bpmkfy.jpg)
+![](http://img.rocyan.cn/blog/2024/04/661353b351aef.jpg)
 
 只有在满足连续性的前提下，才能用 view() 来改变 Tensor 的形状，否则就需要先使用 contiguous() 方法，这个方法会先复制一个副本，改变数据的存放顺序，使其满足连续性，之后就可以用 view() 改变形状。
 

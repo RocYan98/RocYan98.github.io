@@ -182,11 +182,11 @@ Change: 2019-12-14 15:31:55.805999993 +0800
 ```
 
 > 		*Linux 中的文件没有创建时间*
->				
+>					
 > 	访问时间（atime->access time）：读一次这个文件的内容，这个时间就会更新。比如对这个文件运用 more、cat等命令。*ls、stat命令不会修改文件的访问时间* 
->				
+>					
 > 	修改时间（mtime->modifiy time）：修改时间是文件内容最后一次被修改时间。比如：vi后保存文件。ls -l列出的时间就是这个时间
->				
+>					
 > 	状态改动时间（ctime->change time）：ctime是在写入文件、更改所有者、权限或链接设置时改变，是该文件的Inode最后一次被修改的时间，通过chmod、chown命令修改一次文件属性，这个时间就会更新
 
 
@@ -333,7 +333,7 @@ Change: 2019-12-14 15:31:55.805999993 +0800
   - 硬链接不能跨分区
   - 硬链接示意图：
 
-  ![硬链接示意图](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/n876an.jpg)
+  ![硬链接示意图](http://img.rocyan.cn/blog/2024/04/66134dcba67a1.jpg)
 
   
 
@@ -348,7 +348,7 @@ Change: 2019-12-14 15:31:55.805999993 +0800
   - 软链接特征明显，建议使用软连接
   - 软链接示意图
 
-  ![软链接示意图](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/h4y82t.jpg)
+  ![软链接示意图](http://img.rocyan.cn/blog/2024/04/66134dcecb681.jpg)
 
 
 
@@ -421,7 +421,7 @@ Change: 2019-12-14 15:31:55.805999993 +0800
 
 - 权限共有10位，部分权限最后会有一个“.”
 
-![权限位的含义](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/17yqvu.png)
+![权限位的含义](http://img.rocyan.cn/blog/2024/04/66134dd4d88e0.png)
 
 - 第1位：代表文件类型，以下为常见的文件类型
 
@@ -694,11 +694,11 @@ u=rwx,g=rx,o=rx
 ### 6.4 --help 选项
 
 > 		绝大多数命令都可以使用“--help”选项来查看帮助，这也是一种获取帮助的方法。例如：
->				
+>					
 > 	```bash
 > 	[root@localhost ~]# ls --help 
 > 	```
->				
+>					
 > 	这种方法非常简单，输出的帮助信息基本上是man命令的信息简要版，部分可显示中文。
 
 
@@ -811,7 +811,7 @@ PRUNEPATHS = "......" #在locate执行搜索时，禁止搜索这些系统目录
 > - 5：代表前5～6天那一天修改的文件
 > - +5：代表6天前修改的文件
 >
-> ![时间轴](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/qxngvr.png)
+> ![时间轴](http://img.rocyan.cn/blog/2024/04/66134dda0fd16.png)
 
 
 
@@ -1293,7 +1293,7 @@ PRUNEPATHS = "......" #在locate执行搜索时，禁止搜索这些系统目录
 - 执行权限：超级用户
 - 功能描述：配置网络接口
 
-![image-20191220184004530](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/dr10wn.png)
+![image-20191220184004530](http://img.rocyan.cn/blog/2024/04/66134ddf063c2.png)
 
 
 
