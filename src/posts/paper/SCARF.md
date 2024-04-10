@@ -106,13 +106,84 @@ $$
 
 ### 损失函数
 
+**重建损失**：
 $$
 L_{recon}=\lambda_{vol}L_{\delta}(\mathcal{R}_v-I)+\lambda_{mrf}L_{mrf}(\mathcal{R}_v-I)
+\tag{7}
 $$
 
+- $\mathcal{R}_v$ 和 $I$ 分别表示渲染出来的图像和 GT
+- $L_\delta$ 和 $L_{mrf}$​ 分别表示 Huber 损失和 ID-MRF 损失
 
+Huber 损失和 ID-MRF 损失分别是用来约束整体和细节部分的重建效果。
 
+**衣服 segentation 的损失**：
+$$
+    L_{clothing}=\lambda_{clothing}||S_v-S_c||_1
+\tag{8}
+$$
 
+- $S_v$ 和 $S_c$ 分别表示 NeRF mask 和 GT 的衣服 mask
+
+确保 NeRF 只表示衣服的部分。
+
+**人体损失**：
+
+穿衣人体 mask 损失：
+$$
+L_{sihouette}=\lambda_{silhouette}L_{\delta}(\mathcal{R}^s_m(M,p)-S)
+\tag{9}
+$$
+
+- $\mathcal{R}^s_m(M,p)$ 表示渲染后的穿衣人体 mask
+- $S$​​ 表示 GT 的穿衣人体 mask
+
+人体 mask 损失：
+$$
+L_{bodymask}=\lambda_{bodymask}L_\delta(S_b\odot(\mathcal{R}^s_m(M,p)-S_b))
+\tag{10}
+$$
+
+- $S_b$ 表示身体 mask
+- $\odot$ 表示[哈达玛积](https://www.zhihu.com/search?q=哈达玛积&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"answer"%2C"sourceId"%3A2759730412})
+
+人体光度损失：
+$$
+L_{skin}=\lambda_{skin}L_\delta(S_b\odot(\mathcal{R}_m(M,c,p)-I))
+\tag{11}
+$$
+(10) 和 (11) 两个 loss 是为了解决更换人体时出现的瑕疵（特别是宽松的衣服）。
+
+人体范围损失：
+$$
+L_{inside}=\lambda_{inside}L_{\delta}(ReLU(R^s_m(M,p)-S_c))
+\tag{12}
+$$
+
+- $S_c$ 表示衣服 mask
+
+约束人体的范围在衣服 mask 以内
+
+皮肤颜色损失：
+$$
+L_{skininside}=\lambda_{skininside}L_\delta(S_c\odot(\mathcal{R}_m(M,c,p)-C_{hand}))
+\tag{13}
+$$
+
+- $C_{hand}$ 表示人手上顶点的颜色均值
+
+约束被衣服遮挡部分人体和手之间的颜色
+
+正则化：
+$$
+L_{reg}=\lambda_{edge}L_{edge}(M)+\lambda_{offset}||O||_2
+$$
+
+- $L_{edge}$​ 表示有偏移和没有偏移的优化身体 mesh 之间的相对边缘损失
+
+所以人体损失表示为：$L_{body}=L_{sihouette}+L_{bodymask}+L_{skin}+L_{skininside}+L_{inside}+L_{reg}$​
+
+整体的损失函数为：$L=L_{recon}+L_{clothing}+L_{body}$
 
 ## Reference
 

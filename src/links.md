@@ -1,5 +1,5 @@
 ---
-cover: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/1cqsb2.png
+cover: http://img.rocyan.cn/blog/2024/04/661356817a409.png
 sidebar: false
 article: false
 toc: false
@@ -14,22 +14,22 @@ lastUpdated: false
 
 ::: projects
 ```yaml
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/95mpgv.png
+- icon: http://img.rocyan.cn/blog/2024/04/661356920deb8.png
   name: FDU
   desc: 复旦大学
   link: https://www.fudan.edu.cn
 
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/ir1qpm.png
+- icon: http://img.rocyan.cn/blog/2024/04/661356a01e845.png
   name: FAET
   desc: 复旦大学工程与应用技术研究院
   link: https://faet.fudan.edu.cn
   
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/kswb6i.png
+- icon: http://img.rocyan.cn/blog/2024/04/661356ac2b16f.png
   name: IPASS
   desc: 智能感知与无人系统实验室
   link: https://ipass.fudan.edu.cn
 
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/bzuphh.png
+- icon: http://img.rocyan.cn/blog/2024/04/661356b90c1a9.png
   name: ZJU
   desc: 浙江大学
   link: https://www.zju.edu.cn
@@ -40,17 +40,17 @@ lastUpdated: false
 
 ::: projects
 ```yaml
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/s9c9vr.png
+- icon: http://img.rocyan.cn/blog/2024/04/661356c3b7a44.png
   name: Roc Yan
   desc: 独立思考
   link: https://rocyan98.github.io
     
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/7ec8dz.png
+- icon: http://img.rocyan.cn/blog/2024/04/661356cfcdaa1.png
   name: Medic
   desc: Cogito, ergo sum
   link: https://ginkgo.org.cn
 
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/5imy0g.jpg
+- icon: http://img.rocyan.cn/blog/2024/04/661356dae92bf.jpg
   name: Ayene
   desc: 水沢绫音
   link: https://pat-chou-li.github.io/ayene-no-blog/
@@ -61,17 +61,17 @@ lastUpdated: false
 
 ::: projects
 ```yaml
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/xu5dhe.png
+- icon: http://img.rocyan.cn/blog/2024/04/661356eaf1d9d.png
   name: Quick Reference
   desc: 开发人员快速参考备忘清单【速查表】
   link: https://quickref.cn
 
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/yhf9kt.png
+- icon: http://img.rocyan.cn/blog/2024/04/661356f697ed0.png
   name: GAMES
   desc: 计算机图形学与混合现实在线平台
   link: https://games-cn.org
 
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/e9uslj.png
+- icon: http://img.rocyan.cn/blog/2024/04/661357015e38c.png
   name: 动手学深度学习（PyTorch版）
   desc: 面向中文读者的能运行、可讨论的深度学习教科书
   link: https://zh-v2.d2l.ai
@@ -81,7 +81,7 @@ lastUpdated: false
   desc: 北大TangShusen同学的版本
   link: https://tangshusen.me/Dive-into-DL-PyTorch/#/
 
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/af08rq.png
+- icon: http://img.rocyan.cn/blog/2024/04/6613570db828e.png
   name: 科研经验
   desc: 助理教授彭思达对于如何进行科研的理解
   link: https://github.com/pengsida/learning_research
@@ -112,22 +112,22 @@ lastUpdated: false
   desc: 一款简洁、安全的评论系统
   link: https://waline.js.org
 
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/ogu75v.png
+- icon: http://img.rocyan.cn/blog/2024/04/66135721b7db2.png
   name: Algolia
   desc: Site Search & Discover powered by AI
   link: https://www.algolia.com
 
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/sqr4yw.png
+- icon: http://img.rocyan.cn/blog/2024/04/661357348a8bb.png
   name: 阿里云对象存储 OSS
   desc: 海量、安全、低成本、高可靠的云存储服务
   link: https://www.aliyun.com/product/oss
 
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/5su7lr.png
+- icon: http://img.rocyan.cn/blog/2024/04/66135741445a8.png
   name: iconfont
   desc: 阿里巴巴矢量图标库
   link: https://www.iconfont.cn/
 
-- icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/af08rq.png
+- icon: http://img.rocyan.cn/blog/2024/04/6613574dc64a4.png
   name: GitHub Page
   desc: Websites for you and your projects
   link: https://pages.github.com
