@@ -183,7 +183,7 @@ $$
 
 所以人体损失表示为：$L_{body}=L_{sihouette}+L_{bodymask}+L_{skin}+L_{skininside}+L_{inside}+L_{reg}$​
 
-整体的损失函数为：$L=L_{recon}+L_{clothing}+L_{body}$
+整体的损失函数为：$L=L_{recon}+L_{clothing}+L_{body}$​
 
 ## Reference
 
