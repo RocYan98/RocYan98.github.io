@@ -140,6 +140,10 @@ sudo apt install curl
 
 在写远程主机或者服务器上的代码时，除了 vscode，还可以考虑用 [gateway](https://www.jetbrains.com.cn/en-us/remote-development/gateway/)，不过还是 beta 版本，可能有些不稳定，但是如果你习惯用 pycharm 的话，这个真的更好用。当然这个是在你本地电脑上下载，不是在 ubuntu 上下载。
 
+### 3.9 开机自动启动
+
+参考[这篇文章](https://blog.csdn.net/t624124600/article/details/111085234)。
+
 ## Reference：
 
 [Ubuntu20.04双系统安装详解](https://blog.csdn.net/wyr1849089774/article/details/133387874)
@@ -153,3 +157,5 @@ sudo apt install curl
 [ubuntu挂载samba](https://blog.csdn.net/qq_41975640/article/details/128568428)
 
 [使用Barrier共享鼠标键盘，通过macos控制ubuntu系统](https://blog.csdn.net/zc15210073939/article/details/136685526)
+
+[ubuntu18.04设置开机启动命令/脚本的三种方法（可sudo）](https://blog.csdn.net/t624124600/article/details/111085234)
