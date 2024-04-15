@@ -86,7 +86,7 @@ x11vnc -forever -shared -rfbauth ~/.vnc/passwd
 
 ### 3.1 ZSH
 
-安装 ZSH，里面有很多插件都很好用，安装和配置直接看[这篇文章](https://blog.csdn.net/NRWHF/article/details/129628713)。
+安装 ZSH，里面有很多插件都很好用，安装和配置直接看[这篇文章](https://blog.csdn.net/NRWHF/article/details/129628713)。默认使用 ZSH 输入这个命令 `chsh -s $(which zsh) `。
 
 ### 3.2 Conda
 
@@ -103,7 +103,7 @@ sh Miniconda3-latest-Linux-x86_64.sh
 
 ```bash
 # 先安装 curl
-sudo apt isntall curl
+sudo apt install curl
 # 安装 homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
@@ -134,7 +134,7 @@ sudo apt isntall curl
 
 ### 3.7 Barrier
 
-可以让 ubuntu、macos 和 windows 之间共享一套键鼠和剪贴板，这个真的巨好用！参考[这篇文章](https://blog.csdn.net/zc15210073939/article/details/136685526)。
+可以让 ubuntu、macos 和 windows 之间共享一套键鼠和剪贴板，这个真的巨好用，就是网络不好的时候没有那么流畅，参考[这篇文章](https://blog.csdn.net/zc15210073939/article/details/136685526)。
 
 ### 3.8 Gateway
 
