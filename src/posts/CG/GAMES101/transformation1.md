@@ -86,7 +86,7 @@ order: 3
 
 ![](http://img.rocyan.cn/blog/2024/04/66134d81224be.png)
 
-![pitch：俯仰，将物体绕 X 轴旋转](/Users/Yan/Downloads/v2-567a08ac8a868f23b3e6616bff48f848_b.gif)
+![pitch：俯仰，将物体绕 X 轴旋转](http://img.rocyan.cn/blog/2024/04/6620d1db21fb0.gif)
 
 ![http://img.rocyan.cn/blog/2024/04/6620d145d3362.gif](http://img.rocyan.cn/blog/2024/04/6620d145d3362.gif)
 
