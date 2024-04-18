@@ -86,11 +86,11 @@ order: 3
 
 ![](http://img.rocyan.cn/blog/2024/04/66134d81224be.png)
 
-![pitch：俯仰，将物体绕 X 轴旋转](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/j7sbvt.jpg)
+![pitch：俯仰，将物体绕 X 轴旋转](/Users/Yan/Downloads/v2-567a08ac8a868f23b3e6616bff48f848_b.gif)
 
-![yaw：偏航，将物体绕 Y 轴旋转](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/x392m7.jpg)
+![http://img.rocyan.cn/blog/2024/04/6620d145d3362.gif](http://img.rocyan.cn/blog/2024/04/6620d145d3362.gif)
 
-![roll：横滚，将物体绕Z轴旋转](http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/6863ka.gif)
+![roll：横滚，将物体绕Z轴旋转](http://img.rocyan.cn/blog/2024/04/6620d15d2267b.gif)
 
 对于以 n 为轴转动 $\alpha$ 角度可以使用罗德里格斯公式，n 轴是过原点的；要想真的绕任意轴 m 旋转，可以先将图像平移到旋转轴 m 过原点，再利用罗德里格斯公式（I 为单位矩阵），最后对平移进行逆变换。
 

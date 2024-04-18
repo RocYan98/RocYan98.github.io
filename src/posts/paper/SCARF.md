@@ -152,6 +152,8 @@ $$
 L_{skin}=\lambda_{skin}L_\delta(S_b\odot(\mathcal{R}_m(M,c,p)-I))
 \tag{11}
 $$
+- $\mathcal{R}_m(M,c,p)$ 表示渲染后穿衣人体的图像
+
 (10) 和 (11) 两个 loss 是为了解决更换人体时出现的瑕疵（特别是宽松的衣服）。
 
 人体范围损失：
@@ -160,7 +162,7 @@ L_{inside}=\lambda_{inside}L_{\delta}(ReLU(R^s_m(M,p)-S_c))
 \tag{12}
 $$
 
-- $S_c$ 表示衣服 mask
+- $S_c$​ 表示衣服 mask
 
 约束人体的范围在衣服 mask 以内
 
@@ -177,6 +179,7 @@ $$
 正则化：
 $$
 L_{reg}=\lambda_{edge}L_{edge}(M)+\lambda_{offset}||O||_2
+\tag{14}
 $$
 
 - $L_{edge}$​ 表示有偏移和没有偏移的优化身体 mesh 之间的相对边缘损失
