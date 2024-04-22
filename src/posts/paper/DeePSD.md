@@ -44,7 +44,7 @@ PBS 能够以巨大的计算成本为代价获得高度真实的布料动力学�
 
 给定一个动作序列中穿着在 SMPL 人体上的服装的 PBS 数据，定义 
 $$
-\mathcal{S}=\{X,Y\},其中X=\{\mathbf{T},\mathbf{F},\theta,\beta,g\},Y=\{\mathbf{V}_{PBS}\}
+\mathcal{S}=\{X,Y\},\mathrm{where}\ X=\{\mathbf{T},\mathbf{F},\theta,\beta,g\},Y=\{\mathbf{V}_{PBS}\}
 \tag{1}
 $$
 
