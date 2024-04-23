@@ -24,16 +24,36 @@ CVPR 2024
 本文的贡献：
 
 - 一种新的数字人表示法，它在数字人建模中引入了显示的 3DGS 技术，利用功能强大的 2D CNN 创建具有高保真姿态动态特性的逼真数字人。
-- 模板指导参数化，可为一般服装（如连衣裙）学习特定特诊模板，并将 3DGS 参数化为正反高斯图，以便与二维网络兼容。
+- 模板指导参数化，可为一般服装（如连衣裙）学习特定特诊模板，并将 3D 高斯参数化为正反高斯映射，以便与二维网络兼容。
 - 一种简单而有效的姿态投影策略，在驱动信号上使用 PCA，对新姿态具有更好的泛化能力。
 
 ## Method
 
-![Pipeline](http://img.rocyan.cn/blog/2024/04/6625d63e87204.png)
+![Fig. 1: Pipeline](http://img.rocyan.cn/blog/2024/04/6625d63e87204.png)
 
 ### Overview
 
 输入为 RGB 视频，以及每一帧的 SMPL-X 的 pose 和 shape 参数。
 
 1. **Learning Parametric Template**：从输入视频中挑选一帧接近 A-pose 的图像，然后通过 SMPL 蒙皮和基于 SDF 的体渲染来优化一个标准空间 SDF 和颜色场。通过 Marching Cubes 从标准空间 SDF 中提取模板 mesh。最后，将蒙皮权重从 SMPL 顶点扩散到模板表面，得到一个可变形参数模板。
-2. **Learning Pose-dependent Gaussian Maps**：给定一个训练 pose 后，我们首先通过线性混合蒙皮（LBS）将模板变形到 pose 空间，然后将 pose 顶点坐标渲染到标准空间的正反视图上，从而得到两个位置映射。位置映射作为 pose 条件，并通过 StyleUNet 转换为正反高斯映射。然后，我们在模板 mask 内提取有效的 3DGS 映射，并通过 LBS 将标准空间 3DGS 变形到 pose 空间。最后，我们通过可微光栅化技术，将 pose 空间的 3DGS 渲染到给定的相机空间中。
+2. **Learning Pose-dependent Gaussian Maps**：给定一个训练 pose 后，我们首先通过线性混合蒙皮（LBS）将模板变形到 pose 空间，然后将 pose 顶点坐标渲染到标准空间的正反视图上，从而得到两个位置映射。位置映射作为 pose 条件，并通过 StyleUNet 转换为正反高斯映射。然后，我们在模板 mask 内提取有效的 3D 高斯映射，并通过 LBS 将标准空间 3D 高斯变形到 pose 空间。最后，我们通过可微光栅化技术，将 pose 空间的 3D 高斯渲染到给定的相机空间中。
+
+### Avatar Representation
+
+**Learning Parametric Template**：这一部分的目的是从多视角图片中重建出标准空间中的几何模型作为模板。首先将标准空间的模板用 SDF 和 颜色场来表示。为了将标准空间变换到 pose 空间，先用扩散蒙皮权重的方法预计算出准空间中的蒙皮权重体积 $\mathcal{W}$​。扩散蒙皮权重通过沿着 SMPL 表面的法线方向，将权重从 SMPL 表面扩撒到整个 3D 空间。对于 pose 空间中的一个点，用 root finding 的方法 (公式 1) 找到其在标准空间中的对应点。
+$$
+\min_{\mathbf{x}_c}||\mathrm{LBS}(\mathbf{x}_c;\Theta,\mathcal{W})-\mathbf{x}_p||_2^2
+\tag{1}
+$$
+
+- $\mathrm{LBS}(\cdot)$ 是将标准空间中的点转换到 pose 空间的混合蒙皮函数
+- $\mathbf{x}_c$ 和 $\mathbf{x}_p$ 分别表示标准空间中的点和其在 pose 空间对应的点
+- $\Theta$​ 表示 SMPL 的 pose 参数
+
+找到标准空间中的对应点后，查询该点的 SDF 和颜色，通过基于 SDF 的体渲染方法来渲染 RGB 图像。将渲染图像和 GT 之间进行比较来优化标准空间的 SDF。最后从 SDF 中提取出几何模板，并且通过预计算的权重体积 $\mathcal{W}$​ 查询每个顶点的蒙皮权重来获取可变形参数化模板。
+
+**Template-guided Parameterization**：这一部分的目的是获取 posed position maps。用 2D CNN 取代 MLP 来获取更高质量的数字人，首先需要将 3D 表示的数字人参数化到 2D 空间。本文提出通过正交投影到方法，把 3D 高斯参数化为正反 2 个 posed position maps，投影的过程如图 2 所示。要用 2D 图像来表示 3D 信息，一个很好的解决方法就是用颜色来表示第三维。首先将参数化模板通过 LBS 变形到 pose 空间，用标准空间中的顶点和其对应 pose 空间顶点的颜色，然后用正交投影的方式渲染成正反 2 个 posed position maps $\mathcal{P}_f(\Theta)$ 和 $\mathcal{P}_b(\Theta)$，作为网络的 pose 条件。
+
+![Fig. 2: Posed Position Maps](http://img.rocyan.cn/blog/2024/04/66272f398638f.png)
+
+**Pose-dependent Gaussian Maps**：
