@@ -56,4 +56,41 @@ $$
 
 ![Fig. 2: Posed Position Maps](http://img.rocyan.cn/blog/2024/04/66272f398638f.png)
 
-**Pose-dependent Gaussian Maps**：
+**Pose-dependent Gaussian Maps**：使用 StyleUNet $\mathcal{F}$ 通过 pose 条件来预测正反高斯映射 $\mathcal{G}_f(\Theta)$ 和 $\mathcal{G}_b(\Theta)$：
+$$
+\mathcal{G}_f(\Theta),\mathcal{G}_b(\Theta)=\mathcal{F}(\mathcal{P}_f(\Theta),\mathcal{P}_b(\Theta),\mathcal{V})
+\tag{2}
+$$
+高斯映射的每个像素表示一个包含位置、协方差、不透明度和颜色信息的 3D 高斯。本文还利用视角方向映射 $\mathcal{V}$​ 约束高斯映射，以模拟视角相关的差异。
+
+**LBS of 3D Gaussians**：
+$$
+\mathbf{p}_p=\mathbf{R}\mathbf{p}_c+\mathbf{t}\\
+\Sigma_p=\mathbf{R}\Sigma_c\mathbf{R}^\top
+\tag{3}
+$$
+
+- $\mathbf{p}_p$ 和 $\mathbf{p}_c$ 分别表示高斯核在 pose 空间和标准空间的位置
+- $\Sigma_p$ 和 $\Sigma_c$ 分别表示高斯核在 pose 空间和标准空间的协方差
+- $\mathbf{R}$ 和 $\mathbf{t}$ 分别表示每个高斯核的选择矩阵和位移向量
+
+**Training**：本文还在参数模板上增加了一个位移 $\Delta\mathcal{O}(\Theta)$ 来确保预测的高斯映射的位置属性接近参数模板下的人体，并且对其进行正则化 $\mathcal{L}_{reg}=||\Delta\mathcal{O}(\Theta)||_2^2$ 防止位移过大。本文的 loss 函数如下：
+$$
+\mathcal{L}=\mathcal{L}_1+\lambda_{perceptual}\mathcal{L}_{perceptual}+\lambda_{reg}\mathcal{L}_{reg}
+\tag{4}
+$$
+**Pose Projection Strategy**：首先提取出 posed position maps 中有价值的点，把他们 concatenate 成一个向量 $\mathbf{x}_t \in \R^{3M}$ ($M$ 是点的数量)。T 帧训练图像组成一个矩阵 $\mathbf{X}=[\mathbf{x}_1,\dots,\mathbf{x}_T]$ ，对 $\mathbf{X}$ 采用 PCA 获得 N 个主成分 $\mathbf{S}=[\mathbf{s}_1,\dots,\mathbf{s}_n] \in \R^{3M\times N}$，以及各成分的标准差 $\sigma_i$。给定新的 pose 生成的 posed position maps，将相应的特征 $\mathbf{x}$ 投影到 PCA 空间中：
+$$
+\beta=\mathbf{S}^\top\cdot(\mathbf{x}-\bar{\mathbf{x}})
+\tag{5}
+$$
+
+- $\bar{\mathbf{x}}$ 是 $\mathbf{X}$ 的均值
+
+然后用低维系数 $\beta$ 来重建 position：
+$$
+\mathbf{x}_{recon}=\mathbf{S}\cdot\beta+\bar{\mathbf{x}}
+\tag{6}
+$$
+最后将 $\mathbf{x}_{recon}$ reshape 成 $M\times3$ 的 tensor，并将其分散到 posed position maps 上。为了使重建的 position maps 位于训练姿态的分布中，本文将 $\beta$ 约束在 $[-2\sigma_i,2\sigma_i]$ 范围内。
+
