@@ -5,7 +5,9 @@ tag:
   - Paper
   - 3DGS
   - Avatar
-title: Animatable-Gaussians-论文笔记
+  - Animatable Gaussians
+  - SDF
+title: Animatable Gaussians-论文笔记
 order: 10
 ---
 

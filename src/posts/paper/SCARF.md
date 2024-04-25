@@ -5,6 +5,7 @@ tag:
   - Paper
   - SCARF
   - Reconstructing
+  - Avatar
   - Cloth Simulation
 title: SCARF-论文笔记
 order: 9
