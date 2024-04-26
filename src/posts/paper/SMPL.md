@@ -35,9 +35,9 @@ $\bar{\mathbf{T}}\in\R^{3N}$ 人体平均模型
 
 $\mathcal{W}\in\R^{N\times K}$ 混合权重 (blend weights) 矩阵
 
-$\vec\beta\in\R^{10}$ 体格参数 (shape parameters)
+$\vec\beta\in\R^{10}$ 体格参数 (shape parameters)，其实就是体格的 PCA 基
 
-$\vec\theta\in\R^{72}$ 姿态参数 (pose parameters)，$23 \times 3 + 3 = 72$ (要加上根节点)
+$\vec\theta\in\R^{72}$ 姿态参数 (pose parameters)，$23 \times 3 + 3 = 72$ (要加上根节点)，其实就是姿态的 PCA 基
 
 $\vec\theta^*$​​ 标准姿态 (canonical pose \ rest pose \ T-pose \ zero pose) 下的姿态参数
 
@@ -51,9 +51,9 @@ $M(\vec\beta,\vec\theta;\bar{T},\mathcal{W},\mathcal{S},\mathcal{J},\mathcal{P})
 
 - $\bar{\mathbf{T}}$ 人体平均模型
 - $\mathcal{W}$​ 混合权重矩阵
-- $\mathcal{S}$ 体格的主成分分析 (PCA) 基矩阵
+- $\mathcal{S}$​ 体格的 PCA 系数矩阵
 - $\mathcal{J}$ 骨骼点位置估计矩阵
-- $\mathcal{P}$ 姿态的 PCA 基矩阵
+- $\mathcal{P}$ 姿态的 PCA 系数矩阵
 
 SMPL 模型最终就是要学习这 5 个参数。
 
@@ -104,9 +104,9 @@ $$
 
 - $\lvert\vec\beta\rvert=10$ 表示体格参数的个数
 
-- $\mathbf{S}_n\in\R^{3N}$​  表示体格的 PCA 基
+- $\mathbf{S}_n\in\R^{3N}$​  表示第 $n$ 个体格 PCA 基的系数
 
-- $\mathcal{S}=[\mathbf{S}_1,...,\mathbf{S}_{10}]\in\R^{3N\times\lvert\vec\beta\rvert}$​ 表示体格的 PCA 基矩阵
+- $\mathcal{S}=[\mathbf{S}_1,...,\mathbf{S}_{10}]\in\R^{3N\times\lvert\vec\beta\rvert}$​ 表示体格的 PCA 系数矩阵
 
 用公式 (1) 就能求出不同体格对于 shape 的偏移。
 
@@ -124,25 +124,25 @@ $$
 
 ### 3.3 基于姿态的混合成形 (Pose Blend Shapes)
 
-本文采用**轴角 (Axis-angle)** 表示旋转，$\vec\omega=(x,y,z)$ 表示以 $\bar{\omega}=\frac{\vec\omega}{\lVert\vec\omega\rVert}$ 为旋转轴，旋转 $\lVert\vec\omega\rVert$ 度。原文中姿态参数 $\vec\theta=[\vec\omega_0^T,...,\vec\omega_{23}^T]^T$ 表示总共24个关节 (0 号是根节点，1 ~ 23 是关节点) 关于其父节点的旋转，总共有 $3 \times 23 + 3 = 72$ 个参数。
+本文采用**轴角 (Axis-angle)** 表示旋转，$\vec\omega=(x,y,z)$ 表示以 $\bar{\omega}=\frac{\vec\omega}{\lVert\vec\omega\rVert}$ 为旋转轴，旋转 $\lVert\vec\omega\rVert$ 度。原文中姿态参数 $\vec\theta=[\vec\omega_0^T,...,\vec\omega_{23}^T]^T$ 表示关节 (0 号是根节点，1 ~ 23 是关节点) 关于其父节点的旋转，总共有 $3 \times 23 + 3 = 72$ 个参数。
 $$
 \exp(\vec\omega_j)=\mathcal{I}+\hat{\bar{\omega}}_j\sin(\lVert\vec\omega_j\rVert)+\hat{\bar{\omega}}_j^2\cos(1-\lVert\vec\omega_j\rVert)
 \tag{3}
 $$
-这个公式叫做 Rodrigues 公式，论文中是错的，原作者后面也进行了勘误。通过 Rodrigues 公式可以将轴角式转换成旋转矩阵，同时每个关节点参数也由原来的 3 个变成了旋转矩阵的 9 个。
+这个公式叫做 Rodrigues 公式，论文中是错的，原作者后面也进行了勘误。通过 Rodrigues 公式可以将轴角式转换成旋转矩阵，同时每个姿态参数也由原来的 3 个变成了旋转矩阵的 9 个。
 $$
 B_P(\vec\theta;\mathcal{P})=\sum_{n=1}^{9K}(R_n(\vec\theta)-R_n(\vec\theta^*))\mathbf{P}_n
 \tag{4}
 $$
 
-- $R(\vec\theta):\R^{\lvert\vec\theta\rvert}\mapsto\R^{9K}$ 表示 Rodrigues 公式，参数个数变为 $23 \times 9 = 207$ 个
-- $\mathbf{P}_n\in\R^{3N}$ 表示姿态的 PCA 基
-- $\mathcal{P}=[\mathbf{P}_1,...,\mathbf{P}_{207}]\in\R^{3N\times 9K}$ 表示姿态的 PCA 基矩阵
+- $R(\vec\theta):\R^{\lvert\vec\theta\rvert}\mapsto\R^{9K}$ 表示将 pose 向量 $\vec\theta$ 映射为 Rodrigues 公式，参数个数变为 $23 \times 9 = 207$ 个
+- $\mathbf{P}_n\in\R^{3N}$ 表示第 $n$ 个姿态 PCA 基的系数
+- $\mathcal{P}=[\mathbf{P}_1,...,\mathbf{P}_{207}]\in\R^{3N\times 9K}$ 表示姿态的 PCA 系数矩阵
 
 因为每个 pose 都是从 T-pose 变换过去的，如果想要保持线性，那就必须把 T-pose 下的旋转给减掉，这样才是相对于 T-pose 下的变换。
 
 
-### 3.4 线性混合蒙皮LBS (Linear Blend Skinning)
+### 3.4 线性混合蒙皮LBS (Linear Blend Skinning) {#3.4}
 
 $$
 \mathbf{t}'_i=\sum_{k=1}^Kw_{k,i}G'_k(\vec\theta,\mathbf{J})\mathbf{t}_i
@@ -173,6 +173,38 @@ $$
 - $\bar{\mathbf{t}}_i$ 表示平均模板上的第 $i$ 个顶点蒙皮前的位置
 
 公式 (7) 就是对平均模板进行基于体格的混合成形和基于姿态的混合成形后的 shape，也就是加偏移的过程。
+
+## 4 SMPL-X 预训练模型参数
+
+SMPL-X 默认的是 1 个根节点 + 21 个身体 joints + 3 个头部 joints (1 个下巴 + 2 个眼睛) + 30 个手部 joints (15 个左手 + 15 个右手) +  + 21 个 extra joints + 51 个面部 landmarks = 127 个 joints，当然有些 projects 会选择 127 + 17 个面部轮廓 landmarks = 144 个 joints，不过可以控制的 joints 还是只有 1 +  21 + 3 + 30 = 55 个。
+
+10 个 shape 参数，10 个 pose 参数，10 个 expression 参数。在 SMPL-X 中，N = 10475，K = 54 (不包括根节点)。
+
+- v_template: [10475, 3] 存放的是每个顶点的坐标；
+- vt: [11313, 2] vertex texture，存放的是顶点对应 UV 图中的坐标；
+- f: [20908, 3] 存放的是每个面片由哪 3 个顶点组成，总共 20908 个面片；
+- ft: [20908, 3] face texture，存放的是 vt 中三个点的 idx，表示每个面片在 UV 图中是由哪三个顶点组成；
+- lmk_faces_idx: [51] 存放的是 FLAME 面部 landmarks 的面片；
+- lmk_bary_coords: [51, 3] 存放的是 FLAME 面部 landmars 的重心坐标。重心坐标可以理解为就是 landmarks 的坐标，面部的 landmarks 总共有 51 个；
+- dynamic_lmk_faces_idx: [79, 17] 存放的是脖子的旋转角度对应的 FLAME 脸部轮廓的面片；
+
+- dynamic_lmk_bary_coords: [79, 17, 3] 存放的是脖子的旋转角度对应的 FLAME 脸部轮廓 landmarks 的重心坐标。脸部轮廓的 landmarks 总共有 17 个，脖子的可以旋转 79 度；
+- J_regressor: [55, 10475] joint 回归器，总共有 55 个joint；
+- kintree_table: [2, 55] 存放的是关节树表，即每个 joint 的父节点的 idx
+- joint2num: 字典，存放的是每个 joint 的 idx，没啥用
+- part2num: 字典，存放的是每个 part 的 idx，也没啥用
+- weights: [10475, 55] 存放的是每个顶点与 joint 之间的权重
+- shapedirs: [10475, 3, 400] 存放的是 shape 的 PCA 系数，虽然有 400 个 PCA 基，但是只取前 20 个 (10 个 shape + 10 个 expression)；
+- posedirs: [10475, 3, 486] 存放的是 pose 的 PCA 系数，9 * 54 = 486，为什么是 486 可以看[3.4 节]({#3.4)；
+
+下面手的部分没必要看，因为会集成在 SMPL-X 模型中，在调整 shape 和 pose 的时候也会把手一起调整。
+
+- hands_componentsl: [45, 45] 存放的是左手 shape 的 PCA 系数；
+- hand_componentsr: [45, 45] 存放的是右手 shape 的 PCA 系数；
+- hands_meanl: [45,] 存放的是左手 mean shape 的 $\beta$ 值；
+- hands_meanr: [45,] 存放的是右手 mean shape 的 $\beta$ 值；
+- hands_coeffsl: [1554, 45] 存放的是左手 pose 的 PCA 系数；
+- hands_coeffsr: [1554, 45] 存放的是右手 pose 的 PCA 系数
 
 ## Reference
 
