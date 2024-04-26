@@ -142,7 +142,7 @@ $$
 因为每个 pose 都是从 T-pose 变换过去的，如果想要保持线性，那就必须把 T-pose 下的旋转给减掉，这样才是相对于 T-pose 下的变换。
 
 
-### 3.4 线性混合蒙皮LBS (Linear Blend Skinning) {#3.4}
+### 3.4 线性混合蒙皮LBS (Linear Blend Skinning)
 
 $$
 \mathbf{t}'_i=\sum_{k=1}^Kw_{k,i}G'_k(\vec\theta,\mathbf{J})\mathbf{t}_i
@@ -195,7 +195,7 @@ SMPL-X 默认的是 1 个根节点 + 21 个身体 joints + 3 个头部 joints (1
 - part2num: 字典，存放的是每个 part 的 idx，也没啥用
 - weights: [10475, 55] 存放的是每个顶点与 joint 之间的权重
 - shapedirs: [10475, 3, 400] 存放的是 shape 的 PCA 系数，虽然有 400 个 PCA 基，但是只取前 20 个 (10 个 shape + 10 个 expression)；
-- posedirs: [10475, 3, 486] 存放的是 pose 的 PCA 系数，9 * 54 = 486，为什么是 486 可以看[3.4 节]({#3.4)；
+- posedirs: [10475, 3, 486] 存放的是 pose 的 PCA 系数，9 * 54 = 486，为什么是 486 可以看[3.4 节](#3.4 线性混合蒙皮LBS (Linear Blend Skinning))；
 
 下面手的部分没必要看，因为会集成在 SMPL-X 模型中，在调整 shape 和 pose 的时候也会把手一起调整。
 
