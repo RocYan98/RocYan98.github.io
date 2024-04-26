@@ -15,7 +15,7 @@ order: 4
 
 SIGGRAPH Asia 2015
 
-## 1 SMPL模型概述
+## SMPL模型概述
 
 SMPL 是一种基于顶点的蒙皮模型，能准确表现自然人体姿势中的各种体形。简单来说就是可以表现各种姿态下不同体格 (高矮胖瘦) 的人。SMPL 分别用**形状参数 (shape parameters)** 来控制体格，用**姿态参数 (pose parameters)** 来控制不同的姿态，并且这些控制都是线性的。SMPL 模型包含 6890​ 个顶点和 24 个关节 (23 个关节点 + 1 个根节点)。
 
@@ -23,7 +23,7 @@ SMPL 是一种基于顶点的蒙皮模型，能准确表现自然人体姿势中
 
 
 
-### 1.1 SMPL中的参数
+### SMPL中的参数
 
 为了方便之后的讲解先把SMPL中的所有参数先列出来，具体含义之后会讲解：
 
@@ -59,29 +59,29 @@ SMPL 模型最终就是要学习这 5 个参数。
 
 
 
-## 2 Pipeline
+## Pipeline
 
 SMPL 模型可以分为 4 个阶段：**平均模版形状 (mean template shape)**，**基于体格的混合成形 (shape blend shapes)**，基于姿态的混合成形 (pose blend shapesy) 和**蒙皮 (skinning)**；
 
-### 2.1 平均模版形状 (Mean Template Shape)
+### 平均模版形状 (Mean Template Shape)
 
 先定义一个在 T-pose 下的平均模板，可以认为它是一个基模板，后续基于体格和姿态的混合成形都是在这个集模板上进行参数的变化。这个模板是通过统计大量的真实人体 mesh，得到的均值形状，由 $N=6890$ 个**顶点 (vertex)** 和 13776 个**面片 (mesh)** 组成。
 
 ![Fig. 2: 平均模板的 mesh，混合权重用颜色表示，关节用白点表示](http://img.rocyan.cn/blog/2024/04/6612bb070251f.png)
 
-### 2.2 基于体格的混合成形 (Shape Blend Shapes)
+### 基于体格的混合成形 (Shape Blend Shapes)
 
 基于体格的混合成形就是在平均模板的基础上，加上基于体格的混合形状函数的偏移，形成新的 shape。这一步主要是用于改变人物的高矮胖瘦等体格特征，每个体格参数 $\beta$ 可以控制一项体格特征，具体的可视化可以参考[SMPL模型Shape和Pose参数](https://wap.sciencenet.cn/blog-465130-1177111.html)。
 
 ![Fig. 3: 在平均模板上加上基于形状的偏移并且预测关节](http://img.rocyan.cn/blog/2024/04/6612bb0b8f75d.png)
 
-### 2.3 基于姿态的混合成形 (Pose Blend Shapes)
+### 基于姿态的混合成形 (Pose Blend Shapes)
 
 不同的 pose 也会改变人物的 shape，比如弯腰的时候肚子上的肉会压缩，视觉上可能会显得变大。所以先把某一帧的 pose 导致的 shape 的改变加到 T-pose 下。
 
 ![Fig. 4: 姿态对 T-pose 下的 shape 的影响](http://img.rocyan.cn/blog/2024/04/6612bb0f3c6ee.png)
 
-### 2.4 蒙皮 (Skinning)
+### 蒙皮 (Skinning)
 
 最后通过线性混合蒙皮 LBS，将 T-pose 下的模型蒙皮到对应的 pose 下。
 
@@ -89,11 +89,11 @@ SMPL 模型可以分为 4 个阶段：**平均模版形状 (mean template shape)
 
 ![Fig. 5: 蒙皮后的模型](http://img.rocyan.cn/blog/2024/04/6612bb127a080.png)
 
-## 3 模型中的公式
+## 模型中的公式
 
 首先要明确一点，无论是基于体格的混合成形还是基于姿态的混合成形，都是在求与平均模板的**偏移 (offset)**，求出来的偏移都是要加上平均模板上的顶点位置，才是最终的顶点位置。
 
-### 3.1 基于体格的混合成形 (Shape Blend Shapes)
+### 基于体格的混合成形 (Shape Blend Shapes)
 
 $$
 B_S(\vec\beta;\mathcal{S})=\sum_{n=1}^{\lvert\vec\beta\rvert}\beta_n\mathbf{S}_n
@@ -110,7 +110,7 @@ $$
 
 用公式 (1) 就能求出不同体格对于 shape 的偏移。
 
-### 3.2 骨骼点位置估计
+### 骨骼点位置估计
 
 当经过基于体格的混合成形后，骨骼点的位置也会发生变换，不再是平均模板下的骨骼位置，因此需要对骨骼点进行位置估计，骨骼点的位置由它本身最为接近的若干个 mesh 的端点加权决定。
 $$
@@ -122,7 +122,7 @@ $$
 
 ![Fig. 6: 骨骼点位置估计的可视化](http://img.rocyan.cn/blog/2024/04/6612bb16612c7.png)
 
-### 3.3 基于姿态的混合成形 (Pose Blend Shapes)
+### 基于姿态的混合成形 (Pose Blend Shapes)
 
 本文采用**轴角 (Axis-angle)** 表示旋转，$\vec\omega=(x,y,z)$ 表示以 $\bar{\omega}=\frac{\vec\omega}{\lVert\vec\omega\rVert}$ 为旋转轴，旋转 $\lVert\vec\omega\rVert$ 度。原文中姿态参数 $\vec\theta=[\vec\omega_0^T,...,\vec\omega_{23}^T]^T$ 表示关节 (0 号是根节点，1 ~ 23 是关节点) 关于其父节点的旋转，总共有 $3 \times 23 + 3 = 72$ 个参数。
 $$
@@ -142,7 +142,7 @@ $$
 因为每个 pose 都是从 T-pose 变换过去的，如果想要保持线性，那就必须把 T-pose 下的旋转给减掉，这样才是相对于 T-pose 下的变换。
 
 
-### 3.4 线性混合蒙皮LBS (Linear Blend Skinning)
+### 线性混合蒙皮LBS (Linear Blend Skinning)
 
 $$
 \mathbf{t}'_i=\sum_{k=1}^Kw_{k,i}G'_k(\vec\theta,\mathbf{J})\mathbf{t}_i
@@ -174,7 +174,7 @@ $$
 
 公式 (7) 就是对平均模板进行基于体格的混合成形和基于姿态的混合成形后的 shape，也就是加偏移的过程。
 
-## 4 SMPL-X 预训练模型参数
+## SMPL-X 预训练模型参数
 
 SMPL-X 默认的是 1 个根节点 + 21 个身体 joints + 3 个头部 joints (1 个下巴 + 2 个眼睛) + 30 个手部 joints (15 个左手 + 15 个右手) +  + 21 个 extra joints + 51 个面部 landmarks = 127 个 joints，当然有些 projects 会选择 127 + 17 个面部轮廓 landmarks = 144 个 joints，不过可以控制的 joints 还是只有 1 +  21 + 3 + 30 = 55 个。
 
@@ -195,7 +195,7 @@ SMPL-X 默认的是 1 个根节点 + 21 个身体 joints + 3 个头部 joints (1
 - part2num: 字典，存放的是每个 part 的 idx，也没啥用
 - weights: [10475, 55] 存放的是每个顶点与 joint 之间的权重
 - shapedirs: [10475, 3, 400] 存放的是 shape 的 PCA 系数，虽然有 400 个 PCA 基，但是只取前 20 个 (10 个 shape + 10 个 expression)；
-- posedirs: [10475, 3, 486] 存放的是 pose 的 PCA 系数，9 * 54 = 486，为什么是 486 可以看[3.4 节](#3.4 线性混合蒙皮LBS (Linear Blend Skinning))；
+- posedirs: [10475, 3, 486] 存放的是 pose 的 PCA 系数，9 * 54 = 486，为什么是 486 可以看[基于姿态的混合成形 (Pose Blend Shapes)](#基于姿态的混合成形-pose-blend-shapes)；
 
 下面手的部分没必要看，因为会集成在 SMPL-X 模型中，在调整 shape 和 pose 的时候也会把手一起调整。
 
