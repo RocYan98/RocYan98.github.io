@@ -71,3 +71,7 @@ $$
 ## Reference
 
 [3D Gaussian Splatting for Real-Time Radiance Field Rendering](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/3d_gaussian_splatting_low.pdf)
+
+[3D Gaussian Splatting](https://pat-chou-li.github.io/ayene-no-blog/posts/3dgs/3d%20gaussian%20splatting)
+
+[3DGS学习笔记（3D Gaussian Splatting）](https://zhuanlan.zhihu.com/p/671425023)

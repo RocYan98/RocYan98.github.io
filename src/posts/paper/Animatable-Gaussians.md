@@ -96,3 +96,6 @@ $$
 $$
 最后将 $\mathbf{x}_{recon}$ reshape 成 $M\times3$ 的 tensor，并将其分散到 posed position maps 上。为了使重建的 position maps 位于训练姿态的分布中，本文将 $\beta$ 约束在 $[-2\sigma_i,2\sigma_i]$ 范围内。
 
+## Reference
+
+[Animatable Gaussians: Learning Pose-dependent Gaussian Maps  for High-fidelity Human Avatar Modeling](https://arxiv.org/pdf/2311.16096)

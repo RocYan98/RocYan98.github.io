@@ -45,5 +45,10 @@ $$
 - $p$ 和 $q^i$ 分别表示标准空间下一点的坐标和其对应第 i 帧 pose 所在位置的坐标
 - $T$ 和 $\theta^i$ 分别表示 SMPL 在标准空间下的平均模板和第 i 帧的 pose 参数
 - $w(p)=(w_1(p),\dots,w_{24}(p))\in\R^{24}$ 表示标准空间下的点 $p$ 对于每个 joint 的蒙皮权重，这个权重只是定义在 SMPL 的表面
-- $R_j^i(p)$ 是由 $T$ 和 $\theta^i$ 确定的变换到第 i 帧 pose 的刚体变换矩阵
+- $R_j^i(p)$ 是由 $T$ 和 $\theta^i$​ 确定的变换到第 i 帧 pose 的刚体变换矩阵
 
+
+
+## Reference
+
+[Learning Implicit Templates for Point-Based Clothed Human Modeling](https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136630211.pdf)
