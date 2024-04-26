@@ -83,8 +83,18 @@ lastUpdated: false
 
 - icon: http://img.rocyan.cn/blog/2024/04/6613570db828e.png
   name: 科研经验
-  desc: 助理教授彭思达对于如何进行科研的理解
+  desc: 彭思达教授对于如何进行科研的理解
   link: https://github.com/pengsida/learning_research
+  
+- icon: http://img.rocyan.cn/blog/2024/04/661356b90c1a9.png
+  name: 浙江大学彭思达教授主页
+  desc: 3D Vision Group
+  link: https://pengsida.net
+
+- icon: http://img.rocyan.cn/blog/2024/04/662b64949424b.png
+  name: 清华大学刘烨教授主页
+  desc: 3D Vision and Computational Photography
+  link: http://www.liuyebin.com
 ```
 :::
 
@@ -117,10 +127,10 @@ lastUpdated: false
   desc: Site Search & Discover powered by AI
   link: https://www.algolia.com
 
-- icon: http://img.rocyan.cn/blog/2024/04/661357348a8bb.png
-  name: 阿里云对象存储 OSS
-  desc: 海量、安全、低成本、高可靠的云存储服务
-  link: https://www.aliyun.com/product/oss
+- icon: https://www.lsky.pro/assets/logo.png
+  name: 兰空图床
+  desc: 搭建一个属于自己的云端相册，简单，且实用。
+  link: https://www.lsky.pro
 
 - icon: http://img.rocyan.cn/blog/2024/04/66135741445a8.png
   name: iconfont
