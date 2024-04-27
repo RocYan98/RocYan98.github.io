@@ -92,7 +92,7 @@ lastUpdated: false
   link: https://pengsida.net
 
 - icon: http://img.rocyan.cn/blog/2024/04/662b64949424b.png
-  name: 清华大学刘烨教授主页
+  name: 清华大学刘烨斌教授主页
   desc: 3D Vision and Computational Photography
   link: http://www.liuyebin.com
 ```
