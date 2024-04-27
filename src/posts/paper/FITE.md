@@ -36,6 +36,8 @@ ECCV 2022
 
 本文的任务是从一组不同服装、不同 pose 的图像中学习出逼真的可动画的穿衣数字人模型。图 1 是本文的 pipeline，第一阶段学习隐式模板，第二阶段预测依赖 pose 的位移。为了简化符号，先假设同一个人只穿一件衣服，后续会说明如何扩展到多件衣服。
 
+本文假设输入图像是包含法线信息的点集形式，并且衣服覆盖了大部分的身体，因此可以从中提取出 GT 即占用场 (0 表示在外部，1 表示在内部)。对于第 i 帧图像的点集表示为 $\{p_k^i\}_{k=1}^{N_i}\subset \R^3$，其中 $N_i$ 表示第 i 帧图像点的数量，点 $p_k^i$ 处的法向量表示为 $n_k^i$。
+
 LBS：
 $$
 q^i=W(p,w(p),T,\theta^i)=\sum_{j=1}^{24}w_j(p)R^i_j(p)
@@ -45,7 +47,45 @@ $$
 - $p$ 和 $q^i$ 分别表示标准空间下一点的坐标和其对应第 i 帧 pose 所在位置的坐标
 - $T$ 和 $\theta^i$ 分别表示 SMPL 在标准空间下的平均模板和第 i 帧的 pose 参数
 - $w(p)=(w_1(p),\dots,w_{24}(p))\in\R^{24}$ 表示标准空间下的点 $p$ 对于每个 joint 的蒙皮权重，这个权重只是定义在 SMPL 的表面
-- $R_j^i(p)$ 是由 $T$ 和 $\theta^i$​ 确定的变换到第 i 帧 pose 的刚体变换矩阵
+- $R_j^i(p)$ 是由 $T$ 和 $\theta^i$​​ 确定的变换到第 i 帧 pose 的刚体变换矩阵
+
+### Stage One: Coarse Template Training with Diffused Skinning
+
+本文用 0-1 占用场 (即 1/2 水平集) 来表示服装的拓扑——也就是粗模板：
+$$
+T^c=\{p\in\R^3:F^c(p)=1/2\}
+\tag{2}
+$$
+
+- $T^c$ 表示粗模板
+- $F^c(\cdot):\R^3\rarr[0,1]$ 表示 0-1 占用场
+
+作者认为一个好的前向蒙皮权重场 $w:\R^3\rarr\R^{24}$ 应该具备以下两个特点：
+
+1. 对于 SMPL 表面 $T$ 上的一点 $p$，$w(p)$ 应该和 SMPL 的蒙皮权重 $w^s(p)$ 相等；
+2. $w$ 应该是从 SMPL 表面自然的 diffuse 出去的，即沿着 SMPL 的法线 $n^s(p)$ 方向的变化率应该是零；
+
+这两个特点可以用以下公式来约束：
+$$
+w(p)=w^s(p),\ \nabla_pw(p)\cdot n^s(p)=0,\ \ \mathrm{for} \ p\in T
+\tag{3}
+$$
+因为蒙皮权重场 $w$ 沿着 SMPL 的法线 $n^s(p)$ 方向的变化率是零，所以 $w$ 的梯度 $\nabla_pw$ 与 SMPL 表面 $T$ 相切，又因为在 $T$ 上时 $w=w^s$，所以公式 3 等价于：
+$$
+w(p)=w^s(p),\ \nabla_pw(p)=\nabla_Tw^s(p),\ \ \mathrm{for} \ p\in T
+\tag{4}
+$$
+可以重新表述为最小化以下能量：
+$$
+\lambda_p^s\int_{p\in T}||w(p)-w^s(p)||^2+\lambda_g^s\int_{p\in T}||\nabla_pw(p)-\nabla_Tw^s(p)||^2+\lambda_{reg}^s\int_{\R^3}||\nabla^2w||^2
+\tag{6}
+$$
+
+- $||\nabla^2w||^2$ 表示平滑正则化项
+
+本文采用 PoissonRecon 来获取 $w$，$w$ 的每个 component 都是单独求解，并约束在 $[0,1]$ 范围内，最后重新进行归一化，整个过程如图 2 所示。
+
+![Fig. 2: Diffused skinning visualized. Each component of the skinning weights on SMPL is diffused independently and re-normalized to form a skinning field.](http://img.rocyan.cn/blog/2024/04/662d0dcb43421.png)
 
 
 
