@@ -32,7 +32,7 @@ ECCV 2022
 
 ![Fig. 1: Pipeline](http://img.rocyan.cn/blog/2024/04/662b21eac5add.png)
 
-#### Task Formulation and Notions
+### Task Formulation and Notions
 
 本文的任务是从一组不同服装、不同 pose 的图像中学习出逼真的可动画的穿衣数字人模型。图 1 是本文的 pipeline，第一阶段学习隐式模板，第二阶段预测依赖 pose 的位移。为了简化符号，先假设同一个人只穿一件衣服，后续会说明如何扩展到多件衣服。
 
