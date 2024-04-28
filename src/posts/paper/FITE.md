@@ -92,7 +92,21 @@ $$
 F^c(p)=F_{\sigma_f}(p,\theta^{i_0}),\ \mathrm{where}\ \theta^{i_0}=\arg\min\{||\theta^i||_1:\theta^i\ \mathrm{in \ the\ training\ poses}\}
 \tag{6}
 $$
-公式 6 其实就是从所有训练 pose 中挑选出 $L_1$ 范数下最接近 T-pose 的作为标准 shape。最后从 $F^c(p)$ 中提取 1/2-level-set $T^c$ 作为标准模板。
+公式 6 其实就是从所有训练 pose 中挑选出 $L_1$ 范数下最接近 T-pose 的作为标准 shape。最后从 $F^c(p)$ 中提取 1/2-level-set $T^c$​ 作为标准模板。
+
+### Stage Two: Modeling Pose-Dependent Clothing Deformations
+
+在得到标准空间的模板后，就可以通过 LBS 转换到 pose 空间：
+$$
+q_k=W(p_k^c+c_k,w(p_k^c),T,\theta)+r_k
+\tag{7}
+$$
+
+- $p_k^c$ 表示标准空间模板表面 $T^c$ 经过均匀采样后点集 $\{p_k^c\}_{k=1}^{N_c}$ 中的一个点
+- $q_k$ 表示 $p_k^c$ 在 pose 空间中对应的那个点
+- $c_k$ 和 $r_k$​ 分别是与 pose 无关的模板修正和与 pose 相关的变形，在本节后续会有更详细的说明
+
+**Pose-Agnostic Template Correction**：
 
 ## Reference
 
