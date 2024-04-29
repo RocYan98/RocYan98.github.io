@@ -106,7 +106,9 @@ $$
 - $q_k$ 表示 $p_k^c$ 在 pose 空间中对应的那个点
 - $c_k$ 和 $r_k$​ 分别是与 pose 无关的模板修正和与 pose 相关的变形，在本节后续会有更详细的说明
 
-**Pose-Agnostic Template Correction**：
+**Pose-Agnostic Template Correction**：由于 $T^c$ 只经过粗略训练，可能还缺乏某些细节，比如面部细节，而面部细节通常与 pose 无关。本文提出一种与 pose 无关的修正位移量 $c_k$ ，通过将几何特征 $g_k$ 输入 4 层的 MLP $C(\cdot)$ 来获得。
+
+**Projection-Based Pose Encoding**：本文用图片来表示编码后的 pose 相关的特征，即 position maps。
 
 ## Reference
 
