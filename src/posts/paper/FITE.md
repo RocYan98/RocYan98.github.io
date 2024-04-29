@@ -108,7 +108,21 @@ $$
 
 **Pose-Agnostic Template Correction**：由于 $T^c$ 只经过粗略训练，可能还缺乏某些细节，比如面部细节，而面部细节通常与 pose 无关。本文提出一种与 pose 无关的修正位移量 $c_k$ ，通过将几何特征 $g_k$ 输入 4 层的 MLP $C(\cdot)$ 来获得。
 
-**Projection-Based Pose Encoding**：本文用图片来表示编码后的 pose 相关的特征，即 position maps。
+**Projection-Based Pose Encoding**：本文用图片来表示编码后的 pose 相关的特征，即 position maps。首先从模版表面提取 mesh，把 pose 空间点的坐标值加标准空间点的坐标值当作颜色，用正交投影的方式渲染成 position maps。和 [Animatable Gaussians](./) 获取 position maps 的过程类似，这里借用 Animatable Gaussians 中的图 (图 3) 来展示，只不过 Animatable Gaussians 是只用 pose 空间点的坐标值当作颜色。
+
+![Fig. 3: Position Maps in Animatable Gaussians](http://img.rocyan.cn/blog/2024/04/662f6d0569568.png)
+
+本文选取左前、左后、右前和右后四个角度，并且四个角度分别有略微覆盖头顶和脚底。最后用 U-Net encoders $U_d$ 来提取 pose 相关特征：
+$$
+z_d^i=U_d(I_d^i)\in\R^{H\times W\times C_{pose}}
+\tag{8}
+$$
+
+- $I_d^i\in\R^{H\times W\times 3}$ 表示第 i 个 pose 的 position maps
+- $C_{pose}$ 表示 feature maps 的通道数
+- $d=1,2,3,4$ 是四个角度的索引
+
+**Decoding Pose-Dependent Deformations**
 
 ## Reference
 
