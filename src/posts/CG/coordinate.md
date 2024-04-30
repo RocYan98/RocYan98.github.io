@@ -13,12 +13,12 @@ title: 相机坐标系总结
 
 常见的相机坐标系通常分为以上 4 种，都是右手坐标系，几个我遇到过的软件或者模型所对应的坐标系见下表：
 
-| 相机坐标系 | 软件或模型                     |
-| ---------- | ------------------------------ |
-| RDF        | OpenCV、Colmap、SMPL           |
-| DRB        | LLFF                           |
-| RUB        | OpenGL、NeRF、Blender、MeshLab |
-| LUF        | Pytorch3D                      |
+| 相机坐标系 | 软件或模型                           |
+| ---------- | ------------------------------------ |
+| RDF        | OpenCV、Colmap                       |
+| DRB        | LLFF                                 |
+| RUB        | OpenGL、NeRF、Blender、MeshLab、SMPL |
+| LUF        | Pytorch3D                            |
 
 ## Reference
 
