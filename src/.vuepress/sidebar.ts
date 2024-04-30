@@ -35,7 +35,8 @@ export default sidebar({
                             prefix: "GAMES101/",
                             collapsible: true,
                             children: "structure"
-                        }
+                        },
+                        'coordinate.md'
                     ]
                 },
                 {
