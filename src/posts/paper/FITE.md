@@ -122,7 +122,20 @@ $$
 - $C_{pose}$ 表示 feature maps 的通道数
 - $d=1,2,3,4$ 是四个角度的索引
 
-**Decoding Pose-Dependent Deformations**
+**Decoding Pose-Dependent Deformations**：最后通过一个 8 层的 MLP $D(\cdot)$ 来生成公式 7 中的 $r_k$ 和基于投影的 pose 特征法线 $n_k$：
+$$
+[r_k^c,n_k^c]=D([z^i(p_k^c),g_k]),\ \ \  r_k^c,n_k^c\in\R^3
+\tag{9}
+$$
+
+- $z^i(p)=[z_1^i(p),z_2^i(p),z_3^i(p),z_4^i(p)]$​
+- $g_k$ 表示几何特征
+
+当输入数据中有多套服装时，不同服装的模板在第一阶段分别训练，但共享 template corrector $C$、pose encoders $U_d$ 和 deformation decoder $D$​。
+
+### Training Losses
+
+先跳过。
 
 ## Reference
 
