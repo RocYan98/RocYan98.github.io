@@ -5,7 +5,7 @@ tag:
   - Paper
   - Avatar
   - FITE
-  - SDF
+  - Occupancy Field
 title: FITE-论文笔记
 order: 11
 ---
