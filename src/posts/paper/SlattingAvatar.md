@@ -6,7 +6,7 @@ tag:
   - Avatar
   - SplattingAvatar
   - 3DGS
-title: FITE-论文笔记
+title: SplattingAvatar-论文笔记
 order: 12
 ---
 
