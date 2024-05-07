@@ -24,13 +24,23 @@ CVPR 2024
 
 ## Introduction
 
-本文提出用可训练的 mesh 的 embeddings 来显示控制高斯，将 mesh 表示为 Phong surface[[2]][ref2]，
+本文提出用可训练的 mesh 的 embedding 来显示控制高斯，将 mesh 表示为 Phong surface[[2]][ref2]，embedding 表示为 $(k,u,v,d)$，其中 $(u,v)$ 表示第 $k$ 个 mesh 的重心坐标在 embedding 上的位置，$d$ 表示沿着法向量方向的位移。
 
 本文的主要贡献：
 
 - 本文介绍了一种将 3DGS 与 mesh 整合在一起的框架，它提供了一种新的数字人表现形式，既逼真又能提高计算效率。
 - 本文使用 lifted optimization 来优化数字人模型，允许对高斯参数和 mesh embeddings 进行联合优化，以实现精确的重建。
 - 本文通过综合评估和 Unity，展示了实时渲染的能力和创建各种数字人的泛化性。
+
+## Method
+
+### Overview
+
+在单目图像序列中，每张图像都有一个 registered 的 mesh 模板，即 SMPLX 或 FLAME，本文将数字人混合表示为嵌入在 mesh 上的 3D 高斯。高斯的参数包括位置、旋转、比例、颜色和不透明度，它们是半透明的 3D 粒子，通过基于 splatting 的光栅化技术呈现在摄像机视图中。
+
+每个 3D 高斯以其局部 $(u,v,d)$​ 坐标嵌入到标准 mesh 的一个三角形上。embedding 直接定义了高斯在标准空间和 pose 空间中的位置。除位置外，每个高斯都有自己的旋转、缩放、颜色和不透明度参数。当 mesh 通过动画变形时，embedding 也会为每个高斯提供额外的旋转和缩放参数。与姿势相关的额外旋转由每个顶点四元数的重心插值定义，而额外缩放则由嵌入三角形的面积变化定义。
+
+在优化过程中，高斯参数和 embedding 参数同时更新。当 $(u,v)$ 的更新使 embedding 跨越三角形边界时，重心会在邻近的三角形中重新计算，就像高斯在网格上行走一样。为了支持 embedding，本文调整了原版 3D 高斯的 clone 和 split 策略。
 
 ## Reference:
 
