@@ -191,4 +191,4 @@ $$
 
 ## Reference
 
-[Capturing and Animation of Body and Clothing from Monocular Video](https://arxiv.org/abs/2210.01868)
+[[1]Capturing and Animation of Body and Clothing from Monocular Video](https://arxiv.org/abs/2210.01868)

@@ -271,10 +271,10 @@ NeRF 中的逆变换采样通俗地来说就是把 PDF 即 $\hat{w}_i$ 给累加
 
 ## Reference
 
-[Volume Rendering for Developers: Foundations](https://www.scratchapixel.com/lessons/3d-basic-rendering/volume-rendering-for-developers/intro-volume-rendering.html)
+[[1]Volume Rendering for Developers: Foundations](https://www.scratchapixel.com/lessons/3d-basic-rendering/volume-rendering-for-developers/intro-volume-rendering.html)
 
-[Models for Direct Volume Rendering](https://sci-hub.se/10.1109/2945.468400) 
+[[2]Models for Direct Volume Rendering](https://sci-hub.se/10.1109/2945.468400) 
 
-[NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis](https://arxiv.org/abs/2003.08934)
+[[3]NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis](https://arxiv.org/abs/2003.08934)
 
-[NeRF入门之体渲染 (Volume Rendering)](https://mp.weixin.qq.com/s?__biz=Mzg4ODA3MDkyMA==&mid=2247485148&idx=1&sn=4e6acc1b358e624ac2301729d35cc89d&chksm=cf81f0bbf8f679ad3f990f91d5c84fcc67cc6948c3cbc0c34c59874f7795e9263f2382979414&cur_album_id=2737490560171376640&scene=189#wechat_redirect)
+[[4]NeRF入门之体渲染 (Volume Rendering)](https://mp.weixin.qq.com/s?__biz=Mzg4ODA3MDkyMA==&mid=2247485148&idx=1&sn=4e6acc1b358e624ac2301729d35cc89d&chksm=cf81f0bbf8f679ad3f990f91d5c84fcc67cc6948c3cbc0c34c59874f7795e9263f2382979414&cur_album_id=2737490560171376640&scene=189#wechat_redirect)

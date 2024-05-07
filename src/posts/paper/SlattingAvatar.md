@@ -34,6 +34,8 @@ CVPR 2024
 
 ## Method
 
+![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/05/6639a179d81ea.png)
+
 ### Overview
 
 在单目图像序列中，每张图像都有一个 registered 的 mesh 模板，即 SMPLX 或 FLAME，本文将数字人混合表示为嵌入在 mesh 上的 3D 高斯。高斯的参数包括位置、旋转、比例、颜色和不透明度，它们是半透明的 3D 粒子，通过基于 splatting 的光栅化技术呈现在摄像机视图中。

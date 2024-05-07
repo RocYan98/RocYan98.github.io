@@ -142,4 +142,4 @@ $$
 
 ## Reference
 
-[DeePSD: Automatic Deep Skinning And Pose Space Deformation For 3D Garment Animation](https://openaccess.thecvf.com/content/ICCV2021/html/Bertiche_DeePSD_Automatic_Deep_Skinning_and_Pose_Space_Deformation_for_3D_ICCV_2021_paper.html)
+[[1]DeePSD: Automatic Deep Skinning And Pose Space Deformation For 3D Garment Animation](https://openaccess.thecvf.com/content/ICCV2021/html/Bertiche_DeePSD_Automatic_Deep_Skinning_and_Pose_Space_Deformation_for_3D_ICCV_2021_paper.html)

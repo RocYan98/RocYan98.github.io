@@ -208,16 +208,18 @@ SMPL-X 默认的是 1 个根节点 + 21 个身体 joints + 3 个头部 joints (1
 
 ## Reference
 
-[SMPL: A Skinned Multi-Person Linear Model](https://files.is.tue.mpg.de/black/papers/SMPL2015.pdf)
+[[1]SMPL: A Skinned Multi-Person Linear Model](https://files.is.tue.mpg.de/black/papers/SMPL2015.pdf)
 
-[人体动作捕捉与SMPL模型 (mocap and SMPL model)](https://zhuanlan.zhihu.com/p/158700893)
+[[2]人体动作捕捉与SMPL模型 (mocap and SMPL model)](https://zhuanlan.zhihu.com/p/158700893)
 
-[三维人体动捕模型 SMPL：A Skinned Multi Person Linear Model](https://yunyang1994.gitee.io/2021/08/21/三维人体模型-SMPL-A-Skinned-Multi-Person-Linear-Model/)
+[[3]三维人体动捕模型 SMPL：A Skinned Multi Person Linear Model](https://yunyang1994.gitee.io/2021/08/21/三维人体模型-SMPL-A-Skinned-Multi-Person-Linear-Model/)
 
-[基于SMPL的三维人体重建-SMPL模型的计算与构建（3）](https://zhuanlan.zhihu.com/p/458868557?utm_id=0)
+[[4]基于SMPL的三维人体重建-SMPL模型的计算与构建（3）](https://zhuanlan.zhihu.com/p/458868557?utm_id=0)
 
-[SMPL模型Shape和Pose参数](https://wap.sciencenet.cn/blog-465130-1177111.html)
+[[5]SMPL模型Shape和Pose参数](https://wap.sciencenet.cn/blog-465130-1177111.html)
 
-[SMPL模型学习](https://www.cnblogs.com/sariel-sakura/p/14321818.html)
+[[6]SMPL模型学习](https://www.cnblogs.com/sariel-sakura/p/14321818.html)
 
-[SMPL: A Skinned Multi-Person Linear Model论文解读](https://blog.csdn.net/JerryZhang__/article/details/103478265?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-103478265-blog-127206953.235%5Ev43%5Epc_blog_bottom_relevance_base1&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-103478265-blog-127206953.235%5Ev43%5Epc_blog_bottom_relevance_base1)
+[[7]SMPL: A Skinned Multi-Person Linear Model论文解读](https://blog.csdn.net/JerryZhang__/article/details/103478265?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-103478265-blog-127206953.235%5Ev43%5Epc_blog_bottom_relevance_base1&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-103478265-blog-127206953.235%5Ev43%5Epc_blog_bottom_relevance_base1)
+
+[[8]Expressive Body Capture: 3D Hands, Face, and Body from a Single Image](https://ps.is.mpg.de/uploads_file/attachment/attachment/497/SMPL-X.pdf)

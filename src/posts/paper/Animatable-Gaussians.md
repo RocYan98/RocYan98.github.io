@@ -98,4 +98,4 @@ $$
 
 ## Reference
 
-[Animatable Gaussians: Learning Pose-dependent Gaussian Maps  for High-fidelity Human Avatar Modeling](https://arxiv.org/pdf/2311.16096)
+[[1]Animatable Gaussians: Learning Pose-dependent Gaussian Maps  for High-fidelity Human Avatar Modeling](https://arxiv.org/pdf/2311.16096)

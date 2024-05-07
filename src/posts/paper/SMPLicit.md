@@ -109,6 +109,6 @@ $$
 
 ## Reference
 
-[SMPLicit: Topology-aware Generative Model for Clothed People](http://www.iri.upc.edu/people/ecorona/smplicit/paper.pdf)
+[[1]SMPLicit: Topology-aware Generative Model for Clothed People](http://www.iri.upc.edu/people/ecorona/smplicit/paper.pdf)
 
-[CVPR 2021 | SMPL人体模型有了，是不是还缺个衣服模型？SMPLicit来了](https://zhuanlan.zhihu.com/p/362132005)
+[[2]CVPR 2021 | SMPL人体模型有了，是不是还缺个衣服模型？SMPLicit来了](https://zhuanlan.zhihu.com/p/362132005)

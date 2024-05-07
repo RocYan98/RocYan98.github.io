@@ -139,4 +139,4 @@ $$
 
 ## Reference
 
-[Learning Implicit Templates for Point-Based Clothed Human Modeling](https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136630211.pdf)
+[[1]Learning Implicit Templates for Point-Based Clothed Human Modeling](https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136630211.pdf)

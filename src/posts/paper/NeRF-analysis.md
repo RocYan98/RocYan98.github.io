@@ -36,7 +36,7 @@ NeRF 在采样中使用了一个 trick，就是**分层采样 (Hierarchical Samp
 
 #### 位置编码
 
-NeRF 中的另一个 trick，就是**位置编码 (Positional Encoding)**。NeRF 的团队在他们的另一篇论文 *Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains* 表明 MLP 更倾向于学习低频信息。解决这个问题的方法就是位置编码，使用**傅里叶特征映射 (Fourier Features Mapping)**：
+NeRF 中的另一个 trick，就是**位置编码 (Positional Encoding)**。NeRF 的团队在他们的另一篇论文中[[1]][ref1] 表明 MLP 更倾向于学习低频信息。解决这个问题的方法就是位置编码，使用**傅里叶特征映射 (Fourier Features Mapping)**：
 $$
 \gamma(p)=(\sin(2^0\pi p),\cos(2^0\pi p),\cdots,\sin(2^{L-1}\pi p),\cos(2^{L-1}\pi p))
 \tag{1}
@@ -64,6 +64,9 @@ NeRF 的模型架构如图 5 所示，并且具体代码实现用相同颜色的
 
 ## Reference
 
-[Fourier Features Let Networks Learn  High Frequency Functions in Low Dimensional Domains](https://bmild.github.io/fourfeat/index.html)
+[[1]Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains](https://bmild.github.io/fourfeat/index.html)
 
-[NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis](https://www.matthewtancik.com/nerf)
+[[2]NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis](https://www.matthewtancik.com/nerf)
+
+[ref1]: https://bmild.github.io/fourfeat/index.html	"Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains"
+
