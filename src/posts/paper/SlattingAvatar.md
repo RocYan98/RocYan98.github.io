@@ -36,4 +36,4 @@ CVPR 2024
 
 [[1]SplattingAvatar: Realistic Real-Time Human Avatars with Mesh-Embedded Gaussian Splatting](https://arxiv.org/abs/2403.05087)
 
-[ref2]: 2ThePhongSurface:Efficient3DModelFittingusingLiftedOptimization(https://arxiv.org/pdf/2007.04940)
+[ref2]: https://arxiv.org/pdf/2007.04940	"[2]ThePhongSurface:Efficient3DModelFittingusingLiftedOptimization"
