@@ -24,6 +24,8 @@ CVPR 2024
 
 ## Introduction
 
+本文提出用可训练的 mesh 的 embeddings 来显示控制高斯，将 mesh 表示为 Phong surface [[2]][ref2]，
+
 本文的主要贡献：
 
 - 本文介绍了一种将 3DGS 与 mesh 整合在一起的框架，它提供了一种新的数字人表现形式，既逼真又能提高计算效率。
@@ -32,6 +34,6 @@ CVPR 2024
 
 ## Reference:
 
-[SplattingAvatar: Realistic Real-Time Human Avatars with Mesh-Embedded Gaussian Splatting](https://arxiv.org/abs/2403.05087)
+[[1]SplattingAvatar: Realistic Real-Time Human Avatars with Mesh-Embedded Gaussian Splatting](https://arxiv.org/abs/2403.05087)
 
-[The Phong Surface: Efficient 3D Model Fitting using Lifted Optimization](https://arxiv.org/pdf/2007.04940)
+[ref2]: 2ThePhongSurface:Efficient3DModelFittingusingLiftedOptimization(https://arxiv.org/pdf/2007.04940)
