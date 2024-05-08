@@ -42,7 +42,65 @@ CVPR 2024
 
 每个 3D 高斯以其局部 $(u,v,d)$​ 坐标嵌入到标准 mesh 的一个三角形上。embedding 直接定义了高斯在标准空间和 pose 空间中的位置。除位置外，每个高斯都有自己的旋转、缩放、颜色和不透明度参数。当 mesh 通过动画变形时，embedding 也会为每个高斯提供额外的旋转和缩放参数。与姿势相关的额外旋转由每个顶点四元数的重心插值定义，而额外缩放则由嵌入三角形的面积变化定义。
 
-在优化过程中，高斯参数和 embedding 参数同时更新。当 $(u,v)$ 的更新使 embedding 跨越三角形边界时，重心会在邻近的三角形中重新计算，就像高斯在网格上行走一样。为了支持 embedding，本文调整了原版 3D 高斯的 clone 和 split 策略。
+在优化过程中，高斯参数和 embedding 参数同时更新。当 $(u,v)$​ 的更新使 embedding 跨越三角形边界时，重心会在邻近的三角形中重新计算，就像高斯在网格上行走一样。为了支持 embedding，本文调整了原版 3D 高斯的 clone 和 split 策略。
+
+### Embedding on mesh
+
+Phong surface 把一个点的 position 和 normal 定义在三角形里。对于三角形 $k$ 上的点 $P$，重心坐标为 $(u,v)$，它的 position 和 normal 是三角形顶点 $\{V_1,V_2,V_3\}$ 和每个顶点的法向量 $\{n_1,n_2,n_3\}$ 的线性插值：
+$$
+P=\mathcal{V}(k,u,v)=u\times V_1+v \times V_2+(1-u-v)\times V_3
+\tag{1}
+$$
+
+$$
+n=\mathcal{N}(k,u,v)=u\times n_1+v \times n_2+(1-u-v)\times n_3
+\tag{2}
+$$
+
+把高斯核的位置即均值 $\mu$ 定义为点 $P$ 沿着法向量方向位移 $d$：
+$$
+\mu=P+d\times n
+\tag{3}
+$$
+把 embedding $E={k,u,v,d}$ 近似为 mesh 表面周围的一阶连续空间。
+
+对于某一帧标准空间和 pose 空间中的三角形，根据三角形的切线、双切线 (bitangent) 和法线计算矩阵 $\{R_{cano}, R_{pose}\}$，求出三角形从标准空间到 pose 空间的旋转。然后将旋转矩阵转换为四元数，并根据周围邻近三角形的面积加权平均值计算每个顶点的四元数 $q_V$：
+$$
+R_k=R_{cano}R^{-1}_{pose}
+\tag{4}
+$$
+
+$$
+q_V = \frac{\sum_{k\in\Omega_V}A_kq_k}{\sum_{k\in\Omega_V}A_k}
+\tag{5}
+$$
+
+- $\Omega_V$ 表示顶点 $V$ 的相邻三角形
+- $A_k$ 和 $q_k$ 分别是三角形的面积和四元数
+
+对于第 t 帧的 embedding $E_i$，将重心旋转插值四元数 $\delta_{q_{i,t}}$ 乘以标准空间的高斯的旋转四元数 $\bar{q}_i$，最后得到  $E_i$ 的旋转四元数 $q_{i,t}$：
+$$
+\delta_{q_{i,t}}=u\times q_1+v\times q_2+(1-u-v)\times q_3
+\tag{6}
+$$
+
+$$
+q_{i,t}=\delta_{q_{i,t}}\times\bar{q}_i
+\tag{7}
+$$
+
+-  $\{q_1,q_2,q_3\}$ 表示 $E_i$​ 所在三角形三个顶点在第 $t$​ 帧的四元数
+
+相同的操作也被用在缩放上，即用三角形的面积变化来表示变形引起的缩放：
+$$
+s_{i,t}=(A_{pose}/A_{cano})\bar{s}_i
+\tag{8}
+$$
+本文省略了原版 3DGS 中的球谐函数。
+
+在标准空间的 mesh 上随机选取 10k 个三角形和重心坐标进行初始化，并将 $d$ 初始化为 $0$。高斯核的位置通过 embedding 进行计算，其他属性还是和原版高斯一样。一开始高斯核都在 mesh 的表面，随着训练的进行， embedding 会逐渐贴合几何表面，并且在纹理丰富的区域产生更多的高斯核，图 3 展示了这个过程。
+
+![Fig. 3: 高斯 embedding 的变化过程。在表面以外的部分会有正的位移量 (比如头发)，而其他区域，比如面部，则会有负偏移量，因为高斯核位置的均值在 mesh 内部](http://img.rocyan.cn/blog/2024/05/663b10fb4b15d.png)
 
 ## Reference:
 
