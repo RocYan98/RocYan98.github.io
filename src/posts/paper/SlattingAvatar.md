@@ -102,6 +102,29 @@ $$
 
 ![Fig. 3: 高斯 embedding 的变化过程。在表面以外的部分会有正的偏移量 (比如头发)，而其他区域，比如面部，则会有负偏移量，因为高斯核位置的均值在 mesh 内部](http://img.rocyan.cn/blog/2024/05/663b10fb4b15d.png)
 
+### Differentiable rendering of Gaussian Splatting
+
+由于单目视频的视角和姿态变化有限，本文提出了一个缩放正则化项，以防止高斯球变长变细。最后的光度损失是 $\mathcal{L}_1$、感知损失 $\mathcal{L}_{lpips}$ 和缩放正则项 $\mathcal{L}_{scaling}$ 之和：
+$$
+\mathcal{L}=\mathcal{L}_1+\lambda_1\mathcal{L}_{lpips}+\lambda_s\mathcal{L}_{scaling}
+\tag{9}
+$$
+
+$$
+\mathcal{L}_{scaling}(i)=
+\begin{cases}
+|\hat{s_i}|, & \hat{s_i}>\max(T_s,T_r\check{s_i})\\
+0, &\text{otherwise }
+\end{cases}
+\tag{10}
+$$
+
+- $s_i\in\R^3$ 表示高斯的缩放
+- $\hat{s_i}$ 和 $\check{s_i}$​ 分别表示最大和最小的缩放值
+- $T_s$ 和 $T_r$ 分别是缩放阈值和比例阈值
+
+当 $\hat{s_i}$ 过长 (比 $T_s$ 大) 或过细 (比 $T_r \times \check{s_i}$ 大) 的时候缩放正则项才会生效。
+
 ## Reference:
 
 [[1]SplattingAvatar: Realistic Real-Time Human Avatars with Mesh-Embedded Gaussian Splatting](https://arxiv.org/abs/2403.05087)
