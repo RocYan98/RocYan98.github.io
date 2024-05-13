@@ -123,7 +123,13 @@ $$
 - $\hat{s_i}$ 和 $\check{s_i}$​ 分别表示最大和最小的缩放值
 - $T_s$ 和 $T_r$ 分别是缩放阈值和比例阈值
 
-当 $\hat{s_i}$ 过长 (比 $T_s$ 大) 或过细 (比 $T_r \times \check{s_i}$ 大) 的时候缩放正则项才会生效。
+当 $\hat{s_i}$ 过长 (比 $T_s$ 大) 或过细 (比 $T_r \times \check{s_i}$​ 大) 的时候缩放正则项才会生效。
+
+### Walking on a triangle mesh
+
+通过第 $k$ 个三角形定义点 $P$ 的重心坐标 $(k,u,v)$，当更新移动后的点 $Q=(k,u,v)+(\delta u,\delta v)$ 在第 $k$ 个三角形外，则在第 $k$ 个三角形和相邻第 $k'$ 个三角形共享的边上找一个点 $P'$，并把剩余的移动重新表示在第 $k'$ 个三角形内为 $Q'=P'+(\delta u'+\delta q')$。由于重心坐标与三角形的形状无关，在不失一般性的前提下，重新表示的方法是将两个相邻的三角形视为直角三角形，交点位于斜边上。更新会反复重新表示，直到在最终三角形内结束。整个过程如图 4 所示。
+
+![Fig. 4: Walking on triangles for embedding update](http://img.rocyan.cn/blog/2024/05/6641d608b65cf.png)
 
 ## Reference:
 
