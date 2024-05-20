@@ -16,11 +16,11 @@ order: 12
 
 CVPR 2024
 
+![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b37fea6b1e.png)
+
 ## Abstract
 
 我们展示了 SplattingAvatar，这是一种在三角形网格上嵌入 3DGS 的逼真数字人的混合 3D 表现形式，在现代 GPU 上的渲染速度超过 300 FPS，在移动设备上的渲染速度为 30 FPS。我们通过显式网格和隐式高斯进行拼接建模，将数字人的运动和外观分离开来。高斯由三角形网格上的重心坐标和位移定义为 Phong Surface[[2]][ref2]。我们通过改进 Lifted Optimiaztion[[2]][ref2] 方法，在三角形网格上 walking 的同时优化高斯参数。SplattingAvatar 是数字人的混合表现形式，其中网格代表低频运动和表面变形，而高斯则代表高频几何和细节外观。现有的变形方法依赖于基于 MLP 的线性混合蒙皮 (LBS) 来表示运动，与之不同的是，我们直接通过网格来控制高斯的旋转和平移，这就增强了它与各种动画技术 (如骨骼动画、混合形状和网格编辑) 的兼容性。SplattingAvatar 可通过单目视频对全身和头部进行训练，在多个数据集上显示出一流的渲染质量。
-
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/6638529ae6e2f.png)
 
 ## Introduction
 

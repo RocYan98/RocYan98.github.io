@@ -16,6 +16,8 @@ order: 11
 
 ECCV 2022
 
+<img src="http://img.rocyan.cn/blog/2024/05/664b369e74bd1.png" alt="Fig. 1: Overview" style="zoom:33%;" />
+
 ## Abstract
 
 我们提出的 FITE (First-Implicit-Then-Explicit) 是一个先隐后显的框架，用于为穿着服装的数字人建模。我们的框架首先学习表示粗略服装拓扑结构的隐式表面模板，然后利用模板指导点集的生成，进一步捕捉与姿势相关的服装变形（如褶皱）。我们的管道结合了隐式和显式表示法的优点，即能够处理不同的拓扑结构，并能有效捕捉精细细节。我们还提出了扩散蒙皮技术，以方便模板训练，尤其是宽松服装的模板训练，以及通过基于投影的 pose 编码从 mesh 模板中提取 pose 信息，而无需预定义的 UV 贴图或连通性。
@@ -30,11 +32,11 @@ ECCV 2022
 
 ## Method
 
-![Fig. 1: Pipeline](http://img.rocyan.cn/blog/2024/04/662b21eac5add.png)
+![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/04/662b21eac5add.png)
 
 ### Task Formulation and Notions
 
-本文的任务是从一组不同服装、不同 pose 的输入中学习出逼真的可动画的穿衣数字人模型。图 1 是本文的 pipeline，第一阶段学习隐式模板，第二阶段预测依赖 pose 的位移。为了简化符号，先假设同一个人只穿一件衣服，后续会说明如何扩展到多件衣服。
+本文的任务是从一组不同服装、不同 pose 的输入中学习出逼真的可动画的穿衣数字人模型。图 2 是本文的 pipeline，第一阶段学习隐式模板，第二阶段预测依赖 pose 的位移。为了简化符号，先假设同一个人只穿一件衣服，后续会说明如何扩展到多件衣服。
 
 本文假设输入是包含法线信息的点集形式，并且衣服覆盖了大部分的身体，因此可以从中提取出 GT 即占用场 (0 表示在外部，1 表示在内部)。对于第 i 帧输入的点集表示为 $\{p_k^i\}_{k=1}^{N_i}\subset \R^3$，其中 $N_i$ 表示第 i 帧输入点的数量，点 $p_k^i$ 处的法向量表示为 $n_k^i$。
 
@@ -83,9 +85,9 @@ $$
 
 - $||\nabla^2w||^2$ 表示平滑正则化项
 
-本文采用 PoissonRecon 来获取 $w$，$w$ 的每个 component 都是单独求解，并约束在 $[0,1]$ 范围内，最后重新进行归一化，整个过程如图 2 所示。
+本文采用 PoissonRecon 来获取 $w$，$w$ 的每个 component 都是单独求解，并约束在 $[0,1]$ 范围内，最后重新进行归一化，整个过程如图 3 所示。
 
-![Fig. 2: Diffused skinning visualized. Each component of the skinning weights on SMPL is diffused independently and re-normalized to form a skinning field.](http://img.rocyan.cn/blog/2024/04/662d0dcb43421.png)
+![Fig. 3: Diffused skinning visualized. Each component of the skinning weights on SMPL is diffused independently and re-normalized to form a skinning field.](http://img.rocyan.cn/blog/2024/04/662d0dcb43421.png)
 
 通过公式 5 的到 $w$ 后，就要训练和 pose 相关的标准空间占用场 $f_{\sigma_f}(\cdot,\theta^i):\R^3\to[0,1]$，第一阶段只要粗略的 shape 能用就停止，训练完成后把 $F^c$ 设置为：
 $$
@@ -108,9 +110,9 @@ $$
 
 **Pose-Agnostic Template Correction**：由于 $T^c$ 只经过粗略训练，可能还缺乏某些细节，比如面部细节，而面部细节通常与 pose 无关。本文提出一种与 pose 无关的修正位移量 $c_k$ ，通过将几何特征 $g_k$ 输入 4 层的 MLP $C(\cdot)$ 来获得。
 
-**Projection-Based Pose Encoding**：本文用图片来表示编码后的 pose 相关的特征，即 position maps。首先从模版表面提取 mesh，把 pose 空间点的坐标值加标准空间点的坐标值当作颜色，用正交投影的方式渲染成 position maps。和 [Animatable Gaussians](./) 获取 position maps 的过程类似，这里借用 Animatable Gaussians 中的图 (图 3) 来展示，只不过 Animatable Gaussians 是只用 pose 空间点的坐标值当作颜色。
+**Projection-Based Pose Encoding**：本文用图片来表示编码后的 pose 相关的特征，即 position maps。首先从模版表面提取 mesh，把 pose 空间点的坐标值加标准空间点的坐标值当作颜色，用正交投影的方式渲染成 position maps。和 [Animatable Gaussians](./) 获取 position maps 的过程类似，这里借用 Animatable Gaussians 中的图 (图 4) 来展示，只不过 Animatable Gaussians 是只用 pose 空间点的坐标值当作颜色。
 
-![Fig. 3: Position Maps in Animatable Gaussians](http://img.rocyan.cn/blog/2024/04/662f6d0569568.png)
+![Fig. 4: Position Maps in Animatable Gaussians](http://img.rocyan.cn/blog/2024/04/662f6d0569568.png)
 
 本文选取左前、左后、右前和右后四个角度，并且四个角度分别有略微覆盖头顶和脚底。最后用 U-Net encoders $U_d$ 来提取 pose 相关特征：
 $$

@@ -17,6 +17,8 @@ order: 9
 
 Siggraph Asia 2022
 
+![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b36fed486b.png)
+
 ## Abstract
 
 尽管最近的研究表明，从单张图像、视频或一组三维扫描图像中提取穿衣三维人体模型的工作取得了进展，但仍存在一些局限性。大多数方法使用整体表示法对身体和服装进行联合建模，这意味着在虚拟试穿等应用中无法将服装和身体分开。其他方法则将人体和服装分开建模，但需要从三维/四维扫描仪或物理模拟中获得的大量三维穿衣人体 mesh 进行训练。我们的见解是，身体和服装有不同的建模要求。基于 mesh 的参数化三维模型可以很好地表示人体，而隐式表示法和神经辐射场则更适合捕捉服装中的各种形状和外观。基于这一观点，我们提出了 SCARF (Segmented Clothed Avatar Radiance Field)，这是一种将基于 mesh 的人体与神经辐射场相结合的混合模型。将网格与可微分光栅化器相结合集成到体渲染中，使我们能够直接从单目视频中优化 SCARF，而无需任何 3D 监督。混合建模使 SCARF 能够：(i) 通过改变身体姿势 (包括手部衔接和面部表情) 为穿着衣服的 avatar 制作动画；(ii) 合成 avatar 的新视图；(iii) 在虚拟试穿应用中实现 avatar 之间的服装转移。我们证明，与现有方法相比，SCARF 重建的服装具有更高的视觉质量，服装会随着身体姿势和体形的变化而变形，而且服装可以在不同的 avatar 之间成功转移。
@@ -32,7 +34,7 @@ Siggraph Asia 2022
 
 ## Methods
 
-![Fig. 1: Pipeline](http://img.rocyan.cn/blog/2024/04/6612bac663038.png)
+![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/04/6612bac663038.png)
 
 ### 混合表示 (Hybrid Representation)
 
