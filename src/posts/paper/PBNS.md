@@ -30,3 +30,21 @@ TOG 2021
 
 ## Neural Cloth Simulation
 
+### PBS Data and Physical Consistency
+
+这里在说基于 PBS 的有监督学习算法的缺点，就不细讲。
+
+### Formulation
+
+本文的目标是给出一个 LBS 模型的 pose，获取服装的 PSD，以便同时为服装和人体制作动画。给定 rest pose 下的服装模板 $\mathbf{T}\in\R^{N\times 3}$，服装 PSD 的每个顶点定义为：
+$$
+t_i^{\prime}=\sum_k^K w_{k, i} G_k(\theta, J)\left(t_i+d t_i(\theta)\right)
+\tag{1}
+$$
+
+- $J\in\R^{K\times3}$ 表示关节点
+- $w_{k,i}$ 表示顶点 $i$ 和关节点 $k$ 之间的混合权重
+- $G_k$ 是第 k 个关节点的线性变换矩阵
+- $\theta$ 是轴角式表示的骨架的 pose
+- $t_i$ 和 $dt_i$ 分别表示 rest pose 下第 $i$ 个服装顶点和该顶点在 pose 空间下的变形
+
