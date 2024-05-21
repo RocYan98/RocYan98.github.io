@@ -58,3 +58,52 @@ $$
 
 ### Architecture
 
+![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/05/664c018188186.png)
+
+本文用 4 层的 MLP 来表示 $f_\mathbf{X}(\theta)$，通过给定 $\theta$ 来得到最后服装的变形 $\mathbf{V}_\theta$：
+$$
+\mathbf{V}_\theta=w(\mathbf{T}+f_\mathbf{X}(\theta)\cdot\mathbf{D},\theta,\mathcal{W})
+\tag{2}
+$$
+
+- $W(\cdot,\theta,\mathcal{W})$ 是蒙皮方程
+- $f_\mathbf{X}(\theta)\cdot\mathbf{D}$ 计算为 $\sum_i^{|\mathbf{X}|}f_\mathbf{X}(\theta)_i\mathbf{D}_i$
+
+这个方法的整体 Pipeline 如图 2 所示，PSD 矩阵 $\mathbf{D}$ 也是通过学习得到的。
+
+### Training
+
+物理系统是通过作用力 $\mathbf{F}=-\nabla U$ (其中 $U$​ 是整个系统的势能) 来进行隐式优化，本文则是将势能定义为 loss 来对神经网络进行优化。通过这种方式，模型就能学习到预测一致、能量最小化且稳定的结果。将全部的 loss (或者也可以认为是势能) 定义为：
+$$
+\mathcal{L}=\mathcal{L}_{cloth}+\mathcal{L}_{collision}+\mathcal{L}_{gravity}+\mathcal{L}_{pin}
+\tag{3}
+$$
+
+- $\mathcal{L}_{cloth}$ 表示衣服的弹簧势能，来指导模型预测服装一致的 mesh
+- $\mathcal{L}_{collision}$ 表示身体与衣服的穿透所产生的势能，其梯度会将衣服顶点推到不穿透的位置
+- $\mathcal{L}_{gravity}$ 表示重力势能
+- $\mathcal{L}_{pin}$ 来限制所选顶点的变形 (这是受到 PBS 的启发)
+
+**Cloth consistency**：
+$$
+\mathcal{L}_{cloth}=\lambda_e\mathcal{L}_{edge}+\lambda_b\mathcal{L}_{bend}=\lambda_e||E-E_\mathbf{T}||^2+\lambda_b\Delta(\mathbf{N})^2
+\tag{4}
+$$
+
+- $E\in\R^{N_E}$ 是预测出来的边的长度，$E_\mathbf{E}\in\R^{N_E}$ 是服装上其余边的长度 ($N_E$ 是边的数量)
+- $\mathbf{N}\in\R^{N_F\times3}$ 是面的法向量 ($N_F$ 是面的数量)
+- $\Delta(\cdot)$ 是 Laplace-Beltrami 算子
+
+$\mathcal{L}_{edge}$ 衣服不会过度拉伸或者压缩，它被定义为系统的弹性势能，其梯度就像力一样。$\mathcal{L}_{bend}$ 来保证衣服的局部光滑。
+
+**Collisions**：
+$$
+\mathcal{L}_{\text {collision }}=\lambda_c \sum_{(i, j) \in A} \min \left(\mathbf{d}_{j, i} \cdot \mathbf{n}_j-\epsilon, 0\right)^2
+\tag{5}
+$$
+
+- $(i,j)\in A$ 表示服装上和身体上的最相邻顶点的对应关系，$A$ 是这些关系的集合；
+- $\mathbf{d}_{j,i}$ 表示身体上第 $j$ 个顶点指向衣服上第 $i$​ 个顶点的向量
+- $\mathbf{n}_j$ 是第 $j$ 个顶点的法向量
+- $\epsilon$ 是提升鲁棒性的阈值，用来控制服装和人体之间的距离，取 4 mm
+
