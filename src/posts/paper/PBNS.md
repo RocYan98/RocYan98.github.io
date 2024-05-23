@@ -122,3 +122,7 @@ $$
 如果顶点完全不动则可能还会和身体发生穿透，所以固定的顶点也需要稍微发生一点移动，因此设定 $\lambda_{pin}=10$​ 。
 
 将 $\mathcal{L}_{cloth}$ 和 $\mathcal{L}_{gravity}$ 看作是物理量，其对应的 loss 权重和织物的属性直接相关：杨氏模量表示弹性，质量表示重力。其余的 loss 则是对基层物理的简化。
+
+## Reference
+
+[[1]PBNS: Physically Based Neural Simulator for Unsupervised Garment Pose Space Deformation](https://dl.acm.org/doi/10.1145/3478513.3480479)

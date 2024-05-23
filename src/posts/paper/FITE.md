@@ -16,7 +16,7 @@ order: 11
 
 ECCV 2022
 
-![Fig. 1](http://img.rocyan.cn/blog/2024/05/664b369e74bd1.png =x600)
+![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b369e74bd1.png =x600)
 
 ## Abstract
 
