@@ -62,7 +62,7 @@ w=\operatorname{MAP}\left(\mathbf{M}, \mathbf{F}_C\right)=\frac{\sum_{i \in \mat
 $$
 $i$ 是特征图中的像素坐标，然后将 $w$ 分配给分割部分内的所有像素，如果一个像素属于多个部分，则该像素特征通过平均所有相关部分的特征来获得，这样就得到了图 4d。
 
-为了进一步降低过拟合的可能性，本文提出了一个有两个输出分支的 shallow MLP，将 $\hat{\mathbf{F}}$ (图 2 Pipeline 中 $\mathcal{F}$eatures 那一部分) 作为中间特征。第一个分支为 DINO 特征 $\hat{\mathbf{F}}_D$ 作为连续的 part-level 的语义 (如图 4e)，第二个分支为 CLIP 特征 $\hat{\mathbf{F}}_C$。
+为了进一步降低过拟合的可能性，本文提出了一个有两个输出分支的 shallow MLP，将 $\hat{\mathbf{F}}$ (图 2 Pipeline 中 $\mathcal{F}\mathrm{eatures}$ 那一部分) 作为中间特征。第一个分支为 DINO 特征 $\hat{\mathbf{F}}_D$ 作为连续的 part-level 的语义 (如图 4e)，第二个分支为 CLIP 特征 $\hat{\mathbf{F}}_C$。
 $$
 \hat{\mathbf{F}}_C,\hat{\mathbf{F}}_D=\mathrm{MLP}(\hat{\mathbf{F}})
 \tag{3}
@@ -74,9 +74,11 @@ $$
 
 - $\lambda=0.1$ 
 
-DINOv2 的特征是作为一个平滑项对 CLIP 特征进行正则化，所以把 $\lambda$ 设置为 $0.1$。
+DINOv2 的特征是作为一个平滑项对 CLIP 特征进行正则化，所以把 $\lambda$ 设置为 $0.1$​。
 
 
+
+文章后面是语言驱动场景分割和语言驱动物理合成的部分，暂时先跳过。
 
 ## Reference
 
