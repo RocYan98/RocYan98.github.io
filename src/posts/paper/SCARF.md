@@ -8,7 +8,7 @@ tag:
   - Avatar
   - Cloth Simulation
 title: SCARF-论文笔记
-order: 9
+order: 10
 ---
 
 ## SCARF: Capturing and Animation of Body and Clothing from Monocular Video

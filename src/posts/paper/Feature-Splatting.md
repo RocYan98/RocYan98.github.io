@@ -7,7 +7,7 @@ tag:
   - Feature Splatting
   - 3DGS
 title: Feature Splatting-论文笔记
-order: 14
+order: 15
 ---
 
 ## Feature Splatting: Language-Driven Physics-Based Scene Synthesis and Editing

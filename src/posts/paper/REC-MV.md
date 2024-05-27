@@ -7,7 +7,7 @@ tag:
   - Reconstructing
   - Cloth Simulation
 title: REC-MV-论文笔记
-order: 5
+order: 6
 ---
 
 ## REC-MV: REconstructing 3D Dynamic Cloth from Monocular Videos 

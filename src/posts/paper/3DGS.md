@@ -6,7 +6,7 @@ tag:
   - 3DGS
   - 3D Reconstruction
 title: 3DGS-论文笔记
-order: 7
+order: 8
 ---
 
 ## 3D Gaussian Splatting for Real-Time Radiance Field Rendering

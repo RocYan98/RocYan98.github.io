@@ -7,7 +7,7 @@ tag:
   - FITE
   - Occupancy Field
 title: FITE-论文笔记
-order: 11
+order: 12
 ---
 
 ## Learning Implicit Templates for Point-Based Clothed Human Modeling

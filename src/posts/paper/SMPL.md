@@ -6,7 +6,7 @@ tag:
   - SMPL
   - Avatar
 title: SMPL-论文解析
-order: 4
+order: 5
 ---
 
 ## SMPL: A Skinned Multi-Person Linear Model

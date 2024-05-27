@@ -6,7 +6,7 @@ tag:
   - Analysis
   - NeRF
 title: NeRF-论文解析
-order: 2
+order: 3
 ---
 
 ## NeRF 是做什么的

@@ -7,7 +7,7 @@ tag:
   - Reconstructing
   - Cloth Simulation
 title: SMPLicit-论文笔记
-order: 8
+order: 9
 ---
 
 ## SMPLicit: Topology-aware Generative Model for Clothed People

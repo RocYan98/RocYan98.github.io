@@ -6,7 +6,7 @@ tag:
   - Physical Simulation
   - PBNS
 title: PBNS-论文笔记
-order: 13
+order: 14
 ---
 
 ## PBNS: Physically Based Neural Simulator for Unsupervised Garment Pose Space Deformation

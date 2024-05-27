@@ -7,7 +7,7 @@ tag:
   - Sampling
   - NeRF
 title: NeRF-前置知识
-order: 3
+order: 4
 ---
 
 ## 体渲染 (Volume Rendering) 简介

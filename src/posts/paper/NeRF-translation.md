@@ -6,7 +6,7 @@ tag:
   - Translation
   - NeRF
 title: NeRF-论文翻译
-order: 1
+order: 2
 ---
 
 ## NeRF：基于神经辐射场的视图合成

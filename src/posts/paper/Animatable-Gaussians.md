@@ -8,7 +8,7 @@ tag:
   - Animatable Gaussians
   - SDF
 title: Animatable Gaussians-论文笔记
-order: 10
+order: 11
 ---
 
 ## Animatable Gaussians: Learning Pose-dependent Gaussian Maps  for High-fidelity Human Avatar Modeling

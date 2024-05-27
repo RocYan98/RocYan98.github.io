@@ -6,7 +6,7 @@ tag:
   - DeePSD
   - Cloth Simulation
 title: DeePSD-论文笔记
-order: 6
+order: 7
 ---
 
 ## DeePSD: Automatic Deep Skinning And Pose Space Deformation For 3D Garment Animation
