@@ -75,7 +75,7 @@ $$
 
 - $\sigma$ 表示逐元素的 sigmoid 函数
 
-SAM-guidance loss 被定义为分割结果 $\mathbf{P}_\mathbf{M}$ 与相应 SAM 提取的 mask $\mathbf{M}$ 之间的二进制交叉熵：
+SAM-guidance loss 被定义为分割结果 $\mathbf{P}_\mathbf{M}$ 与相应 SAM 提取的 mask $\mathbf{M}$ 之间的二值交叉熵：
 $$
 \mathcal{L}_{\mathrm{SAM}}=  -\sum_{\mathbf{I} \in \mathcal{I}} \sum_{\mathbf{M} \in \mathcal{M}_{\mathbf{I}}} \sum_p^{H W}\left[\mathbf{M}_p \log \mathbf{P}_{\mathbf{M}, p}\right. 
  \left.+\left(1-\mathbf{M}_p\right) \log \left(1-\mathbf{P}_{\mathbf{M}, p}\right)\right]
