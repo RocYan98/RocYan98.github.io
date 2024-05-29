@@ -42,7 +42,44 @@ $$
 
 在推理的阶段，对于一个特定视角，有相机位姿 $v$ 和基于输入的提示 $\mathcal{P}$ 生成的一组查询 $\mathcal{Q}$。通过与所学特征的高效特征匹配，利用这些查询来检索对应的 3D 高斯。此外，还引入了一种高效的后处理操作，利用 3DGS 的点云结构提供的强大 3D 先验来完善检索到的 3D 高斯。
 
+### Training Features for Gaussians
 
+给定一张带有特定相机位姿 $v$ 的训练图像 $\mathbf{I}$，我们首先根据预先训练好的 3DGS 模型 $\mathcal{G}$ 渲染相应的特征图。像素 $p$ 渲染出来的特征 $\mathbf{F}^r_{\mathbf{I},p}$ 为：
+$$
+\mathbf{F}_{\mathbf{I}, p}^r=\sum_{i \in \mathcal{N}} \mathbf{f}_i \alpha_i \prod_{j=1}^{i-1}\left(1-\alpha_j\right)
+\tag{2}
+$$
+
+- $\mathcal{N}$ 表示该像素上重叠的高斯核的有序集合
+
+在训练阶段，冻结 3D 高斯的其他所有参数。
+
+**SAM-guidance Loss**：通过 SAM 自动提取的 2D mask 十分复杂且容易混淆 (即三维空间中的一个点在不同视角上可能被分割为不同的物体)。为了解决这个问题，本文提出用 SAM 生成的 features 来 guidance。如图 2 所示，首先用 MLP $\varphi$ 把 SAM features 投影到与 3D features 相同的低维空间：
+$$
+\mathbf{F}_{\mathrm{I}}^{\prime}=\varphi\left(\mathbf{F}_{\mathrm{I}}^{\mathrm{SAM}}\right) 
+\tag{3}
+$$
+然后对于 mask 集合 $\mathcal{M}^{\mathrm{SAM}}_{\mathbf{I}}$ 中的每个 $\mathbf{M}$，通过 masked average pooling 的操作得到相应的查询 $\mathbf{T}_\mathbf{M}\in\R^C$：
+$$
+\mathbf{T}_{\mathbf{M}}=\frac{1}{\|\mathbf{M}\|_1} \sum_{p=1}^{H W} \mathbb{1}\left(\mathbf{M}_p=1\right) \mathbf{F}_{\mathbf{I}, p}^{\prime}
+\tag{4}
+$$
+
+- $\mathbb{1}$ 表示指示函数
+
+然后 $\mathbf{T}_\mathbf{M}$ 通过 softmaxed point product 来分割 rendered feature map：
+$$
+\mathbf{P}_\mathbf{M}=\sigma(\mathbf{T}_\mathbf{M}\cdot\mathbf{F}_\mathbf{I}^r)
+\tag{5}
+$$
+
+- $\sigma$ 表示逐元素的 sigmoid 函数
+
+SAM-guidance loss 被定义为分割结果 $\mathbf{P}_\mathbf{M}$ 与相应 SAM 提取的 mask $\mathbf{M}$ 之间的二进制交叉熵：
+$$
+\mathcal{L}_{\mathrm{SAM}}=  -\sum_{\mathbf{I} \in \mathcal{I}} \sum_{\mathbf{M} \in \mathcal{M}_{\mathbf{I}}} \sum_p^{H W}\left[\mathbf{M}_p \log \mathbf{P}_{\mathbf{M}, p}\right. 
+ \left.+\left(1-\mathbf{M}_p\right) \log \left(1-\mathbf{P}_{\mathbf{M}, p}\right)\right]
+$$
 
 ## Reference
 
