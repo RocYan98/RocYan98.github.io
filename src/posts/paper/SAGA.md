@@ -14,7 +14,7 @@ order: 16
 
 [项目地址](https://jumpat.github.io/SAGA/)
 
-arXiv preprint arXiv:2312.00860
+arXiv preprint arXiv:2312.00860 (这里看的是 v1 版本)
 
 ![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/6656a577bde4d.png =x500)
 
@@ -83,9 +83,32 @@ SAM-guidance loss 被定义为分割结果 $\mathbf{P}_\mathbf{M}$ 与相应 SAM
 $$
 \mathcal{L}_{\mathrm{SAM}}=  -\sum_{\mathbf{I} \in \mathcal{I}} \sum_{\mathbf{M} \in \mathcal{M}_{\mathbf{I}}} \sum_p^{H W}\left[\mathbf{M}_p \log \mathbf{P}_{\mathbf{M}, p}\right. 
  \left.+\left(1-\mathbf{M}_p\right) \log \left(1-\mathbf{P}_{\mathbf{M}, p}\right)\right]
+\tag{6}
 $$
-**Correspondence Loss**：
+**Correspondence Loss**：考虑到一个像素 $p$ 可能同时属于 mask 集合 $\mathcal{M}_{\mathbf{I}}$ 中的一个子集 $\mathcal{M}_{\mathbf{I}}^{p}$，假设 $p_1,p_2$ 分别属于 mask 集合 $\mathcal{M}_{\mathbf{I}}^{p_1},\mathcal{M}_{\mathbf{I}}^{p_2}$，当两个集合的交集和并集的比值越大，说明这两个像素的特征值也越相似，因此 mask correspondence 定义为：
+$$
+\mathbf{K}_{\mathbf{I}}\left(p_1, p_2\right)=\frac{\left|\mathcal{M}_{\mathbf{I}}^{p_1} \cap \mathcal{M}_{\mathbf{I}}^{p_2}\right|}{\left|\mathcal{M}_{\mathbf{I}}^{p_1} \cup \mathcal{M}_{\mathbf{I}}^{p_2}\right|} 
+\tag{7}
+$$
+feature correspondence $\mathbf{S}_{\mathbf{I}}(p_1,p_2)$ 被定义为其 rendered features 之间的余弦相似度：
+$$
+\mathbf{S}_{\mathbf{I}}(p_1,p_2)=<\mathbf{F}_{\mathbf{I},p_1}^r,\mathbf{F}_{\mathbf{I},p_2}^r>
+\tag{8}
+$$
+最后 correspondence loss 定义为：
+$$
+\mathcal{L}_{\text {corr }}=-\sum_{\mathbf{I} \in \mathcal{I}} \sum_{p_1}^{H W} \sum_{p_2}^{H W} \mathbf{K}_{\mathbf{I}}\left(p_1, p_2\right) \mathbf{S}_{\mathbf{I}}\left(p_1, p_2\right)
+\tag{9}
+$$
+如果两个像素从来没有属于同一个分割的话，就令 $\mathbf{K}_\mathbf{I}=-1$ 来减少特征相似度。
+
+最后 SAGA 的 loss 为：
+$$
+\mathcal{L}=\mathcal{L}_{\mathrm{SAM}}+\lambda\mathcal{L}_{\mathrm{corr}}
+$$
+
+- 本文默认 $\lambda=1$
 
 ## Reference
 
-[[1]Segment Any 3D Gaussians](https://arxiv.org/abs/2312.00860)
+[[1]Segment Any 3D Gaussians](https://arxiv.org/abs/2312.00860v1)
