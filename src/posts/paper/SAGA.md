@@ -38,7 +38,7 @@ $$
 
 ### Overall Pipeline
 
-如图 2 所示，给定一个预训练 3DGS 模型 $\mathcal{G}$ 和其训练集 $\mathcal{I}$，首先用 SAM encoder 对训练集 $\mathcal{I}$ 中的每张图片 $\mathbf{I}\in\R^{H\times W}$ 提取 2D 特征图 $\mathbf{F}_{\mathbf{I}}^{\mathrm{SAM}}\in\R^{C^{\mathrm{SAM}}\times H\times W}$ 和一组多粒度 mask $\mathcal{M}^{\mathrm{SAM}}_{\mathbf{I}}$。然后对 $\mathcal{G}$ 中的每个高斯核 $\mathbf{g}$ 基于提取出来的 mask 训练一个低维特征 $\mathbf{f}_{\mathbf{g}}\in\R^{C}$ 来聚合这些多粒度的分割信息 ($C$ 表示特征的维度，默认为 32)。
+如图 2 所示，给定一个预训练 3DGS 模型 $\mathcal{G}$ 和其训练集 $\mathcal{I}$，首先用 SAM encoder 对训练集 $\mathcal{I}$ 中的每张图片 $\mathbf{I}\in\R^{H\times W}$ 提取 2D 特征图 $\mathbf{F}_{\mathbf{I}}^{\mathrm{SAM}}\in\R^{C^{\mathrm{SAM}}\times H\times W}$ 和一组多粒度 mask $\mathcal{M}^{\mathrm{SAM}}_{\mathbf{I}}$。然后对 $\mathcal{G}$ 中的每个高斯核 $\mathbf{g}$ 基于提取出来的 mask 训练一个低维特征 $\mathbf{f}_{\mathbf{g}}\in\R^{C}$ 来聚集这些多视角多粒度的分割信息 ($C$ 表示特征的维度，默认为 32)。
 
 在推理的阶段，对于一个特定视角，有相机位姿 $v$ 和基于输入的提示 $\mathcal{P}$ 生成的一组查询 $\mathcal{Q}$。通过与所学特征的高效特征匹配，利用这些查询来检索对应的 3D 高斯。此外，还引入了一种高效的后处理操作，利用 3DGS 的点云结构提供的强大 3D 先验来完善检索到的 3D 高斯。
 
@@ -65,7 +65,9 @@ $$
 \tag{4}
 $$
 
-- $\mathbb{1}$ 表示指示函数
+- $\mathbb{1}$​ 表示指示函数
+
+> 就是求 mask 区域特征的均值作为这个 segmentation 的特征值，是个单位向量。
 
 然后 $\mathbf{T}_\mathbf{M}$ 通过 softmaxed point product 来分割 rendered feature map：
 $$
@@ -73,13 +75,16 @@ $$
 \tag{5}
 $$
 
-- $\sigma$ 表示逐元素的 sigmoid 函数
+- $\sigma$​ 表示逐元素的 sigmoid 函数
+
+> 因为特征值是单位向量，所以进行点乘就是求余弦相似度，这里就是在算 rendered feature map 的每个像素和哪个特征值最接近，本质上就是在看这个像素是属于哪个 segmentation。
 
 SAM-guidance loss 被定义为分割结果 $\mathbf{P}_\mathbf{M}$ 与相应 SAM 提取的 mask $\mathbf{M}$ 之间的二值交叉熵：
 $$
 \mathcal{L}_{\mathrm{SAM}}=  -\sum_{\mathbf{I} \in \mathcal{I}} \sum_{\mathbf{M} \in \mathcal{M}_{\mathbf{I}}} \sum_p^{H W}\left[\mathbf{M}_p \log \mathbf{P}_{\mathbf{M}, p}\right. 
  \left.+\left(1-\mathbf{M}_p\right) \log \left(1-\mathbf{P}_{\mathbf{M}, p}\right)\right]
 $$
+**Correspondence Loss**：
 
 ## Reference
 
