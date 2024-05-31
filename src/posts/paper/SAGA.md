@@ -105,9 +105,25 @@ $$
 最后 SAGA 的 loss 为：
 $$
 \mathcal{L}=\mathcal{L}_{\mathrm{SAM}}+\lambda\mathcal{L}_{\mathrm{corr}}
+\tag{10}
 $$
 
-- 本文默认 $\lambda=1$
+- 本文默认 $\lambda=1$​
+
+### 3D Prior Based Post-processing
+
+原始分割出来的 3D 高斯 $\mathcal{G}^t$​ 存在两个问题：(i) 存在多余的噪声；(ii) 有些属于这个物体的高斯核没有被分割出来；为了解决这两个问题，引入了穿透点云分割中的两种技术——**统计滤波算法 (Statistical Filtering)** 和**区域增长算法 (Region Growing)**。
+
+**Statistical Filtering**：两个高斯核之间的距离可以推断出他们是否属于同一个物体，统计滤波先用 **K 最近邻 (K-Nearest Neighbors, KNN) 算法**计算每个高斯核与最近的 $\sqrt{|\mathcal{G}^t|}$ 个高斯核之间的平均距离。然后计算所有平均距离的均值 $\mu$ 和方差 $\sigma$，对于平均距离超出 $\mu+\sigma$ 的点就过滤掉，最后得到 $\mathcal{G}^{t'}$。
+
+**Region Growing Based Filtering**：2D mask 可以作为目标正确位置的先验，首先将 mask 投影到分割出来的高斯核 $\mathcal{G}^t$ 上，得到一个 validated 子集 $\mathcal{G}^c$，对于 $\mathcal{G}^c$ 中的每个高斯核，计算和其相邻最近高斯核的欧拉距离 $d_g$​：
+$$
+d_{\mathbf{g}}^{\mathcal{G}^c}=\min \left\{D\left(\mathbf{g}, \mathbf{g}^{\prime}\right) \mid \mathbf{g}^{\prime} \in \mathcal{G}^c\right\}
+\tag{11}
+$$
+找到欧拉距离的最大值 $\max\{d_{\mathbf{g}}^{\mathcal{G}^c}|\mathbf{g}\in\mathcal{G}^c\}$。然后开始迭代，从 $\mathcal{G}^t$ 中选择高斯核并判断是否要加入到 $\mathcal{G}^c$ 中，如果 $\mathcal{G}^t$ 中的高斯核与 $\mathcal{G}^c$ 中任意一个高斯核的欧拉距离小于前面找到的那个最大值，就将其加入到 $\mathcal{G}^c$ 中。当区域增长算法收敛后，就得到了新的分割结果 $\mathcal{G}^{t'}$​。
+
+**Ball Query Based Growing**：对于之前提到的问题 (ii)，本文采用 ball query 算法从所有的高斯核 $\mathcal{G}$ 中查找需要的高斯核。以 $\mathcal{G}^{t'}$ 中每个高斯核为中心，$r$ 为半径的的球形邻域内所有的高斯核都被加入到最终的分割结果 $\mathcal{G^s}$ 中，半径 $r=\max\{d_{\mathbf{g}}^{\mathcal{G}^{t'}}|\mathbf{g}\in\mathcal{G}^{t'}\}$。
 
 ## Reference
 
