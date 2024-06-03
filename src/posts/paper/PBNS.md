@@ -90,11 +90,11 @@ $$
 \tag{4}
 $$
 
-- $E\in\R^{N_E}$ 是预测出来的边的长度，$E_\mathbf{E}\in\R^{N_E}$ 是服装上其余边的长度 ($N_E$ 是边的数量)
+- $E\in\R^{N_E}$ 是预测出来的边的长度，$E_\mathbf{T}\in\R^{N_E}$ 是服装上其余边的长度 ($N_E$ 是边的数量)
 - $\mathbf{N}\in\R^{N_F\times3}$ 是面的法向量 ($N_F$ 是面的数量)
 - $\Delta(\cdot)$ 是 Laplace-Beltrami 算子
 
-$\mathcal{L}_{edge}$ 衣服不会过度拉伸或者压缩，它被定义为系统的弹性势能，其梯度就像力一样。$\mathcal{L}_{bend}$ 来保证衣服的局部光滑。
+$\mathcal{L}_{edge}$ 保证衣服不会过度拉伸或者压缩，它被定义为系统的弹性势能，其梯度就像力一样。$\mathcal{L}_{bend}$ 来保证衣服的局部光滑。
 
 **Collisions**：
 $$
@@ -107,7 +107,7 @@ $$
 - $\mathbf{n}_j$ 是第 $j$ 个顶点的法向量
 - $\epsilon$ 是提升鲁棒性的阈值，用来控制服装和人体之间的距离，取 4 mm
 
-**Cloth-to-cloth**：简单一句话概括就是跌倒地对每一层服装应用公式 5。
+**Cloth-to-cloth**：简单一句话概括就是迭代地对每一层服装应用公式 5。
 
 **Gravity**：物理中重力势能 $U=mgh$，因为 $m$ 和 $g$ 是常量，可以把重力损失理解为 $\mathcal{L}_{gravity}=k\mathbf{V}_{\theta_z}$，换句话来说就是最小化衣服每个顶点的 $Z$ 坐标。
 
