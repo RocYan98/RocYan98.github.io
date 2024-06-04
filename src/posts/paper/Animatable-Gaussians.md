@@ -60,7 +60,7 @@ $$
 
 ![Fig. 3: Posed Position Maps](http://img.rocyan.cn/blog/2024/04/66272f398638f.png)
 
-**Pose-dependent Gaussian Maps**：使用 StyleUNet $\mathcal{F}$ 通过 pose 条件来预测正反高斯映射 $\mathcal{G}_f(\Theta)$ 和 $\mathcal{G}_b(\Theta)$：
+**Pose-dependent Gaussian Maps**：使用 StyleUNet $\mathcal{F}$ 通过 pose 条件来预测正反高斯映射 $\mathcal{G}_f(\Theta)$ 和 $\mathcal{G}_b(\Theta)$
 $$
 \mathcal{G}_f(\Theta),\mathcal{G}_b(\Theta)=\mathcal{F}(\mathcal{P}_f(\Theta),\mathcal{P}_b(\Theta),\mathcal{V})
 \tag{2}
