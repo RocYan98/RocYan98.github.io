@@ -78,7 +78,7 @@ $$
 - $\Sigma_p$ 和 $\Sigma_c$ 分别表示高斯核在 pose 空间和标准空间的协方差
 - $\mathbf{R}$ 和 $\mathbf{t}$ 分别表示每个高斯核的选择矩阵和位移向量
 
-**Training**：本文还在参数模板上增加了一个位移 $\Delta\mathcal{O}(\Theta)$ 来确保预测的高斯映射的位置属性接近参数模板下的人体，并且对其进行正则化 $\mathcal{L}_{reg}=||\Delta\mathcal{O}(\Theta)||_2^2$ 防止位移过大。本文的 loss 函数如下：
+**Training**：本文训练的时候是在参数模板上预测一个位移 $\Delta\mathcal{O}(\Theta)$ 来确保预测的高斯映射的位置属性接近标准空间下的人体，而不是在 position map 上加。并且对其进行正则化 $\mathcal{L}_{reg}=||\Delta\mathcal{O}(\Theta)||_2^2$ 防止位移过大。本文的 loss 函数如下：
 $$
 \mathcal{L}=\mathcal{L}_1+\lambda_{perceptual}\mathcal{L}_{perceptual}+\lambda_{reg}\mathcal{L}_{reg}
 \tag{4}
