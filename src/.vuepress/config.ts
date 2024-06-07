@@ -18,7 +18,7 @@ export default defineUserConfig({
 
   head: [
     [
-      'meta', {name: "baidu-site-verification", content: "codeva-hm7fDCFP6N"},
+      'meta', {name: "google-site-verification", content: "h-p8xgQ3skqLfYh4gafEMLJReGyblXwtODBak9H42BQ"},
     ],
   ],
 
