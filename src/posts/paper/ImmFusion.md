@@ -14,7 +14,7 @@ order: 17
 
 ICRA 2023
 
-![Overview](http://img.rocyan.cn/blog/2024/06/6667b188ebedf.png =x500)
+![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/06/6667b188ebedf.png =x500)
 
 ## Abstract
 
@@ -36,3 +36,12 @@ RGB 图像的 3D 人体重建在良好天气条件下能取得不错的效果，
 - 采用了一个设计精巧的融合 Transformer 模块，有效地融合了从毫米波和 RGB 模态提取的全局和局部特征，并设计了一个巧妙的模态屏蔽模块，以增强模型在所有场景中的鲁棒性。
 - 在大规模毫米波数据集 mmBody 上评估了 ImmFusion，结果表明在所有天气条件下，ImmFusion 的表现均优于其他非融合或激光雷达 - 相机融合模型。
 
+## Method
+
+![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/06/6667b35b4ae99.png)
+
+
+
+## Reference
+
+[[1]ImmFusion: Robust mmWave-RGB Fusion for 3D Human Body Reconstruction in All Weather Conditions](https://ieeexplore.ieee.org/abstract/document/10161428)

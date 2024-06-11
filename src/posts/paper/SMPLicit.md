@@ -33,7 +33,7 @@ CVPR 2021
 -  一种可应用于 3D 扫描拟合和图像的 3D 重建方法；
 -  一种可生成可编辑表面的 3D 重建算法；
 
-## SMPLicit
+## Method
 
 对于给定的点先训练一个 UDF，然后通过 Marching Cubes 算法从 UDF 中提取 mesh，整体的公式如下：
 $$

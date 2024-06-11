@@ -32,7 +32,7 @@ Siggraph Asia 2022
 - 渲染的时候需要考虑到服装和人体的遮挡，所以作者写了一个自己的体渲染方法；
 - 要想将身体和衣服分开，必须防止 NeRF 捕捉到包括身体在内的所有图像信息。作者使用衣服分割 mask 来惩罚衣服以外的区域；
 
-## Methods
+## Method
 
 ![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/04/6612bac663038.png)
 

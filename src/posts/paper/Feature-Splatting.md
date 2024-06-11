@@ -30,7 +30,7 @@ arXiv preprint arXiv:2404.01223
 - 一个基于 MPM 来驱动高斯的物理引擎，一种融合多个基础视觉 2D 模型的新分割方法。
 - 证明 feature splatting 是一个优秀的语言驱动的场景编辑工具。
 
-## Language-Driven Physics-Based Synthesis and Editing
+## Method
 
 ![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/05/664eb7ef7bb6c.png)
 
