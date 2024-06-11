@@ -38,7 +38,15 @@ RGB 图像的 3D 人体重建在良好天气条件下能取得不错的效果，
 
 ## Method
 
-![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/06/6667b35b4ae99.png)
+![Fig. 2: Pipeline. (a)ImmFusion. D.R. MLP stands for a dimension reduction MLP. (b)Point-level fusion methods. (c)DeepFusion. (d)TokenFusion](http://img.rocyan.cn/blog/2024/06/6667b35b4ae99.png)
+
+图 2 展示了本文的 pipeline，给定一个具有固定点数的雷达点云和一个大小为 $224\times224$​ 的图像，首先由图像和点云 backbone 分别提取全局/局部点和图像特征。接下来，将两个全局特征合并为一个全局特征向量，并嵌入 SMLP-X 模板位置。然后，将所有全局/局部特征标记为多层融合 Transformer 模块的输入，以动态融合两种模态的信息，并直接回归 3D 人体关节和粗略网格顶点的坐标。最后，使用 MLP 将粗略网格顶点上采样到完整的 SMPL-X 网格顶点。
+
+### Preliminary of 3D Human Body Reconstruction
+
+3D 人体重建旨在预测所有关节和顶点的 3D 位置。本文采用非参数方法进行人体重建，使用从 GT 中自动标注的 bounding box 来裁剪仅包含身体部分的区域。给定一个数据集 $D = \{P_t, I_t, J_t, V_t\}, t = 0, \ldots, N$，其中 $P_t \in \mathbb{R}^{1024×3}$ 是裁剪后的毫米波雷达点云 (含 1024 个点)， $I_t \in \mathbb{R}^{224×224×3}$ 是大小为 $224\times224$ 的 RGB 图像的人体区域，$J_t \in \mathbb{R}^{22×3} ,  V_t \in \mathbb{R}^{10475×3}$ 分别是 $t$​ 时刻 GT 标注的 22 个关节和 10475 个顶点的位置，我们努力融合两种模态的输入信息来重建 3D 人体。
+
+### Extraction of Global and Local Features
 
 
 
