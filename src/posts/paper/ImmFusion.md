@@ -14,6 +14,8 @@ order: 17
 
 ICRA 2023
 
+这篇论文用于机器人学课程pre
+
 ![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/06/6667b188ebedf.png =x500)
 
 ## Abstract
@@ -83,7 +85,7 @@ $$
 - $L^{im'} \in \mathbb{R}^{49 \times 64}$
 - $L^{pc'} \in \mathbb{R}^{32 \times 64}$​
 
-在关注有效特征并限制不良特征的同时，融合 Transformer 模块 $\Phi_lD$ 自适应地在从全局特征 $G$ 生成的关节/顶点 query $G^T$ 和来自局部特征的点/图像 token 特征 $L^{im}$、$L^{pc}$ 之间采用交叉注意力来聚合相关的上下文信息。同时，自注意力机制推理每对候选 query 之间的相互关系。然后用图卷积将包含丰富跨模态信息的查询 $G^{T'}$​ 解码为关节和顶点的 3D 坐标。最后，使用 MLP 实现的线性投影网络从粗略输出的 mesh 上采样到原始的 10475 个顶点。
+在关注有效特征并限制不良特征的同时，融合 Transformer 模块 $\Phi_lD$ 自适应地在从全局特征 $G$ 生成的关节/顶点 query $G^T$ 和来自局部特征的点/图像 token 特征 $L^{im}$、$L^{pc}$ 之间采用交叉注意力来聚合相关的上下文信息。同时，自注意力机制推理每对候选 query 之间的相互关系。然后用图卷积将包含丰富跨模态信息的 query $G^{T'}$​ 解码为关节和顶点的 3D 坐标。最后，使用 MLP 实现的线性投影网络从粗略输出的 mesh 上采样到原始的 10475 个顶点。
 
 ### Distortion solution by Modality Masking
 
