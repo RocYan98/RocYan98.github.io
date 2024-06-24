@@ -14,7 +14,7 @@ order: 17
 
 ICRA 2023
 
-这篇论文用于机器人学课程pre
+这篇论文用于机器人学课程 pre
 
 ![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/06/6667b188ebedf.png =x500)
 
