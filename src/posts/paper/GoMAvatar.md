@@ -137,6 +137,54 @@ $$
 
 ### Articulation
 
+在 LBS 将顶点从标准空间变换到观测空间之前，会用一个非刚体变换模块对标准空间的点进行一个位移，本文将这个非刚体变换称为“**非刚体变换标准空间 (the non-rigidly transformed canonical space)**”。
+
+**Linear blend skinning.** LBS 已经很熟悉了，就直接跳过。
+
+**Non-rigid deformation.** 在 LBS 之前会根据 pose 对每个顶点预测一个位移并加到顶点上：
+$$
+p_i^{nr}=p_{\theta,i}^c+\text{NRDeformer}_\theta(\gamma(p_{\theta,i}^c,P))
+\tag{10}
+$$
+
+- $\text{NRDeformer}_\theta$ 表示一个 MLP
+
+### Pose Refinement
+
+本文参考 Human-NeRF 加了一个 pose refinement 模块来对从视频里估计出来的 pose 进行改进。给定从视频中估计出来的人体的 pose $\hat{P}=\{(\hat{R}_j^p,t_j^p)\}_{j=1}^J$，预测一个正确的 joint 的旋转：
+$$
+\left\{\xi_j\right\}_{j=1}^J=\operatorname{PoseRefiner}_\theta\left(\left\{\hat{R}_j^p\right\}_{j=1}^J\right)
+\tag{11}
+$$
+
+- $\xi_j\in SO(3)$ 表示每个 joint 的旋转矩阵
+
+最终的 pose $P=\left\{\left(R_j^p, t_j^p\right)\right\}_{j=1}^J=\left\{\left(\hat{R}_j^p \cdot \xi_j, t_j^p\right)\right\}_{j=1}^J$。pose refinement 只发生在新视图合成和训练阶段，以补偿视频中姿态估计的不准确性，动画时是不需要。
+
+### Training
+
+本文渲染出来的 RGB 图像 $I$ 和 mask $M$ 进行监督，总体的 loss 为：
+$$
+L=L_1+\lambda_{lpips}L_{lpips}+\lambda_ML_M+\lambda_{reg}L_{reg}
+\tag{12}
+$$
+
+- $L_1$ 和 $L_M$ 分别是对 RGB 图像和 mask 求 L1 loss
+- $L_{lpips}$ 是对 RGB 图像求 LPIPS loss
+
+同时本文还对底层的 mesh 增加了一个正则项：
+$$
+L_{reg}=L_{mask}+\lambda_{lap}L_{lap}+\lambda_{normal}L_{normal}+\lambda_{color}L_{color}
+\tag{13}
+$$
+
+- $L_{mask}=||M_{mesh}-M_{gt}||$ 是对 mesh 的 mask 求 loss
+- $L_{lap}=\frac{1}{N}\sum_{i=1}^N||\delta_i||^2$ 是拉普拉斯平滑 loss
+- $L_{normal}$ 是最大化对相邻面的法向量的余弦相似度来保证法线的一致性
+- $L_{color}$ 类似于 $L_{normal}$ 来使颜色保持平滑
+
+本文首先通过 SMPL 来初始化顶点和面。为了丰富细节，对标准空间的 GoM 进行上采样，先在每条边的中心引入新的顶点，对底层 mesh 进行细分，然后用四个较小的面替换每个面实现上采样，新的面的属性会直接复制原始的面。
+
 ## Reference
 
 [[1]GoMAvatar: Efficient Animatable Human Modeling from Monocular Video Using Gaussians-on-Mesh](https://arxiv.org/abs/2404.07991)
