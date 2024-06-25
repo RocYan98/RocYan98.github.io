@@ -102,7 +102,7 @@ lastUpdated: false
 
 ::: projects
 ```yaml
-- icon: https://vuepress.vuejs.org/hero.png
+- icon: https://vuepress.vuejs.org/images/hero.png
   name: VuePress
   desc: Vue 驱动的静态网站生成器
   link: https://vuepress.vuejs.org/zh/
