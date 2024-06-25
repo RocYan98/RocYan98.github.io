@@ -32,7 +32,7 @@ CVPR 2024
 
 ## Methods
 
-**Overview.**给定一个人的单目视频，目的是学习一个标准空间的 GoM 表示 $\text{GoM}_\theta^c$ (下标 $\theta$ 表示可学习的函数或变量，上标 $c$ 表示标准空间)，这样在给定相机内参 $K\in\R^{3\times3}$ 、相机外参 $E\in SE(3)$ 和人体 pose $P$ 时，就能渲染出对应的人体。为了渲染，首先将 $\text{GoM}_\theta^c$ 变换到观测空间：
+**Overview**. 给定一个人的单目视频，目的是学习一个标准空间的 GoM 表示 $\text{GoM}_\theta^c$ (下标 $\theta$ 表示可学习的函数或变量，上标 $c$ 表示标准空间)，这样在给定相机内参 $K\in\R^{3\times3}$ 、相机外参 $E\in SE(3)$ 和人体 pose $P$ 时，就能渲染出对应的人体。为了渲染，首先将 $\text{GoM}_\theta^c$ 变换到观测空间：
 $$
 \operatorname{GoM}^o=\text{Articulator}_\theta\left(\operatorname{GoM}_\theta^c, P\right)
 \tag{1}
@@ -105,7 +105,7 @@ $$
 
 > 伪阴影图如图 3 所示，这里我的理解就是 3DGS 渲染出来的图像 (伪反照率图) 再给他加上一层学出来的伪阴影图，伪阴影图是用来满足视角相关性，不同视角预测不同的伪阴影图。
 
-**Pseudo albedo map $I_{GS}$ rendering.** 通过给定世界坐标系下 $F$ 个高斯核 $\{G_j\triangleq\mathcal{N}(\mu_j,\Sigma_j)\}_{j=1}^F$ 和对应的颜色 $\{c_{\theta,j}\}_{j=1}^F$，渲染出 $I_{GS}$ 和公式 2 中提到的 alpha mask $M$。
+**Pseudo albedo map $I_{GS}$ rendering**. 通过给定世界坐标系下 $F$ 个高斯核 $\{G_j\triangleq\mathcal{N}(\mu_j,\Sigma_j)\}_{j=1}^F$ 和对应的颜色 $\{c_{\theta,j}\}_{j=1}^F$，渲染出 $I_{GS}$ 和公式 2 中提到的 alpha mask $M$。
 
 本文是在每个三角形面的局部坐标系中获取这些高斯参数，随后将这些局部高斯转换到世界坐标系中，并将各个面的变形考虑在内。这种独特的表述方式能够动态地适应三角形的不同形状，而这些三角形的形状在不同的人体姿势中会发生变化。具体来说给定一个公式 5 中的面 $f_{\theta,j}$，高斯核在世界坐标系下的均值 $\mu_j$ 是这个三角形面的重心：
 $$
@@ -125,7 +125,7 @@ $$
 
 通过公式 7 和 8 可以高斯核可以自适应不同 pose 下的三角形形状。
 
-**Pseudo shading map $S$ prediction.** 通过 mesh 光栅化法线图 $N_{mesh}$​ 来预测伪阴影图：
+**Pseudo shading map $S$ prediction**. 通过 mesh 光栅化法线图 $N_{mesh}$​ 来预测伪阴影图：
 $$
 S=\text{Shading}_\theta(\gamma(N_{mesh}))
 \tag{9}
@@ -139,9 +139,9 @@ $$
 
 在 LBS 将顶点从标准空间变换到观测空间之前，会用一个非刚体变换模块对标准空间的点进行一个位移，本文将这个非刚体变换称为“**非刚体变换标准空间 (the non-rigidly transformed canonical space)**”。
 
-**Linear blend skinning.** LBS 已经很熟悉了，就直接跳过。
+**Linear blend skinning**. LBS 已经很熟悉了，就直接跳过。
 
-**Non-rigid deformation.** 在 LBS 之前会根据 pose 对每个顶点预测一个位移并加到顶点上：
+**Non-rigid deformation**. 在 LBS 之前会根据 pose 对每个顶点预测一个位移并加到顶点上：
 $$
 p_i^{nr}=p_{\theta,i}^c+\text{NRDeformer}_\theta(\gamma(p_{\theta,i}^c,P))
 \tag{10}
