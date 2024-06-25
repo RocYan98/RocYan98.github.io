@@ -43,7 +43,7 @@ $$
 为了渲染出 $H\times W$ 的结果，用一个神经渲染器来获得人体的 appearence 和 alpha mask：
 $$
 (I,M)=\text{Renderer}_\theta(K,E,\text{GoM}^o)
-\tag{2}\label{2}
+\tag{2}
 $$
 
 - $I\in\R^{H\times W\times3}$​​ 表示人体的 appearence
@@ -73,7 +73,7 @@ $$
 定义面为：
 $$
 f_{\theta,j}=(r_{\theta,j},s_{\theta,j},c_{\theta,j},\{\Delta_{j,k}\}_{k=1}^3)
-\tag{5}\label{5}
+\tag{5}
 $$
 
 - $r_{\theta,j}\in so(3)$ 和 $s_{\theta,j}\in\R^3$ 分别表示与面相关的局部高斯的旋转和缩放
@@ -105,12 +105,12 @@ $$
 
 > 伪阴影图如图 3 所示，这里我的理解就是 3DGS 渲染出来的图像 (伪反照率图) 再给他加上一层学出来的伪阴影图，伪阴影图是用来满足视角相关性，不同视角预测不同的伪阴影图。
 
-**Pseudo albedo map $I_{GS}$ rendering.** 通过给定世界坐标系下 $F$ 个高斯核 $\{G_j\triangleq\mathcal{N}(\mu_j,\Sigma_j)\}_{j=1}^F$ 和对应的颜色 $\{c_{\theta,j}\}_{j=1}^F$，渲染出 $I_{GS}$ 和公式 $\eqref{2}$ 中提到的 alpha mask $M$。
+**Pseudo albedo map $I_{GS}$ rendering.** 通过给定世界坐标系下 $F$ 个高斯核 $\{G_j\triangleq\mathcal{N}(\mu_j,\Sigma_j)\}_{j=1}^F$ 和对应的颜色 $\{c_{\theta,j}\}_{j=1}^F$，渲染出 $I_{GS}$ 和公式 2 中提到的 alpha mask $M$。
 
-本文是在每个三角形面的局部坐标系中获取这些高斯参数，随后将这些局部高斯转换到世界坐标系中，并将各个面的变形考虑在内。这种独特的表述方式能够动态地适应三角形的不同形状，而这些三角形的形状在不同的人体姿势中会发生变化。具体来说给定一个公式 $\eqref{5}$ 中的面 $f_{\theta,j}$，高斯核在世界坐标系下的均值 $\mu_j$ 是这个三角形面的重心：
+本文是在每个三角形面的局部坐标系中获取这些高斯参数，随后将这些局部高斯转换到世界坐标系中，并将各个面的变形考虑在内。这种独特的表述方式能够动态地适应三角形的不同形状，而这些三角形的形状在不同的人体姿势中会发生变化。具体来说给定一个公式 5 中的面 $f_{\theta,j}$，高斯核在世界坐标系下的均值 $\mu_j$ 是这个三角形面的重心：
 $$
 \mu_j=\frac{1}{3}\sum_{k=1}^3p^o_{\Delta_{j,k}}
-\tag{7}\label{7}
+\tag{7}
 $$
 
 - $p^o_{\Delta_{j,k}}$ 表示三角形面的三个顶点的坐标
@@ -118,16 +118,17 @@ $$
 高斯核的协方差为：
 $$
 \Sigma_j=A_j\left(R_j S_j S_j^T R_j^T\right) A_j^T
-\tag{8}\label{8}
+\tag{8}
 $$
 
 - $R_j$、$S_j$ 和 $A_j$ 分别是旋转、缩放和平移矩阵
 
-通过公式 $\eqref{7}$ 和 $\eqref{8}$ 可以高斯核可以自适应不同 pose 下的三角形形状。
+通过公式 7 和 8 可以高斯核可以自适应不同 pose 下的三角形形状。
 
 **Pseudo shading map $S$ prediction.** 通过 mesh 光栅化法线图 $N_{mesh}$​ 来预测伪阴影图：
 $$
 S=\text{Shading}_\theta(\gamma(N_{mesh}))
+\tag{9}
 $$
 
 - $S\in\R^{H\times W\times1}$
