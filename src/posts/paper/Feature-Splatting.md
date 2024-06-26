@@ -16,7 +16,7 @@ order: 15
 
 arXiv preprint arXiv:2404.01223
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b34e9d23b4.png)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261136368.png)
 
 ## Abstract
 
@@ -32,7 +32,7 @@ arXiv preprint arXiv:2404.01223
 
 ## Method
 
-![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/05/664eb7ef7bb6c.png)
+![Fig. 2: Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261137234.png)
 
 三个关键组件：
 
@@ -51,9 +51,9 @@ $$
 
 **Improving Reference Feature Quality Using Part-Priors**：CLIP[[3]][ref3] 是用 2D 视觉模型获取语义特征，其中会包含一些噪声 (如图 3 所示)，对于基于 NeRF 的模型来说直接用是没问题的，因为 NeRF 的连续表示是一种隐式的正则化。而对于高斯来说会过拟合，把噪声也当作语义特征。
 
-![Fig. 3: overfit to reference CLIP features with artifacts](http://img.rocyan.cn/blog/2024/05/664fe86a8dbd3.png)
+![Fig. 3: overfit to reference CLIP features with artifacts](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261137285.png)
 
-![Fig. 4: Raw and Enhanced Feature Maps](http://img.rocyan.cn/blog/2024/05/664feb764b4d1.png)
+![Fig. 4: Raw and Enhanced Feature Maps](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261137581.png)
 
 本文用 DINOv2[[4]][ref4] 和 SAM[[5]][ref5] 的物体先验来提升高斯特征的质量。对于输入图像，首先用 SAM 获取 part-level masks $\{\mathbf{M}\}$ (图 4c)，然后对 $\mathbf{M}$ 和粗糙的 CLIP feature map $\mathbf{F}_C$ 使用**掩码平均池化 (Masked Average Pooling, MAP)** 来聚合成单个特征向量：
 $$

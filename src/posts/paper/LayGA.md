@@ -16,7 +16,7 @@ order: 18
 
 SIGGRAPH 2024
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/06/667b840d3da02.png)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261135825.png)
 
 ## Abstract
 

@@ -17,7 +17,7 @@ order: 10
 
 Siggraph Asia 2022
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b36fed486b.png)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261143591.png)
 
 ## Abstract
 
@@ -34,7 +34,7 @@ Siggraph Asia 2022
 
 ## Method
 
-![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/04/6612bac663038.png)
+![Fig. 2: Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261143763.png)
 
 ### 混合表示 (Hybrid Representation)
 

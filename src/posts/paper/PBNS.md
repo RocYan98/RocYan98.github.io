@@ -15,7 +15,7 @@ order: 14
 
 TOG 2021
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b34c52bd1a.png)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261142057.png)
 
 ## Abstract
 
@@ -58,7 +58,7 @@ $$
 
 ### Architecture
 
-![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/05/664c018188186.png)
+![Fig. 2: Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261142681.png)
 
 本文用 4 层的 MLP 来表示 $f_\mathbf{X}(\theta)$，通过给定 $\theta$ 来得到最后服装的变形 $\mathbf{V}_\theta$：
 $$

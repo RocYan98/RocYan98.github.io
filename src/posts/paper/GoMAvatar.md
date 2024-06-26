@@ -16,7 +16,7 @@ order: 18
 
 CVPR 2024
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/06/667a2bc564abb.png)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261138476.png)
 
 
 ## Abstract
@@ -80,7 +80,7 @@ $$
 - $c_{\theta,j}$ 表示颜色向量
 - $\{\Delta_{j,k}\}_{k=1}^3$ 表示第 $j$ 个面所对应的 $3$ 个顶点的坐标，$\Delta_{j,k}\in\{1,...,V\}$​
 
-![Fig. 2: Gaussians-on-Mesh (GoM)](http://img.rocyan.cn/blog/2024/06/667a43c8192f8.png)
+![Fig. 2: Gaussians-on-Mesh (GoM)](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261138133.png)
 
 本文将高斯参数与面进行关联。如图 2 所示，在每个三角形的局部坐标系中学习高斯分布，并根据三角形的形状将它们转换到世界坐标系。将旋转矩阵 $r_{\theta,j}$ 初始化为0，将缩放因子 $s_{\theta,j}$ 初始化为1，从而使得初始时高斯分布在三角形的法线轴方向上是细长的。同时，椭球体 $\{x : (x−μ_j)^T Σ^{-1}_j (x−μ_j) = 1\}$ 在三角形上的投影是斯坦纳椭圆。
 
@@ -101,7 +101,7 @@ $$
 - $I_{GS}$ 是由 Gaussian splatting 渲染出来的
 - $S$​​ 是通过 mesh 光栅化后得到法线图预测出来的
 
-![Fig. 3: Pseudo shading map](http://img.rocyan.cn/blog/2024/06/667a5f34b915f.png)
+![Fig. 3: Pseudo shading map](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261138868.png)
 
 > 伪阴影图如图 3 所示，这里我的理解就是 3DGS 渲染出来的图像 (伪反照率图) 再给他加上一层学出来的伪阴影图，伪阴影图是用来满足视角相关性，不同视角预测不同的伪阴影图。
 

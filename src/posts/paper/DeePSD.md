@@ -15,7 +15,7 @@ order: 7
 
 ICCV 2021
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b3597919ef.png)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261136861.png)
 
 ## Abstract
 
@@ -94,7 +94,7 @@ $$
 - 控制 $P$​ 的维度，进而控制混合形状矩阵的大小
 - 对姿态空间到服装空间的映射进行非线形建模
 
-![Fig. 2: 模型架构](http://img.rocyan.cn/blog/2024/04/6612bc7330601.png)
+![Fig. 2: 模型架构](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261136603.png)
 
 输入衣服顶点，首先通过卷积神经网络获得局部描述符；局部描述符先由全连接层处理，再通过最大池化层 (每套服装对应一个池化层) 进行聚合得到全局描述符；描述符通过三个 MLP 分别得到混合权重和混合形状矩阵。
 

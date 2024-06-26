@@ -15,7 +15,7 @@ order: 8
 
 SIGGRAPH 2023
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b388a855d2.png)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261146300.png)
 
 ## Abstract
 
@@ -28,6 +28,8 @@ SIGGRAPH 2023
 - 引入各向异性三维高斯，作为辐射场的一种高质量、非结构化表示方法。
 - 一种三维高斯特性优化方法，与自适应密度控制交错使用，为拍摄到的场景创建高质量的表现形式。
 - 基于 GPU 可见性感知的快速可微分渲染算法，通过各向异性拼接和快速反向传播实现高质量的新视图合成。
+
+![Fig. 2: Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261146942.png)
 
 ## 可微 3DGS (Differentiable 3D Gaussian Splatting)
 
@@ -55,7 +57,7 @@ $$
 
 每 100 轮迭代进行一次密集化，并去除哪些透明的椭球 (不透明度 $\alpha$ 低于某个阈值 $\epsilon_\alpha$ 的椭球) 。对于缺少几何特征 (欠重建) 或高斯球覆盖很大区域 (过重建) 的场景，通常都有很大的观察空间位置梯度，所以对于梯度大于阈值 $\tau_{pos}$ 的区域就进行密集化。
 
-![Fig. 2](http://img.rocyan.cn/blog/2024/04/6612baef1f2e0.png)
+![Fig. 3: Adaptive Gaussian densification scheme](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261146653.png)
 
 对于欠重建区域通常进行克隆，复制原本的高斯球，并朝着梯度的方向移动；对于过重建区域，将高斯球分裂成 2 个，分裂系数为 $\phi=1.6$，分裂后高斯球的位置是通过将原始 3D 高斯作为概率密度函数进行采样确定的。
 

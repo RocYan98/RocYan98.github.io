@@ -16,7 +16,7 @@ order: 9
 
 CVPR 2021
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b37c6385f9.png)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261145405.png)
 
 ## Abstract
 
@@ -47,7 +47,7 @@ $$
 
 ### SMPLicit-Core Formulation
 
-![Fig. 2](http://img.rocyan.cn/blog/2024/04/6612bafb89855.png)
+![Fig. 2](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261145748.png)
 
 本文用 2 个参数 $\mathbf{z}=[\mathbf{z}_{cut},\mathbf{z}_{style}]\in\R^{N}$ 分别来控制服装的剪裁和款式，用身体形状来控制服装的合身程度。
 

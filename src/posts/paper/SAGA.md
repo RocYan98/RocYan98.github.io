@@ -16,7 +16,7 @@ order: 16
 
 arXiv preprint arXiv:2312.00860 (这里看的是 v1 版本)
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/6656a577bde4d.png =x500)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261142151.png =x500)
 
 ## Abstract
 
@@ -24,7 +24,7 @@ arXiv preprint arXiv:2312.00860 (这里看的是 v1 版本)
 
 ## Method
 
-![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/05/6656d9a34ae97.png)
+![Fig. 2: Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261143185.png)
 
 ### Preliminary
 

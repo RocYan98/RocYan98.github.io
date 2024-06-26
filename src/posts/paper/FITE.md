@@ -16,7 +16,7 @@ order: 12
 
 ECCV 2022
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b369e74bd1.png =x600)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261137792.png =x600)
 
 ## Abstract
 
@@ -32,7 +32,7 @@ ECCV 2022
 
 ## Method
 
-![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/04/662b21eac5add.png)
+![Fig. 2: Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261137681.png)
 
 ### Task Formulation and Notions
 
@@ -87,7 +87,7 @@ $$
 
 本文采用 PoissonRecon 来获取 $w$，$w$ 的每个 component 都是单独求解，并约束在 $[0,1]$ 范围内，最后重新进行归一化，整个过程如图 3 所示。
 
-![Fig. 3: Diffused skinning visualized. Each component of the skinning weights on SMPL is diffused independently and re-normalized to form a skinning field.](http://img.rocyan.cn/blog/2024/04/662d0dcb43421.png)
+![Fig. 3: Diffused skinning visualized. Each component of the skinning weights on SMPL is diffused independently and re-normalized to form a skinning field.](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261138370.png)
 
 通过公式 5 的到 $w$ 后，就要训练和 pose 相关的标准空间占用场 $f_{\sigma_f}(\cdot,\theta^i):\R^3\to[0,1]$，第一阶段只要粗略的 shape 能用就停止，训练完成后把 $F^c$ 设置为：
 $$
@@ -112,7 +112,7 @@ $$
 
 **Projection-Based Pose Encoding**：本文用图片来表示编码后的 pose 相关的特征，即 position maps。首先从模版表面提取 mesh，把 pose 空间点的坐标值加标准空间点的坐标值当作颜色，用正交投影的方式渲染成 position maps。和 [Animatable Gaussians](./) 获取 position maps 的过程类似，这里借用 Animatable Gaussians 中的图 (图 4) 来展示，只不过 Animatable Gaussians 是只用 pose 空间点的坐标值当作颜色。
 
-![Fig. 4: Position Maps in Animatable Gaussians](http://img.rocyan.cn/blog/2024/04/662f6d0569568.png)
+![Fig. 4: Position Maps in Animatable Gaussians](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261138298.png)
 
 本文选取左前、左后、右前和右后四个角度，并且四个角度分别有略微覆盖头顶和脚底。最后用 U-Net encoders $U_d$ 来提取 pose 相关特征：
 $$

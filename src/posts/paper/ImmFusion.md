@@ -16,7 +16,7 @@ ICRA 2023
 
 这篇论文用于机器人学课程 pre
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/06/6667b188ebedf.png =x500)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261138238.png =x500)
 
 ## Abstract
 
@@ -40,7 +40,7 @@ RGB 图像的 3D 人体重建在良好天气条件下能取得不错的效果，
 
 ## Method
 
-![Fig. 2: Pipeline. (a)ImmFusion. D.R. MLP stands for a dimension reduction MLP. (b)Point-level fusion methods. (c)DeepFusion. (d)TokenFusion](http://img.rocyan.cn/blog/2024/06/6667b35b4ae99.png)
+![Fig. 2: Pipeline. (a)ImmFusion. D.R. MLP stands for a dimension reduction MLP. (b)Point-level fusion methods. (c)DeepFusion. (d)TokenFusion](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261138287.png)
 
 图 2 展示了本文的 pipeline，给定一个具有固定点数的雷达点云和一个大小为 $224\times224$​ 的图像，首先由图像和点云 backbone 分别提取全局/局部点和图像特征。接下来，将两个全局特征合并为一个全局特征向量，并嵌入 SMLP-X 模板位置。然后，将所有全局/局部特征标记为多层融合 Transformer 模块的输入，以动态融合两种模态的信息，并直接回归 3D 人体 joint 和粗略 mesh 顶点的坐标。最后，使用 MLP 从粗略 mesh 顶点上采样到完整的 SMPL-X mesh 顶点。
 

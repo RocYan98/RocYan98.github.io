@@ -14,9 +14,9 @@ order: 1
 
 arXiv preprint arXiv:2311.08581
 
-![Overview](http://img.rocyan.cn/blog/2024/05/665043cf9cb25.png)
+![Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261143740.png)
 
-![Pipeline](http://img.rocyan.cn/blog/2024/05/6653e0403d7fe.png)
+![Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261143918.png)
 
 ### Abstract
 
@@ -33,9 +33,9 @@ arXiv preprint arXiv:2311.08581
 
 ICCV 2023
 
-![image-20240527163215445](http://img.rocyan.cn/blog/2024/05/665445100266c.png =x400)
+![image-20240527163215445](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261143606.png =x400)
 
-![Overview](http://img.rocyan.cn/blog/2024/05/665444f330d79.png)
+![Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261144768.png)
 
 ### Abstract
 

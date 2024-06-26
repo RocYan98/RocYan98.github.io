@@ -16,7 +16,7 @@ order: 13
 
 CVPR 2024
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b37fea6b1e.png)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261145907.png)
 
 ## Abstract
 
@@ -34,7 +34,7 @@ CVPR 2024
 
 ## Method
 
-![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/05/6639a179d81ea.png)
+![Fig. 2: Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261145579.png)
 
 ### Overview
 
@@ -100,7 +100,7 @@ $$
 
 在标准空间的 mesh 上随机选取 10k 个三角形和重心坐标进行初始化，并将 $d$ 初始化为 $0$。高斯核的位置通过 embedding 进行计算，其他属性还是和原版高斯一样。一开始高斯核都在 mesh 的表面，随着训练的进行， embedding 会逐渐贴合几何表面，并且在纹理丰富的区域产生更多的高斯核，图 3 展示了这个过程。
 
-![Fig. 3: 高斯 embedding 的变化过程。在表面以外的部分会有正的偏移量 (比如头发)，而其他区域，比如面部，则会有负偏移量，因为高斯核位置的均值在 mesh 内部](http://img.rocyan.cn/blog/2024/05/663b10fb4b15d.png)
+![Fig. 3: 高斯 embedding 的变化过程。在表面以外的部分会有正的偏移量 (比如头发)，而其他区域，比如面部，则会有负偏移量，因为高斯核位置的均值在 mesh 内部](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261145963.png)
 
 ### Differentiable rendering of Gaussian Splatting
 
@@ -129,7 +129,7 @@ $$
 
 通过第 $k$ 个三角形定义点 $P$ 的重心坐标 $(k,u,v)$，当更新移动后的点 $Q=(k,u,v)+(\delta u,\delta v)$ 在第 $k$ 个三角形外，则在第 $k$ 个三角形和相邻第 $k'$ 个三角形共享的边上找一个点 $P'$，并把剩余的移动重新表示在第 $k'$ 个三角形内为 $Q'=P'+(\delta u'+\delta q')$。由于重心坐标与三角形的形状无关，在不失一般性的前提下，重新表示的方法是将两个相邻的三角形视为直角三角形，交点位于斜边上。更新会反复重新表示，直到在最终三角形内结束。整个过程如图 4 所示。
 
-![Fig. 4: Walking on triangles for embedding update](http://img.rocyan.cn/blog/2024/05/6641d608b65cf.png)
+![Fig. 4: Walking on triangles for embedding update](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261145180.png)
 
 ## Reference:
 

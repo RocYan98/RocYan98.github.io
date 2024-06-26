@@ -18,15 +18,15 @@ order: 4
 
 离散化后的体数据可以看成是由 **体素 (Vixel)** 组成的三维数组，vixel 这个单词是由 volume + pixel 组成，可以理解成是体中的像素，是体的最小单位，每个体素是一个正方体，其中存储的是颜色和密度等信息。
 
-![Fig. 1：一个 8x8x8 的体素网格，每个体素内存储着密度的值](http://img.rocyan.cn/blog/2024/04/6612bb63601ea.png)
+![Fig. 1：一个 8x8x8 的体素网格，每个体素内存储着密度的值](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261140222.png)
 
 ### 光线投射 (Ray Casting) 算法
 
 每个像素对应一条光线，光线在经过体数据时进行采样，再利用后文提到的体渲染模型来求出每条光线的辐射强度。在体数据内进行采样的同时，会生成对应的**强度剖面 (Intensity Profile)**，图 3 中的 (c) 就是 NeRF 在体渲染过程中生成的强度剖面，横坐标表示采样点的位置，纵坐标表示该点的密度。
 
-![Fig. 2：光线投射算法示意图](http://img.rocyan.cn/blog/2024/04/6612bb6755015.png)
+![Fig. 2：光线投射算法示意图](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261140591.png)
 
-![Fig. 3：NeRF 流程图](http://img.rocyan.cn/blog/2024/04/6612bb6b1c92e.png)
+![Fig. 3：NeRF 流程图](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261140018.png)
 
 ## 体渲染模型
 
@@ -37,7 +37,7 @@ order: 4
 - **外散射 (Out-Scattering)**：光子在撞击到参与介质后，可能会发生弹射，导致部分光子散射出 $L$，会减少 $L$ 的辐射强度。
 - **内散射 (In-Scattering)**：其他光束的光子在撞击后，可能会进入到 $L$，且方向和 $L$ 相同，这样就会增加 $L$ 的辐射强度
 
-![Fig. 4](http://img.rocyan.cn/blog/2024/04/6612bb700cfd5.png)
+![Fig. 4](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261140122.png)
 
 图 4 中 $L_i$ 和 $L_o$ 分别表示入射光和出射光，$\omega$ 表示的是视角方向即相机光线方向。
 
@@ -45,7 +45,7 @@ order: 4
 
 ### 吸收模型 (Absorption Only)
 
-![Fig. 5](http://img.rocyan.cn/blog/2024/04/6612bb73656b0.jpg)
+![Fig. 5](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261140357.jpg)
 
 如图 5 所示，粒子的半径为 $r$，投影面积 $A=\pi r^2$，单位体积内粒子数为$\rho$，底面积为 $E$，宽度为 $\Delta S$，光沿着垂直于底面的方向传播，$L_i$ 表示入射光，$L_o$ 表示出射光。圆柱体体积为 $E\Delta s$，包含 $N=\rho E \Delta s$ 个粒子，假设 $\Delta s$足够小，且粒子没有重叠，那么这些粒子在底面上遮挡的总面积是 $NA=\rho AE\Delta s$。所以一束光通过这个圆柱体的时候，有 $\frac{\rho AE\Delta s}{E}=\rho A\Delta s$ 的概率会被遮挡，即出射光的辐射强度是入射光辐射强度的 $(1-\rho A\Delta s)$ 倍，数学上可以表示为：
 $$
@@ -185,7 +185,7 @@ $$
 - NeRF 中的体积密度 $\sigma(\textbf{r}(t))$ 表示参与介质在 $\textbf{r}(t)$ 处的密度，$\textbf{c}(\textbf{r}(t),\textbf{d})$ 表示在视角 $\textbf{d}$ 下 $\textbf{r}(t)$ 处的颜色即辐射强度 (在 NeRF 中辐射强度可以理解为颜色)，因此公式 11 中的  $\sigma(\textbf{r}(t))\textbf{c}(\textbf{r}(t),\textbf{d})$ 表示的是 $\textbf{r}(t)$ 处放射的辐射强度和公式 10 中的源项  $g(s)$ 是等价的。
 - Max 的论文认为光是从 Volume 的边界位置传播到眼睛，而 NeRF 认为是从近平面传播到远平面，方向刚好相反，因此公式 11 中的 $T(t)$ 的上下限和公式 10 中的 $T'(s)$ 的上下限刚好相反。如图 6 所示，$s$ 到 $D$ 和 $t_n$ 到 $t$ 其实表示的是同一段光线。
 
-![Fig. 6](http://img.rocyan.cn/blog/2024/04/6612bb79f162f.png)
+![Fig. 6](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261140634.png)
 
 ### 离散颜色方程
 
@@ -246,7 +246,7 @@ $$
 
 **累积分布函数 (Cumulative Distribution Function, CDF)** 又称为分布函数，累积分布函数的定义为 $F_X(x)=P(X\le x)$，即对 PDF 进行 $-\infin$ 到 $x$ 的积分或对 PMF 累加到 $x$，无论连续性随机变量还是离散型随机变量都有 CDF。
 
-![Fig. 7：正态分布的 PDF（左）和 CDF（右）](http://img.rocyan.cn/blog/2024/04/6612bb7d743cd.png)
+![Fig. 7：正态分布的 PDF（左）和 CDF（右）](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261140662.png)
 
 逆变换采样主要是为了解决**蒙特卡罗 (Monte Carlo) 方法**中如何基于概率密度函数进行采样这一难题。要使用逆变换采样，前提是要知道累积分布函数 $F(x)$，然后求出 CDF 的逆函数 $G(y)=F^{-1}(x)$，很明显 CDF 的值域是 $[0,1]$，因此其逆函数的定义域是 $y\in[0,1]$。最后在 $G(y)$ 的定义域内进行均匀采样，每个点的函数值就是符合概率密度函数的采样点。
 
@@ -256,7 +256,7 @@ $$
 
 因为物体中参与介质的密度并不是均匀的，有些地方的密度很高，有些地方的密度趋近于零，因此如果对整条光线只是采取均匀采样的策略，那么可能会在一些参与介质密度很低的地方进行太多次采样，导致采样效率过低。分层采样将进行 2 次采样，分别为**粗 (Coarse) 采样**和**细 (Fine) 采样**。
 
-![Fig. 8：粗采样（左）和细采样（右）](http://img.rocyan.cn/blog/2024/04/6612bb811c87d.png)
+![Fig. 8：粗采样（左）和细采样（右）](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261140305.png)
 
 粗采样是在光线上均匀采样 64 个点，采样集通过公式 15 可以初步算出颜色 $\hat{C}_c(\textbf{r})=\sum_{i=1}^{N_c}T_i\alpha_i\textbf{c}_i$，进一步把 $T_i\alpha_i$ 整合成一个权重 $w_i$ 就可以得到：
 $$
@@ -267,7 +267,7 @@ $\alpha_i$ 表示第 $i$ 个区间的不透明度，不透明度越大表示这�
 
 NeRF 中的逆变换采样通俗地来说就是把 PDF 即 $\hat{w}_i$ 给累加起来转换成 CDF，在 CDF 的纵坐标上进行均匀采样 128 个点，每个点的横坐标就是细采样的采样点。
 
-![Fig. 9：逆变换采样](http://img.rocyan.cn/blog/2024/04/6612bb845b6e4.jpg)
+![Fig. 9：逆变换采样](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261140140.jpg)
 
 ## Reference
 

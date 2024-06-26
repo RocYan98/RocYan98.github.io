@@ -16,7 +16,7 @@ order: 6
 
 CVPR 2023
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b3546187e4.png)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261142428.png)
 
 ## Abstract
 
@@ -54,7 +54,7 @@ $$
 - $\mathbf{n}^{\mathbf{c}}=\frac{1}{N_p-1}\sum_{i=1}^{N_p}(\mathbf{n}^{\mathbf{d}}_{\mathbf{i}}\times\mathbf{n}^{\mathbf{d}}_{\mathbf{i-1}})$​ 表示垂直于特征曲线平面的方向
 - $S^d_i\in\R,S^c_i\in\R$ 是可学习的参数，确定变形步长
 
-![Fig. 2: 可视化无交点曲线变形](http://img.rocyan.cn/blog/2024/04/6612bb2302810.png)
+![Fig. 2: 可视化无交点曲线变形](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261142373.png)
 
 **标准空间的隐式 SDF (Implicit SDF in Canonical Space)**：UDF 是可以表示开放表面的隐函数，但是在接近表面的点处不可微。因此本文用 SDF 来表示一个封闭的衣服表面，然后使用服装模板配准来提取开放表面的服装。本文并不使用一整个 SDF 来表示整个衣服表面，而是拆分成三种表面类型 (上衣、下衣和连体衣物 )，SDF 由具有可学习权重 $\eta$ 的 MLP $f$ 表示：$S(\eta)=\{\mathbf{p}\in\R^3|f(\mathbf{p};\eta)=0\}$
 

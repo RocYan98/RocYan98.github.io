@@ -17,7 +17,7 @@ order: 11
 
 CVPR 2024
 
-![Fig. 1: Overview](http://img.rocyan.cn/blog/2024/05/664b35ed01cb0.png)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261136020.png)
 
 ## Abstract
 
@@ -33,7 +33,7 @@ CVPR 2024
 
 ## Method
 
-![Fig. 2: Pipeline](http://img.rocyan.cn/blog/2024/04/6625d63e87204.png)
+![Fig. 2: Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261136420.png)
 
 ### Overview
 
@@ -58,7 +58,7 @@ $$
 
 **Template-guided Parameterization**：这一部分的目的是获取 posed position maps。用 2D CNN 取代 MLP 来获取更高质量的数字人，首先需要将 3D 表示的数字人参数化到 2D 空间。本文提出通过正交投影到方法，把 3D 高斯参数化为正反 2 个 posed position maps，投影的过程如图 3 所示。要用 2D 图像来表示 3D 信息，一个很好的解决方法就是用颜色来表示第三维。首先将参数化模板通过 LBS 变形到 pose 空间，用标准空间中的顶点和其对应 pose 空间顶点的颜色，然后用正交投影的方式渲染成正反 2 个 posed position maps $\mathcal{P}_f(\Theta)$ 和 $\mathcal{P}_b(\Theta)$，作为网络的 pose 条件。
 
-![Fig. 3: Posed Position Maps](http://img.rocyan.cn/blog/2024/04/66272f398638f.png)
+![Fig. 3: Posed Position Maps](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261136549.png)
 
 **Pose-dependent Gaussian Maps**：使用 StyleUNet $\mathcal{F}$ 通过 pose 条件来预测正反高斯图 $\mathcal{G}_f(\Theta)$ 和 $\mathcal{G}_b(\Theta)$
 $$
