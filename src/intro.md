@@ -2,7 +2,7 @@
 sidebar: false
 #article: false
 date: 2023-08-03
-cover: http://img.rocyan.cn/blog/2024/04/6613563fdaaa3.png
+cover: https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261201731.png
 toc: false
 breadcrumb: false
 pageInfo: false

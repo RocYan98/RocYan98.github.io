@@ -29,7 +29,7 @@ export default hopeTheme({
 
   toc: true,
 
-  footer: "<img src='http://img.rocyan.cn/blog/2024/04/661355f2e3c78.png' height='20' width='20'> <a href='https://beian.mps.gov.cn/#/query/webSearch?code=31011302007506'>沪公网安备31011302007506号</a>  <br> <a href='https://beian.miit.gov.cn'>浙ICP备2023046172号-1</a>",
+  footer: "<img src='https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261201976.png' height='20' width='20'> <a href='https://beian.mps.gov.cn/#/query/webSearch?code=31011302007506'>沪公网安备31011302007506号</a>  <br> <a href='https://beian.miit.gov.cn'>浙ICP备2023046172号-1</a>",
 
   copyright: "Copyright © 2023-至今 Roc Yan <br> Total View Times: <span class=\"waline-pageview-count\" data-path=\"/\" />",
 

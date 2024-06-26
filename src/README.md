@@ -4,7 +4,7 @@ layout: BlogHome
 icon: home
 title: 博客主页
 #heroImage: /logo.svg
-bgImage: http://img.rocyan.cn/blog/2024/04/661356615d4d0.png
+bgImage: https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261201662.png
 heroText: Roc Yan的博客
 heroFullScreen: false
 tagline: 摆烂中
