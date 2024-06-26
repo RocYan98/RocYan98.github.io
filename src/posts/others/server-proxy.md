@@ -162,11 +162,11 @@ proxychains4 curl www.httpbin.org/ip
 
 ### 3.2 获取 Google Drive 文件链接/ID
 
-![](http://img.rocyan.cn/blog/2024/04/66135347c9f8e.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261221784.png)
 
 通过以上步骤可以获取文件的 ID，`https://drive.google.com/file/d/12DmrxXNtl0U9hnN1bzue4XX7nw1fSMZ5/view?usp=share_link` 其中 `12DmrxXNtl0U9hnN1bzue4XX7nw1fSMZ5` 就是文件的 ID，最后的链接是 `https://drive.google.com/uc?id=<文件ID>`。并且文件的访问权限必须是”互联网上知道链接的任何人都可以查看“。
 
-![](http://img.rocyan.cn/blog/2024/04/6613534f8c999.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261221721.png)
 
 如果直接用共享的文件可能会遇到超出下载配额的问题，所以建议保存到自己的云盘后再下载。网页版的谷歌云盘经常没有反应，所以建议下载桌面版云端云盘后再操作。
 

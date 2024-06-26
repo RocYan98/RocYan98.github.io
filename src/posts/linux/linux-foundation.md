@@ -12,7 +12,7 @@ order: 1
 
 ### 1.1 虚拟机的三种网络链接：
 
-![](http://img.rocyan.cn/blog/2024/04/66134deed4d04.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261216714.png)
 
 | 连接方式 | 能否连接本机 | 能否连接局域网 | 能否连接公网 |
 | :------- | :----------- | -------------- | :----------- |
@@ -48,7 +48,7 @@ order: 1
 - 定义：格式化（高级格式化）又称逻辑格式化，它是指根据用户选定的[文件系统]()，在磁盘的特点区域写入特定数据，在分区中划出一片用于存放文件分配表、目录表等用于文件管理等磁盘空间，格式化时会把文件清空。
 - ext4文件系统原理：会把一块分区分为Inode和许多等大小的block，block用来存放数据，Inode为索引节点。
 
-![ext4 文件系统示意图](http://img.rocyan.cn/blog/2024/04/66134df3f168f.jpg)
+![ext4 文件系统示意图](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261216043.jpg)
 
 
 
@@ -108,7 +108,7 @@ order: 1
 
 - 文件系统结构
 
-  ![文件系统结构](http://img.rocyan.cn/blog/2024/04/66134df9926f8.png)
+  ![文件系统结构](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261216891.png)
 
 
 

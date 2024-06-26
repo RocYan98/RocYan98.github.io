@@ -3,7 +3,7 @@ date: 2023-08-03
 tag:
   - Git
   - GitHub
-category: 工具
+category: 其他
 #cover: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/b6bycj.jpg
 ---
 
@@ -11,11 +11,11 @@ category: 工具
 
 ## 一、Git结构
 
-![](http://img.rocyan.cn/blog/2024/04/661353d7bfb75.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261223093.png)
 
-![](http://img.rocyan.cn/blog/2024/04/661353db8b944.jpg)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224315.jpg)
 
-![](http://img.rocyan.cn/blog/2024/04/661353df7448f.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224529.png)
 
 - Workspace：工作区
 - Index / Stage：暂存区
@@ -60,7 +60,7 @@ git config --global user.email rocyan98@gmail.com
 # 信息保存的位置：~/.gitconfi文件
 ```
 
-![](http://img.rocyan.cn/blog/2024/04/661353e41a45a.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224129.png)
 
 ```bash
 # 查看当前Git配置信息
@@ -95,13 +95,13 @@ git status
   
 
   - **Untracked files *红色*** 未追踪的文件，工作区新建文件，但是没有提交到暂存区
-     - ![](http://img.rocyan.cn/blog/2024/04/661353e90d86d.png)
+     - ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224535.png)
   - **Changes not staged for commit *红色*** 工作区内的文件有更新，但是没有提交到暂存区 
-     - ![](http://img.rocyan.cn/blog/2024/04/661353ed33766.png)
+     - ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224088.png)
    - **Changes to be committed *绿色*** 改变的内容提交到暂存区
-     - ![](http://img.rocyan.cn/blog/2024/04/661353eff1ebd.png)
+     - ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224198.png)
   - **working tree clean** 暂存区的内容都已经提交到本地库
-     - ![](http://img.rocyan.cn/blog/2024/04/661353f3de2ce.png)
+     - ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224057.png)
 
 
 
@@ -177,7 +177,7 @@ git commit --amend [file1] [file2] ...
 git log
 ```
 
-  - ![](http://img.rocyan.cn/blog/2024/04/661354009ece8.png)
+  - ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224513.png)
 
     - 多屏显示控制方式：空格向下翻页、b 向上翻页、 q 退出
 
@@ -187,7 +187,7 @@ git log
 git log --pretty=oneline
 ```
 
-  - ![](http://img.rocyan.cn/blog/2024/04/661354079837a.png)
+  - ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224409.png)
 
 - 方法三：
 
@@ -195,7 +195,7 @@ git log --pretty=oneline
 git log --oneline
 ```
 
-  - ![](http://img.rocyan.cn/blog/2024/04/6613540d35e14.png)
+  - ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224504.png)
 
 - 方法四：
 
@@ -203,7 +203,7 @@ git log --oneline
 git reflog
 ```
 
-  - ![](http://img.rocyan.cn/blog/2024/04/66135414a4c53.png)
+  - ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224503.png)
 
     - HEAD@{移动到当前版本需要多少步}
 
@@ -240,11 +240,11 @@ git reset --hard HEAD~n
 
 - --soft 参数（*status 为绿色*）
   - 仅在本地库移动 HEAD 指针
-  - ![](http://img.rocyan.cn/blog/2024/04/66135419e6012.png)
+  - ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224440.png)
 - --mixed 参数（*status 为红色*）
   - 在本地库移动 HEAD 指针
   - 重置暂存区
-  - ![](http://img.rocyan.cn/blog/2024/04/6613541c53013.png)
+  - ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224524.png)
 - --hard 参数（*整体回退*，status 为 working tree clean）
   - 在本地库移动HEAD指针
   - 重置暂存区
@@ -278,7 +278,7 @@ git diff --shortstat "@{0 day ago}"
 
 ### 2.4 分支管理
 
-![](http://img.rocyan.cn/blog/2024/04/661354204630a.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224740.png)
 
 
 
@@ -336,7 +336,7 @@ git branch -dr [remote/branch]
 
 #### 2.4.2 冲突
 
-- ![](http://img.rocyan.cn/blog/2024/04/66135425bb9a8.png)
+- ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224017.png)
 
 - 解决冲突：
 
@@ -375,7 +375,7 @@ git branch -dr [remote/branch]
 
 ### 4.1 简介哈希
 
-- ![](http://img.rocyan.cn/blog/2024/04/6613542a5fc48.png)
+- ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224687.png)
 - 哈希是一个系列的加密算法，各个不同的哈希算法虽然加密强度不同，但是有以下几个共同点：
   1. 不管输入数据的数据量有多大，输入同一个哈希算法，得到的加密结果长度固定。
   2. 哈希算法确定，输入数据确定，输出数据能够保证不变
@@ -383,7 +383,7 @@ git branch -dr [remote/branch]
   4. 哈希算法不可逆
 - Git 底层采用的是 SHA-1 算法。
 - 哈希算法可以被用来验证下载的文件的完整性（*Git 就是靠这种机制来从根本上保证数据完整性的*）：
-- ![](http://img.rocyan.cn/blog/2024/04/6613542e37e2e.png)
+- ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224516.png)
 
 
 
@@ -395,7 +395,7 @@ git branch -dr [remote/branch]
 
   文件和每个文件随时间逐步累积的差异。
 
-- ![](http://img.rocyan.cn/blog/2024/04/66135432e9243.png)
+- ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261224479.png)
 
 
 
@@ -405,7 +405,7 @@ git branch -dr [remote/branch]
 
   的全部文件制作一个快照并保存这个快照的索引。为了高效，如果文件没有修改， Git 不再重新存储该文件，而是只保留一个链接指向之前存储的文件。所以 Git 的 工作方式可以称之为快照流。
 
-- ![](http://img.rocyan.cn/blog/2024/04/661354370fa12.png)
+- ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261225286.png)
 
 
 
@@ -413,9 +413,9 @@ git branch -dr [remote/branch]
 
 - Git 的“提交对象”
 
-- ![](http://img.rocyan.cn/blog/2024/04/6613543b5f87a.png)
+- ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261225194.png)
 - 提交对象及其父对象形成的链条
-- ![](http://img.rocyan.cn/blog/2024/04/6613543ee0160.png)
+- ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261225532.png)
 
 
 
@@ -423,19 +423,19 @@ git branch -dr [remote/branch]
 
 #### 4.3.1 分支的创建
 
-![](http://img.rocyan.cn/blog/2024/04/66135442e35bc.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261225067.png)
 
 
 
 #### 4.3.2 分支的切换
 
-![](http://img.rocyan.cn/blog/2024/04/6613544732bd9.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261225827.png)
 
-![](http://img.rocyan.cn/blog/2024/04/6613544bd8cd2.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261225071.png)
 
-![](http://img.rocyan.cn/blog/2024/04/661354508750a.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261225370.png)
 
-![](http://img.rocyan.cn/blog/2024/04/6613545400023.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261225505.png)
 
 
 
@@ -500,7 +500,7 @@ git pull [远程地址别名] [远程分支名]
 
   修改都提交到 Master 这个分支上。*这种方式与 SVN 的主要区别就是开发人员有本地库。Git 很多特性并没有用到。*
 
-- ![](http://img.rocyan.cn/blog/2024/04/661354593db71.png)
+- ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261225729.png)
 
 
 
@@ -510,7 +510,7 @@ git pull [远程地址别名] [远程分支名]
 
   迭代过程更流畅。严格的分支模型也为大型项目提供了一些非常必要的结构。
 
-- ![](http://img.rocyan.cn/blog/2024/04/6613545d23817.png)
+- ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261225665.png)
 
 
 
@@ -520,7 +520,7 @@ git pull [远程地址别名] [远程分支名]
 
   功能以达到代码审核的目的。更适合安全可靠地管理大团队的开发者，而且能接受 不信任贡献者的提交。
 
-- ![](http://img.rocyan.cn/blog/2024/04/6613546420180.png)
+- ![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261225496.png)
 
 
 
@@ -554,4 +554,4 @@ git pull [远程地址别名] [远程分支名]
 
 #### 6.3.2 GitFlow 工作举例
 
-![](http://img.rocyan.cn/blog/2024/04/6613546b705ab.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261225877.png)

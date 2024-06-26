@@ -1,7 +1,7 @@
 ---
 date: 2023-08-03
 tag: Maven
-category: 工具
+category: 其他
 #cover: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/unglp2.jpg
 ---
 

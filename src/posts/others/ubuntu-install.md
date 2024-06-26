@@ -55,7 +55,7 @@ ssh-copy-id 主机上的用户@主机的 ip
 
 如果你嫌自己默认的主机名太长太丑，可以直接修改 /etc/hostname 这个文件，修改后重启就好。
 
-<img src="http://img.rocyan.cn/blog/2024/04/661cec4fb68da.png" alt="image-20240415161239236" style="zoom:50%;" /> @ 前面的是用户名，@ 后面的是主机名。
+<img src="https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261228183.png" alt="image-20240415161239236" style="zoom:50%;" /> @ 前面的是用户名，@ 后面的是主机名。
 
 ### 2.5 远程访问桌面
 
@@ -78,7 +78,7 @@ x11vnc -forever -shared -rfbauth ~/.vnc/passwd
 
 如果你是 mac，可以用自带的屏幕共享，直接访问。
 
-就是这个 <img src="http://img.rocyan.cn/blog/2024/04/661cec43b914e.png" style="zoom:25%;" /> app，在启动台的'其他'里面可以可以找到；在应用程序的使用工具文件里也可以找到；或者聚集搜索直接搜也行。
+就是这个 <img src="https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261221999.png" style="zoom:25%;" /> app，在启动台的'其他'里面可以可以找到；在应用程序的使用工具文件里也可以找到；或者聚集搜索直接搜也行。
 
 ### 3 推荐配置
 
@@ -116,9 +116,9 @@ sudo apt install curl
 
 然后设置里设置网络代理：
 
-![](http://img.rocyan.cn/blog/2024/04/661cecb01d98a.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261221069.png)
 
-![](http://img.rocyan.cn/blog/2024/04/661cec9d89b56.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261222775.png)
 
 
 

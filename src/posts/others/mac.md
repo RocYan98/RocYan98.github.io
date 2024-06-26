@@ -43,13 +43,13 @@ tag: MacOS
 - **空格键**：使用快速查看来预览所选项目。这个功能很强大，可以选中一个图片文件，再按空格看看效果，具体功能描述请查看[官方文档](https://support.apple.com/guide/mac-help/view-and-edit-files-with-quick-look-mh14119/mac)。
 - **Command-Shift-句号(.)**：隐藏或显示隐藏文件（以.开头的文件）
 - **Command-Shift-3**：截屏。如果在屏幕右下角看到缩略图，请点按缩略图以编辑截屏，如果什么也不操作几秒钟后截屏会存储到桌面。要将截屏拷贝到剪贴板而不保存成一张图片文件，可以按 Command-Shift-Contrl-3，之后 Command-V 可以将截屏粘贴到其他位置。
-- **Command-Shift-4**：截取屏幕上的某一部分。拖移十字线 <img src="http://img.rocyan.cn/blog/2024/04/66135322a7506.png" style="zoom:50%;"  />以选择要捕捉的屏幕区域。要移动所选区域，请在拖移时按住空格键。要取消截屏，请按下 Esc 键。要将截屏拷贝到剪贴板而不保存成一张图片文件，在确定所选区域后按下 Contrl 键再松开光标，之后 Command-V 可以将截屏粘贴到其他位置。
-- **Command-Shift-4+空格**：截取窗口或菜单。先按下 Command-Shift-4，再按下空格后光标会变成相机图标<img src="http://img.rocyan.cn/blog/2024/04/66135333469ef.png" style="zoom:50%;" />，选取想要截取的窗口或菜单。要取消截屏，请按下 Esc 键。要将截屏拷贝到剪贴板而不保存成一张图片文件，先按下 Contrl 键再选取想要截取的窗口或菜单，之后 Command-V 可以将截屏粘贴到其他位置。
+- **Command-Shift-4**：截取屏幕上的某一部分。拖移十字线 <img src="https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261222362.png" style="zoom:50%;"  />以选择要捕捉的屏幕区域。要移动所选区域，请在拖移时按住空格键。要取消截屏，请按下 Esc 键。要将截屏拷贝到剪贴板而不保存成一张图片文件，在确定所选区域后按下 Contrl 键再松开光标，之后 Command-V 可以将截屏粘贴到其他位置。
+- **Command-Shift-4+空格**：截取窗口或菜单。先按下 Command-Shift-4，再按下空格后光标会变成相机图标<img src="https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261222213.png" style="zoom:50%;" />，选取想要截取的窗口或菜单。要取消截屏，请按下 Esc 键。要将截屏拷贝到剪贴板而不保存成一张图片文件，先按下 Contrl 键再选取想要截取的窗口或菜单，之后 Command-V 可以将截屏粘贴到其他位置。
 - **Command-Shift-4+空格+Option**：截取窗口或菜单，并从截屏中去除窗口的阴影。先按下 Option 键再选取想要截取的窗口或菜单，就可以去除窗口的阴影。下图分别是未去除阴影和去除阴影的截屏对比。
 
-![Command-Shift-4+空格 未去除阴影](http://img.rocyan.cn/blog/2024/04/66134ff6d5489.png)
+![Command-Shift-4+空格 未去除阴影](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261217228.png)
 
-![Command-Shift-4+空格+Option 去除阴影](http://img.rocyan.cn/blog/2024/04/66134ffce1bda.png)
+![Command-Shift-4+空格+Option 去除阴影](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261217350.png)
 
 - **Command-Shift-5**：拍摄截屏或录制屏幕。具体功能描述请查看[官方文档](https://support.apple.com/zh-cn/guide/mac-help/mh26782/mac)。
 
@@ -81,41 +81,41 @@ tag: MacOS
 
 在电脑的设置中已经有比较明确的功能演示了
 
-![](http://img.rocyan.cn/blog/2024/04/661350045683d.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261230570.png)
 
 可以再结合[官方文档](https://support.apple.com/zh-cn/HT204895)来学习，这里我再补充一点可能比较难懂或者比较重要的功能。
 
 - **查询与数据检测器**：单指用力点按想查询的词，在某些 App 里可能需要选中想查询的单词，我通常把这个功能当作字典来用。用力点按链接可以预览链接里的内容。他的功能还有许多，你可以用力点按任何东西，当然不局限于浏览器内，说不定有其他我没发现的内容。
 
-<img src="http://img.rocyan.cn/blog/2024/04/6613501b86748.png" style="zoom:50%;" />
+<img src="https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261217135.png" alt="image-20240626121756099" style="zoom:50%;" />
 
-![](http://img.rocyan.cn/blog/2024/04/6613502f64eaa.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261218788.png)
 
-![](http://img.rocyan.cn/blog/2024/04/6613507c188c3.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261218258.png)
 
 - **三指拖移**：先[按照步骤](#打开-mac-触控板的三指拖移功能)打开三指拖移功能，用三根手指拖移屏幕上的项目。此时用三指等价于长按左键。
 
-<img src="http://img.rocyan.cn/blog/2024/04/661350ab76616.png" style="zoom: 50%;" />
+<img src="https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261218779.png" alt="image-20240626121859732" style="zoom:50%;" />
 
 - **放大或缩小**：双指捏合或张开可放大或缩小，这几乎适用于任何 App。
 
-<img src="http://img.rocyan.cn/blog/2024/04/661350be0598d.png" style="zoom:50%;" />
+<img src="https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261219913.png" style="zoom:50%;" />
 
 - **显示桌面**：将拇指和另外三根手指同时展开，可显示桌面，当打开许多进程挡住桌面的时候，可以显示桌面。
 
-<img src="http://img.rocyan.cn/blog/2024/04/661350e32abec.png" style="zoom:50%;" />
+<img src="https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261219704.png" style="zoom:50%;" />
 
 - **切换桌面**：用四根手指向左或向右轻扫，即可在桌面之间移动。
 
-<img src="http://img.rocyan.cn/blog/2024/04/661350e722306.png" style="zoom:50%;" />
+<img src="https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261219234.png" style="zoom:50%;" />
 
 - **打开启动台**：将拇指和另外三根手指合拢到一起，可显示启动台。
 
-<img src="http://img.rocyan.cn/blog/2024/04/661350ea22597.png" style="zoom:50%;" />
+<img src="https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261219957.png" style="zoom:50%;" />
 
 - **打开调度中心**：用四根手指向上轻扫，即可打开调度中心。可以看当前桌面打开了那些进程。
 
-<img src="http://img.rocyan.cn/blog/2024/04/661350ed4ed60.png" style="zoom:50%;" />
+<img src="https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261219666.png" style="zoom:50%;" />
 
 
 
@@ -123,7 +123,7 @@ tag: MacOS
 
 不要把所有应用都开在一个桌面里，可以多开几个桌面，每个桌面对应一个任务，我一般会开5个左右。
 
-![](http://img.rocyan.cn/blog/2024/04/661351930e48e.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261220378.png)
 
 具体的使用方法比较简单，参展[官方文档](https://support.apple.com/zh-cn/HT204100)即可。
 
@@ -138,7 +138,7 @@ tag: MacOS
 ::: projects
 
 ```yaml
-- icon: http://img.rocyan.cn/blog/2024/04/66135547f00ee.png
+- icon: https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261232260.png
   name: Paste
   desc:	可以保存、查找和管理过去所有的复制内容
   link: https://pasteapp.io
@@ -148,7 +148,7 @@ tag: MacOS
   desc:	macOS 上一个很好用的播放器
   link: https://www.iina.io
 
-- icon: http://img.rocyan.cn/blog/2024/04/6613556f68df8.png
+- icon: https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261233802.png
   name: CommandQ
   desc:	不再因为误按而退出整个应用
   link: https://commandqapp.com
@@ -173,7 +173,7 @@ tag: MacOS
   desc:	MenuBar 上的系统监视器
   link: https://bjango.com/mac/istatmenus/
 
-- icon:	http://img.rocyan.cn/blog/2024/04/66135583888a0.png
+- icon:	https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261233153.png
   name: MTMR
   desc:	自定义 Touch Bar
   link: https://github.com/Toxblh/MTMR
@@ -193,7 +193,7 @@ tag: MacOS
   desc:	软件包管理工具
   link: https://brew.sh/index_zh-cn
 
-- icon:	http://img.rocyan.cn/blog/2024/04/66135591b5afe.png
+- icon:	https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261233626.png
   name: Vim
   desc:	编辑器之神
   link: https://www.vim.org
@@ -201,9 +201,9 @@ tag: MacOS
 
 :::
 
-展示一下我的 Touch Bar：
+展示一下我的 Touch Bar (换了 M 芯片之后 Touch Bar 已经没了，还是挺怀念这个没用的东西的)：
 
-![](http://img.rocyan.cn/blog/2024/04/661351a4bc235.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261220113.png)
 
 ## 附录
 
@@ -211,19 +211,19 @@ tag: MacOS
 
 这个功能其实比你想象的更强大，你可以用它打开一个 App：
 
-![](http://img.rocyan.cn/blog/2024/04/661351abb0303.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261220041.png)
 
 可以把它当作一个简易计算器：
 
-![](http://img.rocyan.cn/blog/2024/04/661352bf44326.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261220529.png)
 
 可以把它当作一个字典：
 
-![](http://img.rocyan.cn/blog/2024/04/661352c2ca267.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261220643.png)
 
 可以用它直接打开百度，不再需要先打开浏览器再打开百度才能输入想要搜索的内容：
 
-![](http://img.rocyan.cn/blog/2024/04/661352c600309.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261220902.png)
 
 还可以用它搜索你电脑上包含搜索关键词的所有文件、照片和邮件等任何东西。
 
@@ -235,19 +235,19 @@ tag: MacOS
 
 按如下步骤操作：
 
-![](http://img.rocyan.cn/blog/2024/04/661352cb53c02.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261220740.png)
 
-![](http://img.rocyan.cn/blog/2024/04/661352d282725.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261220459.png)
 
 ### 打开 Mac 触控板的三指拖移功能
 
 按如下步骤操作：
 
-![](http://img.rocyan.cn/blog/2024/04/661352d77cf24.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261220954.png)
 
-![](http://img.rocyan.cn/blog/2024/04/661352df6cbee.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261220457.png)
 
-![](http://img.rocyan.cn/blog/2024/04/661352e883c03.png)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261220501.png)
 
 ## Reference
 

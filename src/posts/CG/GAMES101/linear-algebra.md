@@ -14,7 +14,7 @@ order: 2
 
 ## 1 向量的点乘
 
-![](http://img.rocyan.cn/blog/2024/04/66134b5be6cf6.jpg)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261207366.jpg)
 
 **应用**：
 
@@ -25,17 +25,17 @@ order: 2
   - 点乘为正数表示两个向量方向基本一致
   - 点乘为负数表示两个向量方向基本相反
 
-![](http://img.rocyan.cn/blog/2024/04/66134b5e7d690.jpg)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261207754.jpg)
 
 ## 2 向量的叉乘
 
-![](http://img.rocyan.cn/blog/2024/04/66134b6061d5c.jpg)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261207350.jpg)
 
 叉乘的结果是一个同时垂直于这两个向量的向量（两个相同的向量叉乘的结果是零向量），通过右手螺旋定则判断叉乘的结果的方向，如 a×b=c 四指从 a 的方向向 b 的方向握紧，大拇指指向的就是 c 的方向 。
 
 应用：
 
-![](http://img.rocyan.cn/blog/2024/04/66134b629cd5f.jpg)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261207207.jpg)
 
 - 判断两个向量的左右：a×b 得到结果是和 z 轴同向，是正的，说明 b 在 a 的左侧
 - 判断一个点是否在三角形内部（做光栅化，给三角形内部像素着色需要用到）：
@@ -46,5 +46,5 @@ order: 2
 
 ## 3 点乘和叉乘的矩阵形式
 
-![](http://img.rocyan.cn/blog/2024/04/66134b65bb7f5.jpg)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261207008.jpg)
 

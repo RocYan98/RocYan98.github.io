@@ -9,7 +9,7 @@ order: 1
 # 维度
 
 这里就简单讨论一下二维和三维，对于更高维的情况，比较难以想象
-![](http://img.rocyan.cn/blog/2024/04/66135375adad9.jpg)![](http://img.rocyan.cn/blog/2024/04/66135378eec5c.jpg)![](http://img.rocyan.cn/blog/2024/04/6613537ccb7fb.jpg)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261223901.jpg)![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261223847.jpg)![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261223437.jpg)
 
 ## 二维
 
@@ -26,7 +26,7 @@ tensor([5, 7, 9])
 
 对于 x.sum(dim=0)，直觉上会是觉得是把行相加，但是看结果反而是对列进行相加。有种比较好的理解方式，就是把 dim=0 这个维度进行挤压合并，最后剩下一行就是结果，同时 sum 后会降维，如果想要结果维度保持不变，需要加上 keepdim=True 这个参数。
 
-![](http://img.rocyan.cn/blog/2024/04/6613538c1823d.gif)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261223442.gif)
 
 ## 三维
 
@@ -62,11 +62,11 @@ tensor([[ 6, 15],
 
 三维可能很难想象，直接动图
 
-![](http://img.rocyan.cn/blog/2024/04/6613539255b54.gif)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261223317.gif)
 
-![](http://img.rocyan.cn/blog/2024/04/661353965e8bb.gif)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261223519.gif)
 
-![](http://img.rocyan.cn/blog/2024/04/66135399a3d9e.gif)
+![](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261223447.gif)
 
 ## Reference
 
