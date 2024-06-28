@@ -83,6 +83,8 @@ $$
 \mathcal{L}=\mathcal{L}_1+\lambda_{perceptual}\mathcal{L}_{perceptual}+\lambda_{reg}\mathcal{L}_{reg}
 \tag{4}
 $$
+> 个人理解这个位移就是 SMPL 中的 [Pose Blend Shapes](SMPL.html#基于姿态的混合成形-pose-blend-shapes)，改变了 pose 后，首先要对标准空间的平均模板增加一个位移。
+
 **Pose Projection Strategy**：首先提取出 posed position maps 中有价值的点，把他们 concatenate 成一个向量 $\mathbf{x}_t \in \R^{3M}$ ($M$ 是点的数量)。T 帧训练图像组成一个矩阵 $\mathbf{X}=[\mathbf{x}_1,\dots,\mathbf{x}_T]$ ，对 $\mathbf{X}$ 采用 PCA 获得 N 个主成分 $\mathbf{S}=[\mathbf{s}_1,\dots,\mathbf{s}_n] \in \R^{3M\times N}$，以及各成分的标准差 $\sigma_i$。给定新的 pose 生成的 posed position maps，将相应的特征 $\mathbf{x}$ 投影到 PCA 空间中：
 $$
 \beta=\mathbf{S}^\top\cdot(\mathbf{x}-\bar{\mathbf{x}})
