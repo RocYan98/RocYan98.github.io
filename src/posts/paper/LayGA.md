@@ -47,7 +47,7 @@ SIGGRAPH 2024
 本文的高斯参数为：
 
 - $c_i\in\R^3$ 表示颜色
-- $\Delta\bar{x}_i\in\R^3$ 表示参数化模板上的点的位移量
+- $\Delta\bar{x}_i\in\R^3$ 表示参数化模板上的点的 offset
 - $o_i\in\R$ 不透明度
 - $\bar{s}_i\in\R^3$ 表示缩放向量
 - $\bar{q}_i\in\R^4$ 表示选择四元数
@@ -84,7 +84,7 @@ $$
 
 **Image-based Normal Loss**. 本文使用法向量作为额外的监督信号，使用图片中的像素和其相邻像素来获取法向量。如图 4 所示，对于每个像素 $i$，假设其相邻像素分布为 $j,k,l,m$ (逆时针排序)，法向量 $n_i$ 为：
 $$
-n_i= & R_i(\theta) \bar{n}_i /\left\|R_i(\theta) \bar{n}_i\right\|_2, \quad \bar{n}_i=\hat{n}_i /\left\|\hat{n}_i\right\|_2 \\
+n_i=  R_i(\theta) \bar{n}_i /\left\|R_i(\theta) \bar{n}_i\right\|_2, \quad \bar{n}_i=\hat{n}_i /\left\|\hat{n}_i\right\|_2 \\
 \tag{4}
 $$
 
@@ -138,6 +138,27 @@ $$
 \tag{8}
 $$
 
+渲染损失函数为：
+$$
+\mathcal{L}_{ {render }}=\lambda_{\mathrm{L} 1} \mathcal{L}_{\mathrm{L} 1}+\lambda_{ {ssim }} \mathcal{L}_{ {ssim }}+\lambda_{ {lpips }} \mathcal{L}_{ {lpips }}
+\tag{9}
+$$
+
+最后总的损失函数为：
+$$
+\mathcal{L}=\mathcal{L}_{render}+\mathcal{L}_{geom}+\mathcal{L}_{seg}
+\tag{10}
+$$
+
+### Avatar Fitting with Multi-Layer Gaussian
+
+多层建模阶段的目标是使用单层阶段分割出来的衣服的几何来构建双层的数字人。分割的标准是 $p^{cloth}>0.5$ 则被认为是衣服，其他的认为是身体。本节的模型架构和单层阶段类似，但做了部分的改变。
+
+#### Separating Geometry and Rendering Layers
+
+前文中加了几何约束来使 3D 高斯汇聚成一个平滑的表面，但是这些几何限制对 3DGS 的渲染质量产生了负面影响，可能是因为这些几何限制降低了高斯在高保真外观建模方面的灵活性。为了降低这些负面影响并保持光滑的几何表面，本文提出将几何层和渲染层分开。如图 5 所示，除了前面提到的 $\Delta\bar{x}_i$，还额外添加了一个 offset $\Delta\bar{y}_i$。
+
+![Fig. 5: Illustration of geometric and rendering layers. 𝜖 is the threshold for handling collisions.](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407011516063.png)
 
 ## Reference
 
