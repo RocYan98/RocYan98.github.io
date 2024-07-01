@@ -82,6 +82,63 @@ $$
 
 本文希望重建的穿衣人体表面是连续、平滑的，具有服装细节和清晰的服装边界。本文是通过2D 高斯图上均匀分布的像素映射为 3D 高斯 ，因此可以方便地使用每个像素的邻域来约束底层几何。具体来说，本文通过一些几何约束来正则化并提高细节。
 
+**Image-based Normal Loss**. 本文使用法向量作为额外的监督信号，使用图片中的像素和其相邻像素来获取法向量。如图 4 所示，对于每个像素 $i$，假设其相邻像素分布为 $j,k,l,m$ (逆时针排序)，法向量 $n_i$ 为：
+$$
+n_i= & R_i(\theta) \bar{n}_i /\left\|R_i(\theta) \bar{n}_i\right\|_2, \quad \bar{n}_i=\hat{n}_i /\left\|\hat{n}_i\right\|_2 \\
+\tag{4}
+$$
+
+$$
+\hat{n}_i=\left(\bar{x}_j-\bar{x}_i\right) \times\left(\bar{x}_k-\bar{x}_i\right)+\left(\bar{x}_k-\bar{x}_i\right) \times\left(\bar{x}_l-\bar{x}_i\right)\\
++\left(\bar{x}_l-\bar{x}_i\right) \times\left(\bar{x}_m-\bar{x}_i\right)+\left(\bar{x}_m-\bar{x}_i\right) \times\left(\bar{x}_j-\bar{x}_i\right)
+\tag{5}
+$$
+
+- $\bar{x}_i$ 表示像素 $i$ 的坐标
+
+> $\hat{n}_i$ 其实就是相邻 4 个平面法向量的矢量和，$\bar{n}_i$ 就是进行单位化，最后的 $n_i$ 是将该法向量从标准空间变换到观测空间
+
+当计算法向量时，只考虑向量像素都在模版内的像素点。最终的 $\mathcal{L}_{norml}$ 是对渲染出来的法向量图和通过 RGB 图预测出来的法向量图之间求 $L_1$ loss。
+
+![Fig. 4: Illustration of normal computation on the Gaussian map](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406301615659.png)
+
+**Stitching Loss**. 由于本文的 3D 高斯是在两个独立的 map 上进行参数化的，因此引入了  $\mathcal{L}_{stitch}$，即 front map 中边界像素与 back map 中对应像素之间的 $L_2$ 损失，以防止不连续性。
+
+**Regularization**. 和 [Animatable Gaussians](Animatable-Gaussians.thml) 一样加了一个 offset 正则化损失 $\mathcal{L}_{off}=\frac{1}{N}\sum_i||\Delta\bar{x}||_2^2$。还加了一个**总变化 (total variational, TV)** 损失 $\mathcal{L}_{TV}$，具体来说就是所有相邻像素之间的位置 $L_2$ 范数的均值，用于约束相邻两个像素之间的距离，防止 3D 高斯过于分散。使用边缘正则化损失 $L_{edge}$ 来正则化基本 SMPL-X 模型和变形模型之间的边长度。边是指两个相邻有效像素之间的边。$L_{edge}$ 是添加 offset 前后边长度的平均 $𝐿_2$ 损失。
+
+最终几何损失函数为：
+$$
+\mathcal{L}_{reg}=\lambda_{off}\mathcal{L}_{off}+\lambda_{TV}\mathcal{L}_{TV}+\lambda_{edge}\mathcal{L}_{edge}\\
+\mathcal{L}_{geom}=\lambda_{normal} \mathcal{L}_{normal}+\lambda_{stitch} \mathcal{L}_{stitch}+\mathcal{L}_{reg}
+\tag{6}
+$$
+
+#### Clothing Segmentation
+
+上文提到会学习一个 label 用来区分这个高斯是属于身体还是衣服，即预测概率 $p_i^{body}$ 和 $p_i^{cloth}$ 来判断这个高斯核是属于身体或者衣服。会用 3DGS 的渲染器将这两个值渲染为双通道的分割图像 $S$  (通道 $S^{body}$ 和 $S^{cloth}$)，label loss $\mathcal{L}_{label}$ 是渲染分割图 $S$ 和 GT $S_{gt}$ 之间的交叉熵损失：
+$$
+\begin{aligned}
+\mathcal{L}_{ {label }}= & -\frac{1}{N_{ {body }}} \sum_i \log \left(S_i^{ {body }}\right)-\frac{1}{N_{ {cloth }}} \sum_{i^{\prime}} \log \left(S_{i^{\prime}}^{ {cloth }}\right) \\
+& -\frac{1}{N_{ {bg }}} \sum_{i^{\prime \prime}} \log \left(1-S_{i^{\prime \prime}}^{ {body }}-S_{i^{\prime \prime}}^{ {cloth }}\right)
+\end{aligned}
+\tag{7}
+$$
+
+- $i,i',i''$ 分别表示 $S_{gt}$ 中被分割为身体、衣服和背景的像素
+- $N_{body},N_{cloth},N_{bg}$ 分别表示对应种类的像素的数量
+- $S_{gt}$ 是综合考虑 SCHP 的和数据集自带的二进制 mask 之后的结果，具体规则如下
+  - 如果像素的值在数据集自带的二进制 mask 中是无效的，则它被视为背景；
+  - 如果像素被 SCHP 标记为背景，则被视为未确定；
+  - 如果像素被 SCHP 标记为非上衣，则被视为身体；
+  - 否则，该像素被视为服装；
+
+和几何约束一样，也对 Gaussian label map 加了一个 $L_1$ TV loss $\mathcal{L}_{TV}^{label}$，对边界像素加了一个 $\mathcal{L}_{stitch}^{label}$，最终分割损失函数为：
+$$
+\mathcal{L}_{ {seg }}=\lambda_{ {label }} \mathcal{L}_{ {label }}+\lambda_{\mathrm{TV}}^{ {label }} \mathcal{L}_{\mathrm{TV}}^{ {label }}+\lambda_{ {stitch }}^{ {label }} \mathcal{L}_{ {stitch }}^{ {label }}
+\tag{8}
+$$
+
+
 ## Reference
 
 [[1]LayGA: Layered Gaussian Avatars for Animatable Clothing Transfer](https://arxiv.org/pdf/2405.07319)
