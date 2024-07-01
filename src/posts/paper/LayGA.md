@@ -156,9 +156,54 @@ $$
 
 #### Separating Geometry and Rendering Layers
 
-前文中加了几何约束来使 3D 高斯汇聚成一个平滑的表面，但是这些几何限制对 3DGS 的渲染质量产生了负面影响，可能是因为这些几何限制降低了高斯在高保真外观建模方面的灵活性。为了降低这些负面影响并保持光滑的几何表面，本文提出将几何层和渲染层分开。如图 5 所示，除了前面提到的 $\Delta\bar{x}_i$，还额外添加了一个 offset $\Delta\bar{y}_i$。
-
+前文中加了几何约束来使 3D 高斯汇聚成一个平滑的表面，但是这些几何限制对 3DGS 的渲染质量产生了负面影响，可能是因为这些几何限制降低了高斯在高保真外观建模方面的灵活性。为了降低这些负面影响并保持光滑的几何表面，本文提出将几何层和渲染层分开。如图 5 所示，除了前面提到的 $\Delta\bar{x}_i$，还额外添加了一个 offset $\Delta\bar{y}_i$。高斯的位置属性只用第一个 offset 进行计算 (公式 1 和 2)，即几何层。高斯的位置加上额外的 offset 用于本阶段最终的渲染，即渲染层：
+$$
+y_i=R_i(\theta)(\bar{x}_i^{smpl}+\Delta\bar{x}_i+\Delta\bar{y}_i)+t_i(\theta)
+\tag{11}
+$$
 ![Fig. 5: Illustration of geometric and rendering layers. 𝜖 is the threshold for handling collisions.](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407011516063.png)
+
+为了约束身体层使其位于衣服层的里面，在身体几何层和衣服几何层之间施加了一个碰撞损失：
+$$
+\mathcal{L}_{coll}=\frac{1}{N_{cloth}}\sum_i\max(\epsilon-d_i,0)^2,\ \text{where} \ \ d_i=(\bar{x}_i^{cloth}-\bar{x}_i^{body})\cdot\bar{n}_i^{body}
+\tag{12}
+$$
+
+- $\epsilon$ 表示距离阈值
+- $i$ 表示 clothing Gaussian map 中所有有效的像素
+
+只是处理身体几何层和衣服几何层之间的碰撞无法保证对应的渲染层之间没有碰撞，因此对渲染层增加一个约束，确保渲染层贴近几何层：
+$$
+\begin{aligned}
+\mathcal{L}_{ {layer }}= & \frac{1}{N_{ {body }}} \sum_i \max \left(\left\|\Delta \bar{y}_i^{ {body }}\right\|_2-\epsilon / 2,0\right)^2 \\
+& +\frac{1}{N_{ {cloth }}} \sum_{i^{\prime}} \max \left(\left\|\Delta \bar{y}_{i^{\prime}}^{ {cloth }}\right\|_2-\epsilon / 2,0\right)^2 .
+\end{aligned}
+\tag{13}
+$$
+
+$\mathcal{L}_{coll}$ 可以使服装几何层和人体几何层至少相距 $\epsilon$，而 $\mathcal{L}_{cloth}$ 使对应的渲染层最多相距 $\epsilon/2$，因此这两种损失函数会将两个渲染层拉开，避免碰撞。
+
+#### Geometric Supervision from Reconstructions
+
+由于仅使用图像监督来跟踪服装边界比较困难，因此本文在这一阶段通过在服装几何层和分割后的服装重建之间使用**倒角距离 (Chamfer distance, CD)** 损失来直接监督服装的运动：
+$$
+\mathcal{cd}=\text{ChamferDist}(\{x_i^{cloth}\}_i,\{x_i^{recon}\}_i)
+\tag{14}
+$$
+
+- $\{x_i^{cloth}\}_i,\{x_i^{recon}\}_i$ 分别表示衣服几何层的点云和第一阶段重建的点云
+
+#### Segmentation Loss
+
+在本阶段，分割的概率会直接设置为 $1$ 或 $0$，并且只保留 $\mathcal{L}_{reg}$ 中的 $\mathcal{L}_{label}$。最终本阶段的损失函数为：
+$$
+\mathcal{L}=\mathcal{L}_{ {render }}+\mathcal{L}_{ {geom }}+\lambda_{ {label }} \mathcal{L}_{ {label }}+\lambda_{ {coll }} \mathcal{L}_{ {coll }}+\lambda_{ {layer }} \mathcal{L}_{ {layer }}+\lambda_{ {cd }} \mathcal{L}_{\mathrm{cd}}
+\tag{15}
+$$
+
+::: info Todo
+ 本文最后还有一个 Animatable Clothing Transfer and Collision Handling 章节，用于在不同角色之间转移服装并处理碰撞，暂时先跳过。
+:::
 
 ## Reference
 
