@@ -60,13 +60,13 @@ export default sidebar({
                     collapsible: true,
                     children: "structure"
                 },
-                {
-                    text: "工具",
-                    icon: "tool",
-                    prefix: "tool/",
-                    collapsible: true,
-                    children: "structure"
-                },
+                // {
+                //     text: "工具",
+                //     icon: "tool",
+                //     prefix: "tool/",
+                //     collapsible: true,
+                //     children: "structure"
+                // },
                 {
                     text: "其他",
                     icon: "others",

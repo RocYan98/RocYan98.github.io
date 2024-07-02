@@ -48,11 +48,11 @@ export default navbar([
         icon: "linux",
         link: "linux/",
       },
-      {
-        text: "工具",
-        icon: "tool",
-        link: "tool/",
-      },
+      // {
+      //   text: "工具",
+      //   icon: "tool",
+      //   link: "tool/",
+      // },
       {
         text: "其他",
         icon: "others",
