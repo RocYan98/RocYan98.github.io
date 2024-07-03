@@ -41,6 +41,46 @@ SIGGRAPH 2024
 
 ## Method
 
+### Modeling
+
+如图 3 所示，2DGS 以点 $\mathbf{p}_k$ 为中心，两个主切向量 $\mathbf{t}_u$ 和 $\mathbf{t}_v$ 以及一个控制 2D 高斯方差的缩放向量 $\mathbf{s}=(s_u,s_v)$，两个正交的切向量的叉乘得到高斯基元的法向量 $\mathbf{t}_w=\mathbf{t}_u\times\mathbf{t}_v$。因此可以用一个 $3\times3$ 的旋转矩阵 $\mathbf{R}=[\mathbf{t}_u,\mathbf{t}_v,\mathbf{t}_w]$ 控制基元的方向，用一个最后一行为 $0$ 的 $3\times3$ 对角矩阵 $\mathbf{S}$ 来控制基元的缩放。
+
+![Fig. 3: Illustration of 2D Gaussian Splatting](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407031111398.png)
+
+一个 2D 高斯被在世界空间中的局部切平面的定义如下：
+$$
+P(u, v)=\mathbf{p}_k+s_u \mathbf{t}_u u+s_v \mathbf{t}_v v=\mathbf{H}(u, v, 1,1)^{\mathrm{T}} 
+\tag{1}
+$$
+
+$$
+\text{where} \ \ \mathbf{H}=\left[\begin{array}{cccc}
+s_u \mathbf{t}_u & s_v \mathbf{t}_v & \mathbf{0} & \mathbf{p}_k \\
+0 & 0 & 0 & 1
+\end{array}\right]=\left[\begin{array}{cc}
+\mathbf{R S} & \mathbf{p}_k \\
+\mathbf{0} & 1
+\end{array}\right]
+\tag{2}
+$$
+
+- $\mathbf{H}\in4\times4$ 是一个齐次变换矩阵，表示 2D 高斯的几何形状
+
+对于 uv 图中的点 $\mathbf{u}=(u,v)$，其 2D 高斯的值可以通过标准高斯计算出来：
+$$
+\mathcal{G}(\mathbf{u})=\exp \left(-\frac{u^2+v^2}{2}\right)
+\tag{3}
+$$
+
+> 可以理解为高斯的均值为0，协方差矩阵为 $\left[\begin{array}{cc}
+> 1 & 0 \\
+> 0 & 1
+> \end{array}\right]$，即此时基元是一个圆。
+
+中心 $\mathbf{p}_k$，缩放 $(s_u,s_v)$，旋转 $(\mathbf{t}_u, \mathbf{t}_v)$ 都是可学习的参数，并且和 3DGS 一样， 2D 高斯基元也有不透明度 $\alpha$ 和通过球谐函数计算的视角依赖的外观 $c$。
+
+### Splatting
+
 
 
 ## Reference
