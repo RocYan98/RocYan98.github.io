@@ -43,11 +43,11 @@ SIGGRAPH 2024
 
 ### Modeling
 
-如图 3 所示，2DGS 以点 $\mathbf{p}_k$ 为中心，两个主切向量 $\mathbf{t}_u$ 和 $\mathbf{t}_v$ 以及一个控制 2D 高斯方差的缩放向量 $\mathbf{s}=(s_u,s_v)$，两个正交的切向量的叉乘得到高斯基元的法向量 $\mathbf{t}_w=\mathbf{t}_u\times\mathbf{t}_v$。因此可以用一个 $3\times3$ 的旋转矩阵 $\mathbf{R}=[\mathbf{t}_u,\mathbf{t}_v,\mathbf{t}_w]$ 控制基元的方向，用一个最后一行为 $0$ 的 $3\times3$ 对角矩阵 $\mathbf{S}$ 来控制基元的缩放。
+如图 3 所示，2DGS 以点 $\mathbf{p}_k$ 为中心，有两个主切向量 $\mathbf{t}_u$ 和 $\mathbf{t}_v$ 以及一个控制 2D 高斯方差的缩放向量 $\mathbf{s}=(s_u,s_v)$。两个正交的切向量的叉乘得到高斯基元的法向量 $\mathbf{t}_w=\mathbf{t}_u\times\mathbf{t}_v$。因此可以用一个 $3\times3$ 的旋转矩阵 $\mathbf{R}=[\mathbf{t}_u,\mathbf{t}_v,\mathbf{t}_w]$ 控制基元的方向，用一个最后一行为 $0$ 的 $3\times3$ 对角矩阵 $\mathbf{S}$ 来控制基元的缩放。
 
 ![Fig. 3: Illustration of 2D Gaussian Splatting](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407031111398.png)
 
-一个 2D 高斯被在世界空间中的局部切平面的定义如下：
+一个 2D 高斯被在世界空间中的局部**切平面 (tangent plane)** 的定义如下：
 $$
 P(u, v)=\mathbf{p}_k+s_u \mathbf{t}_u u+s_v \mathbf{t}_v v=\mathbf{H}(u, v, 1,1)^{\mathrm{T}} 
 \tag{1}
@@ -66,25 +66,38 @@ $$
 
 - $\mathbf{H}\in4\times4$ 是一个齐次变换矩阵，表示 2D 高斯的几何形状
 
-对于 uv 图中的点 $\mathbf{u}=(u,v)$，其 2D 高斯的值可以通过标准高斯计算出来：
+对于 uv 空间中的点 $\mathbf{u}=(u,v)$，其 2D 高斯的值可以通过标准高斯计算出来：
 $$
 \mathcal{G}(\mathbf{u})=\exp \left(-\frac{u^2+v^2}{2}\right)
 \tag{3}
 $$
 
-> 可以理解为高斯的均值为0，协方差矩阵为 $\left[\begin{array}{cc}
-> 1 & 0 \\
-> 0 & 1
-> \end{array}\right]$，即此时基元是一个圆。
+> 类似于 3DGS，知道高斯的不透明度 $\alpha$，通过概率密度函数 $\mathcal{G}$，就可以知道每个点的概率密度，进而可以求出每个点的不透明度 $\alpha\mathcal{G}(\mathbf{u})$。所以使用一对正交向量 $\mathbf{t}_u$ 和 $\mathbf{t}_v$ 来定义 2DGS 所在的平面，称为切平面，也就是 uv 空间 (通过公式 1 也能发现 uv 空间以中心为原点)。本文的高斯函数 $\mathcal{G}(\mathbf{u})$ 是均值为 0，方差为 1 的圆 (高斯函数是把所有椭圆简化为圆来算概率密度，还是有把高斯函数转换为椭圆？后续看源码)。然后用矩阵 $\mathbf{H}$ 将 uv 空间中的点 $\mathbf{u}(u,v)$ 转换到世界坐标系 (从二维变成三维的点)。
 
 中心 $\mathbf{p}_k$，缩放 $(s_u,s_v)$，旋转 $(\mathbf{t}_u, \mathbf{t}_v)$ 都是可学习的参数，并且和 3DGS 一样， 2D 高斯基元也有不透明度 $\alpha$ 和通过球谐函数计算的视角依赖的外观 $c$。
 
 ### Splatting
 
+渲染 2D 高斯的常用策略是利用透视投影的仿射变换近似地将 2D 高斯基元投影到屏幕空间，但是这种投影只有在高斯的中心处准确率高，离中心越远误差越大。本文采用基于齐次坐标的计算公式，将 2D splat 的投影过程表示为齐次坐标下一个统一的 2D-to-2D 的映射，简单来说就是直接用齐次变换矩阵将 2D 高斯基元从世界空间投影到屏幕空间。因此屏幕空间中的点可以通过下式进行计算：
+$$
+\mathbf{x}=(x z, y z, z, 1)^{\mathrm{T}}=\mathbf{W} P(u, v)=\mathbf{W H}(u, v, 1,1)^{\mathrm{T}}
+\tag{4}
+$$
 
+- $\mathbf{x}$ 表示为从相机发出的穿过像素 $(x,y)$，且与 splat 在深度 $z$ 处相交的齐次光线
+
+对 2D 高斯进行光栅化时，为了找到像素 $(x,y)$ 对应的 uv 坐标，一个简单的想法是可以通过逆变换矩阵 $\mathbf{M}=(\mathbf{W}\mathbf{H})^{-1}$ 来求，即 $\mathbf{u}=\mathbf{M}\mathbf{x}$。但是这个逆变换矩阵带来了数值的不稳定性，特别是当从侧面观察 splat 退化为线段时。以前的一些方法会设定一个阈值，当 splat 退化到一定程度时就不再使用这个变换，但这又会使得可微渲染的优化过程不稳定。为了解决这个问题，2DGS使用了一个显式的 ray-splat intersection。
+
+> 通常来说屏幕空间应该用 uv 表示，但是在前文的局部切平面已经用 uv 表示了，所以本文用 xy 来表示屏幕空间。$\mathbf{H}$ 矩阵是从 uv 空间变换到世界空间，$\mathbf{W}$ 矩阵是从世界空间变换到屏幕空间。
+
+**Ray-splat Intersection**. 
 
 ## Reference
 
 [[1]2D Gaussian Splatting for Geometrically Accurate Radiance Fields](https://arxiv.org/abs/2403.17888)
 
-[[2]学习笔记之——2D Gaussian Splatting（2DGS）](https://blog.csdn.net/gwplovekimi/article/details/139115674)
+[[2]2D Gaussian Splatting论文阅读笔记](https://zhuanlan.zhihu.com/p/688161613)
+
+[[3]新风向？——2DGS（2D高斯泼溅）横空出世](https://blog.csdn.net/weixin_72914660/article/details/139219438?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ECtr-2-139219438-blog-139115674.235%5Ev43%5Epc_blog_bottom_relevance_base1&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ECtr-2-139219438-blog-139115674.235%5Ev43%5Epc_blog_bottom_relevance_base1&utm_relevant_index=5)
+
+[[4][NeRF坑浮沉记]3DGS的升级？2DGS文献阅读笔记：Gaussian的光栅化](https://zhuanlan.zhihu.com/p/701359317)
