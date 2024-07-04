@@ -38,7 +38,7 @@ $$
 
 ### Overall Pipeline
 
-如图 2 所示，给定一个预训练 3DGS 模型 $\mathcal{G}$ 和其训练集 $\mathcal{I}$，首先用 SAM encoder 对训练集 $\mathcal{I}$ 中的每张图片 $\mathbf{I}\in\R^{H\times W}$ 提取 2D 特征图 $\mathbf{F}_{\mathbf{I}}^{\mathrm{SAM}}\in\R^{C^{\mathrm{SAM}}\times H\times W}$ 和一组多粒度 mask $\mathcal{M}^{\mathrm{SAM}}_{\mathbf{I}}$。然后对 $\mathcal{G}$ 中的每个高斯核 $\mathbf{g}$ 基于提取出来的 mask 训练一个低维特征 $\mathbf{f}_{\mathbf{g}}\in\R^{C}$ 来聚集这些多视角多粒度的分割信息 ($C$ 表示特征的维度，默认为 32)。
+如图 2 所示，给定一个预训练 3DGS 模型 $\mathcal{G}$ 和其训练集 $\mathcal{I}$，首先用 SAM encoder 对训练集 $\mathcal{I}$ 中的每张图片 $\mathbf{I}\in\R^{H\times W}$ 提取 2D 特征图 $\mathbf{F}_{\mathbf{I}}^{\mathrm{SAM}}\in\R^{C^{\mathrm{SAM}}\times H\times W}$ 和一组多粒度 mask $\mathcal{M}^{\mathrm{SAM}}_{\mathbf{I}}$。然后对 $\mathcal{G}$ 中的每个高斯基元 $\mathbf{g}$ 基于提取出来的 mask 训练一个低维特征 $\mathbf{f}_{\mathbf{g}}\in\R^{C}$ 来聚集这些多视角多粒度的分割信息 ($C$ 表示特征的维度，默认为 32)。
 
 在推理的阶段，对于一个特定视角，有相机位姿 $v$ 和基于输入的提示 $\mathcal{P}$ 生成的一组查询 $\mathcal{Q}$。通过与所学特征的高效特征匹配，利用这些查询来检索对应的 3D 高斯。此外，还引入了一种高效的后处理操作，利用 3DGS 的点云结构提供的强大 3D 先验来完善检索到的 3D 高斯。
 
@@ -50,7 +50,7 @@ $$
 \tag{2}
 $$
 
-- $\mathcal{N}$ 表示该像素上重叠的高斯核的有序集合
+- $\mathcal{N}$ 表示该像素上重叠的高斯基元的有序集合
 
 在训练阶段，冻结 3D 高斯的其他所有参数。
 
@@ -112,18 +112,18 @@ $$
 
 ### 3D Prior Based Post-processing
 
-原始分割出来的 3D 高斯 $\mathcal{G}^t$​ 存在两个问题：(i) 存在多余的噪声；(ii) 有些属于这个物体的高斯核没有被分割出来；为了解决这两个问题，引入了穿透点云分割中的两种技术——**统计滤波算法 (Statistical Filtering)** 和**区域增长算法 (Region Growing)**。
+原始分割出来的 3D 高斯 $\mathcal{G}^t$​ 存在两个问题：(i) 存在多余的噪声；(ii) 有些属于这个物体的高斯基元没有被分割出来；为了解决这两个问题，引入了穿透点云分割中的两种技术——**统计滤波算法 (Statistical Filtering)** 和**区域增长算法 (Region Growing)**。
 
-**Statistical Filtering**：两个高斯核之间的距离可以推断出他们是否属于同一个物体，统计滤波先用 **K 最近邻 (K-Nearest Neighbors, KNN) 算法**计算每个高斯核与最近的 $\sqrt{|\mathcal{G}^t|}$ 个高斯核之间的平均距离。然后计算所有平均距离的均值 $\mu$ 和方差 $\sigma$，对于平均距离超出 $\mu+\sigma$ 的点就过滤掉，最后得到 $\mathcal{G}^{t'}$。
+**Statistical Filtering**：两个高斯基元之间的距离可以推断出他们是否属于同一个物体，统计滤波先用 **K 最近邻 (K-Nearest Neighbors, KNN) 算法**计算每个高斯基元与最近的 $\sqrt{|\mathcal{G}^t|}$ 个高斯基元之间的平均距离。然后计算所有平均距离的均值 $\mu$ 和方差 $\sigma$，对于平均距离超出 $\mu+\sigma$ 的点就过滤掉，最后得到 $\mathcal{G}^{t'}$。
 
-**Region Growing Based Filtering**：2D mask 可以作为目标正确位置的先验，首先将 mask 投影到分割出来的高斯核 $\mathcal{G}^t$ 上，得到一个 validated 子集 $\mathcal{G}^c$，对于 $\mathcal{G}^c$ 中的每个高斯核，计算和其相邻最近高斯核的欧拉距离 $d_g$​：
+**Region Growing Based Filtering**：2D mask 可以作为目标正确位置的先验，首先将 mask 投影到分割出来的高斯基元 $\mathcal{G}^t$ 上，得到一个 validated 子集 $\mathcal{G}^c$，对于 $\mathcal{G}^c$ 中的每个高斯基元，计算和其相邻最近高斯基元的欧拉距离 $d_g$​：
 $$
 d_{\mathbf{g}}^{\mathcal{G}^c}=\min \left\{D\left(\mathbf{g}, \mathbf{g}^{\prime}\right) \mid \mathbf{g}^{\prime} \in \mathcal{G}^c\right\}
 \tag{11}
 $$
-找到欧拉距离的最大值 $\max\{d_{\mathbf{g}}^{\mathcal{G}^c}|\mathbf{g}\in\mathcal{G}^c\}$。然后开始迭代，从 $\mathcal{G}^t$ 中选择高斯核并判断是否要加入到 $\mathcal{G}^c$ 中，如果 $\mathcal{G}^t$ 中的高斯核与 $\mathcal{G}^c$ 中任意一个高斯核的欧拉距离小于前面找到的那个最大值，就将其加入到 $\mathcal{G}^c$ 中。当区域增长算法收敛后，就得到了新的分割结果 $\mathcal{G}^{t'}$​。
+找到欧拉距离的最大值 $\max\{d_{\mathbf{g}}^{\mathcal{G}^c}|\mathbf{g}\in\mathcal{G}^c\}$。然后开始迭代，从 $\mathcal{G}^t$ 中选择高斯基元并判断是否要加入到 $\mathcal{G}^c$ 中，如果 $\mathcal{G}^t$ 中的高斯基元与 $\mathcal{G}^c$ 中任意一个高斯基元的欧拉距离小于前面找到的那个最大值，就将其加入到 $\mathcal{G}^c$ 中。当区域增长算法收敛后，就得到了新的分割结果 $\mathcal{G}^{t'}$​。
 
-**Ball Query Based Growing**：对于之前提到的问题 (ii)，本文采用 ball query 算法从所有的高斯核 $\mathcal{G}$ 中查找需要的高斯核。以 $\mathcal{G}^{t'}$ 中每个高斯核为中心，$r$ 为半径的的球形邻域内所有的高斯核都被加入到最终的分割结果 $\mathcal{G^s}$ 中，半径 $r=\max\{d_{\mathbf{g}}^{\mathcal{G}^{t'}}|\mathbf{g}\in\mathcal{G}^{t'}\}$。
+**Ball Query Based Growing**：对于之前提到的问题 (ii)，本文采用 ball query 算法从所有的高斯基元 $\mathcal{G}$ 中查找需要的高斯基元。以 $\mathcal{G}^{t'}$ 中每个高斯基元为中心，$r$ 为半径的的球形邻域内所有的高斯基元都被加入到最终的分割结果 $\mathcal{G^s}$ 中，半径 $r=\max\{d_{\mathbf{g}}^{\mathcal{G}^{t'}}|\mathbf{g}\in\mathcal{G}^{t'}\}$。
 
 ## Reference
 

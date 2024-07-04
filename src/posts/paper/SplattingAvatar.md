@@ -57,7 +57,7 @@ n=\mathcal{N}(k,u,v)=u\times n_1+v \times n_2+(1-u-v)\times n_3
 \tag{2}
 $$
 
-把高斯核的位置即均值 $\mu$ 定义为点 $P$ 沿着法向量方向位移 $d$：
+把高斯基元的位置即均值 $\mu$ 定义为点 $P$ 沿着法向量方向位移 $d$：
 $$
 \mu=P+d\times n
 \tag{3}
@@ -98,9 +98,9 @@ s_{i,t}=(A_{pose}/A_{cano})\bar{s}_i
 $$
 本文省略了原版 3DGS 中的球谐函数。
 
-在标准空间的 mesh 上随机选取 10k 个三角形和重心坐标进行初始化，并将 $d$ 初始化为 $0$。高斯核的位置通过 embedding 进行计算，其他属性还是和原版高斯一样。一开始高斯核都在 mesh 的表面，随着训练的进行， embedding 会逐渐贴合几何表面，并且在纹理丰富的区域产生更多的高斯核，图 3 展示了这个过程。
+在标准空间的 mesh 上随机选取 10k 个三角形和重心坐标进行初始化，并将 $d$ 初始化为 $0$。高斯基元的位置通过 embedding 进行计算，其他属性还是和原版高斯一样。一开始高斯基元都在 mesh 的表面，随着训练的进行， embedding 会逐渐贴合几何表面，并且在纹理丰富的区域产生更多的高斯基元，图 3 展示了这个过程。
 
-![Fig. 3: 高斯 embedding 的变化过程。在表面以外的部分会有正的偏移量 (比如头发)，而其他区域，比如面部，则会有负偏移量，因为高斯核位置的均值在 mesh 内部](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261145963.png)
+![Fig. 3: 高斯 embedding 的变化过程。在表面以外的部分会有正的偏移量 (比如头发)，而其他区域，比如面部，则会有负偏移量，因为高斯基元位置的均值在 mesh 内部](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261145963.png)
 
 ### Differentiable rendering of Gaussian Splatting
 

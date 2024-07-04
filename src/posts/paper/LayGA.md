@@ -115,7 +115,7 @@ $$
 
 #### Clothing Segmentation
 
-上文提到会学习一个 label 用来区分这个高斯是属于身体还是衣服，即预测概率 $p_i^{body}$ 和 $p_i^{cloth}$ 来判断这个高斯核是属于身体或者衣服。会用 3DGS 的渲染器将这两个值渲染为双通道的分割图像 $S$  (通道 $S^{body}$ 和 $S^{cloth}$)，label loss $\mathcal{L}_{label}$ 是渲染分割图 $S$ 和 GT $S_{gt}$ 之间的交叉熵损失：
+上文提到会学习一个 label 用来区分这个高斯是属于身体还是衣服，即预测概率 $p_i^{body}$ 和 $p_i^{cloth}$ 来判断这个高斯基元是属于身体或者衣服。会用 3DGS 的渲染器将这两个值渲染为双通道的分割图像 $S$  (通道 $S^{body}$ 和 $S^{cloth}$)，label loss $\mathcal{L}_{label}$ 是渲染分割图 $S$ 和 GT $S_{gt}$ 之间的交叉熵损失：
 $$
 \begin{aligned}
 \mathcal{L}_{ {label }}= & -\frac{1}{N_{ {body }}} \sum_i \log \left(S_i^{ {body }}\right)-\frac{1}{N_{ {cloth }}} \sum_{i^{\prime}} \log \left(S_{i^{\prime}}^{ {cloth }}\right) \\

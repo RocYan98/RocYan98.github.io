@@ -130,7 +130,7 @@ $$
 
 > 通俗地来说，当 2D 高斯在屏幕空间比半径为 $\sigma$ 的圆还要小的时候，就把它当成半径为 $\sigma$ 的圆。本文取 $\sigma=\sqrt{2}/2$
 
-**Rasterization**. 光栅化的过程和 3DGS 一样，也是用 alpha 合成的算法：
+**Rasterization**. 光栅化的过程和 3DGS 一样，也是用 alpha 混合的算法：
 $$
 \mathbf{c}(\mathbf{x})=\sum_{i=1} \mathbf{c}_i \alpha_i \hat{\mathcal{G}}_i(\mathbf{u}(\mathbf{x})) \prod_{j=1}^{i-1}\left(1-\alpha_j \hat{\mathcal{G}}_j(\mathbf{u}(\mathbf{x}))\right)
 \tag{9}
@@ -138,7 +138,40 @@ $$
 
 ### Training
 
+**Depth Distortion**. NeRF 是在光线上进行采样，因此会考虑采样点之间的距离，而 3DGS 的体渲染并没有考虑高斯基元之间的距离。在光线方向有重叠的高斯基元之间的距离不同，也可能会产生相似的渲染结果。并且和传统的表面渲染不同，表面渲染只需要渲染与光线相交的第一个表面即可，而体渲染需要对光线上所有的高斯基元进行累加。为了解决这个问题，本文使用了深度误差来最小化 ray-splat intersections 之间的距离来集中权重的分布：
+$$
+\mathcal{L}_d = \sum_{i,j} \omega_i \omega_j \left| z_i - z_j \right |
+\tag{10}
+$$
 
+- $\omega_i = \alpha_i \hat{\mathcal{G}}_i (\mathbf{u}(\mathbf{x})) \prod_{j=1}^{i-1} \left(1 - \alpha_j \hat{\mathcal{G}}_j (\mathbf{u}(\mathbf{x})) \right)$ 表示光线上第 $i$ 个交点的混合权重
+- $z_i$ 表示交点的深度
+
+并且这个正则项是通过 CUDA 实现的。
+
+**Normal Consistency**. 因为光线上可能存在很多半透明的点，因此把累积不透明度达到 $0.5$ 的交点 $\mathbf{p}_s$ 作为真实表面。通过下面这个损失函数将表面的法线与深度图的梯度对齐：
+$$
+\mathcal{L}_n=\sum_i\omega_i(1-\mathbf{n}_i^T\mathbf{N})
+\tag{11}
+$$
+
+- $\omega_i$ 和公式 10 一样
+- $\mathbf{n}_i$ 表示光线上第 $i$ 个基元的法线
+- $\mathbf{N}$ 表示深度图的梯度估计出来的法线
+
+$\mathbf{N}$ 是通过相邻点的深度的有限差分算出来的：
+$$
+\mathbf{N}(x, y) = \frac{\nabla_x \mathbf{p}_s \times \nabla_y \mathbf{p}_s}{|\nabla_x \mathbf{p}_s \times \nabla_y \mathbf{p}_s|}
+\tag{12}
+$$
+这样就可以使 2D 高斯基元尽可能分布在物体的表面上。
+
+最终总的损失函数为：
+$$
+\mathcal{L}=\mathcal{L}_c+\lambda_d\mathcal{L}_d+\lambda_n\mathcal{L}_n
+$$
+
+- $\mathcal{L}_c$ 表示结合 $\mathcal{L}_1$ 损失和 D-SSIM 损失的 RGB 损失
 
 ## Reference
 
