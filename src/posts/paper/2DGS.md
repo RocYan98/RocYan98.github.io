@@ -10,7 +10,7 @@ title: 2DGS-论文笔记
 order: 19
 ---
 
-## **2DGS**: 2D Gaussian Splatting for Geometrically Accurate Radiance Fields
+## 2DGS: 2D Gaussian Splatting for Geometrically Accurate Radiance Fields
 
 [项目地址](https://surfsplatting.github.io)
 
