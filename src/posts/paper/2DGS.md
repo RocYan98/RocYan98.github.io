@@ -90,7 +90,55 @@ $$
 
 > 通常来说屏幕空间应该用 uv 表示，但是在前文的局部切平面已经用 uv 表示了，所以本文用 xy 来表示屏幕空间。$\mathbf{H}$ 矩阵是从 uv 空间变换到世界空间，$\mathbf{W}$ 矩阵是从世界空间变换到屏幕空间。
 
-**Ray-splat Intersection**. 
+**Ray-splat Intersection**. Ray-splat Intersection 就是通过找 3 个非平行平面的交点来确定像素 $(x,y)$ 对应的 uv 坐标。具体来说就是在屏幕空间内用两个正交的平面来确定像素点 $\mathbf{x}=(x,y)$，两个平面分别是平行于 x 轴的 x-plane $\mathbf{h}_x=(-1,0,0,x)^T$ 和平行于 y 轴的的 y-plane $\mathbf{h}_y=(0,-1,0,y)^T$，这两个平面是用 4D 齐次平面表示。
+
+> 4D 齐次平面方程为 $ax+by+cz+dw=0$，可以理解为 $(x,y,z,w)$ 是在 4D齐次平面 $(a,b,c,d)$ 上的点，因此可以参数化这个平面为 $\mathbf{h}=(a,b,c,d)$。对于与 x 轴平行的平面，假设为 $x=x_0$，那么该平面上的点一般用齐次坐标表示为 $(x_0,y,z,1)$，平面 $(a,b,c,d)$ 要满足 $ax_0+by+cz+d=0$，所以该 4D 齐次平面可以表示为 $(-1,0,0,x_0)$。
+
+然后就是要将这两个平面变换到 uv 空间。用变换矩阵 $\mathbf{M}$ 对平面上一个点进行变换，等同于用 $\mathbf{M}^{-T}$ 对整个齐次平面进行变换。因此可以用 $(\mathbf{WH})^T$ 找到像素 $(x,y)$ 对应的 uv 坐标，等价于用前面逆变换矩阵 $\mathbf{M}=(\mathbf{W}\mathbf{H})^{-1}$，并且这么做省去了求逆的过程：
+$$
+\mathbf{h}_u=(\mathbf{W H})^{\mathrm{T}} \mathbf{h}_x \quad \mathbf{h}_v=(\mathbf{W H})^{\mathrm{T}} \mathbf{h}_y
+\tag{5}
+$$
+这里只用到了 2 个平面，第三个平面就是 2D 高斯基元的平面。x-plane 和 y-plane 的交线表示的是从相机发出的穿过像素 $(x,y)$ 的光线，最终与 2D 高斯基元平面相交于一个点，这个点其实就是最终要找的 uv 空间中的点 $\mathbf{u}=(u,v)$，可以通过以下等式确定这个点：
+$$
+\mathbf{h}_u\cdot(u,v,1,1)^\mathrm{T}=\mathbf{h}_v\cdot(u,v,1,1)^\mathrm{T}=0
+\tag{6}
+$$
+
+> 首先用齐次坐标 $(u,v,1,1)$ 表示该点一定上 2D 高斯基元平面上，公式 6 又表示该点又同时在 x-plane 和 y-plane 上，因此这个点就是这三个平面的唯一交点。
+
+通过公式 6 最终可以解出交点的 uv 坐标：
+$$
+u(\mathbf{x})=\frac{\mathbf{h}_u^2 \mathbf{h}_v^4-\mathbf{h}_u^4 \mathbf{h}_v^2}{\mathbf{h}_u^1 \mathbf{h}_v^2-\mathbf{h}_u^2 \mathbf{h}_v^1} \quad v(\mathbf{x})=\frac{\mathbf{h}_u^4 \mathbf{h}_v^1-\mathbf{h}_u^1 \mathbf{h}_v^4}{\mathbf{h}_u^1 \mathbf{h}_v^2-\mathbf{h}_u^2 \mathbf{h}_v^1}
+\tag{7}
+$$
+
+- $\mathbf{h}^i_u,\mathbf{h}^i_v$ 表示 4D 齐次平面的第 $i$ 个参数
+
+通过公式 4 可以得到深度 $z$，通过公式 3 可以得到高斯的值。
+
+> 总结一下 2DGS 的光栅化过程：屏幕空间中的一个像素 $\mathbf{x}=(x,y)$ 首先通过公式 7 可以确定其在 uv 空间中的坐标 $\mathbf{u}(\mathbf{x})=(u,v)$，然后再根据公式 1 可以得到其在世界空间中的坐标 $P(u,v)=(x,y,z)$。
+
+**Degenerate Solutions**. 从一些很斜的角度看，2D 高斯会退化成一条线，在光栅化的过程中会消失。为了解决这个问题，本文使用 uv 空间的低通滤波：
+$$
+\hat{\mathcal{G}(\mathbf{x})}=\max\left\{\mathcal{G}(\mathbf{u}(\mathbf{x})),\mathcal{G}\left(\frac{\mathbf{x}-\mathbf{c}}{\sigma}\right)\right\}
+\tag{8}
+$$
+
+- $\mathbf{u}(\mathbf{x})$ 表示通过公式 7 计算出来的 uv 坐标
+- $\mathbf{c}$ 表示投影后的中心点 $\mathbf{p}_k$
+
+> 通俗地来说，当 2D 高斯在屏幕空间比半径为 $\sigma$ 的圆还要小的时候，就把它当成半径为 $\sigma$ 的圆。本文取 $\sigma=\sqrt{2}/2$
+
+**Rasterization**. 光栅化的过程和 3DGS 一样，也是用 alpha 合成的算法：
+$$
+\mathbf{c}(\mathbf{x})=\sum_{i=1} \mathbf{c}_i \alpha_i \hat{\mathcal{G}}_i(\mathbf{u}(\mathbf{x})) \prod_{j=1}^{i-1}\left(1-\alpha_j \hat{\mathcal{G}}_j(\mathbf{u}(\mathbf{x}))\right)
+\tag{9}
+$$
+
+### Training
+
+
 
 ## Reference
 
@@ -101,3 +149,5 @@ $$
 [[3]新风向？——2DGS（2D高斯泼溅）横空出世](https://blog.csdn.net/weixin_72914660/article/details/139219438?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ECtr-2-139219438-blog-139115674.235%5Ev43%5Epc_blog_bottom_relevance_base1&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ECtr-2-139219438-blog-139115674.235%5Ev43%5Epc_blog_bottom_relevance_base1&utm_relevant_index=5)
 
 [[4][NeRF坑浮沉记]3DGS的升级？2DGS文献阅读笔记：Gaussian的光栅化](https://zhuanlan.zhihu.com/p/701359317)
+
+[[5]2DGS中的参数化](https://zhuanlan.zhihu.com/p/692094038)
