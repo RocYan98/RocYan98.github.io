@@ -214,7 +214,7 @@ SMPL-X 默认的是 1 个根节点 + 21 个身体 joints + 3 个头部 joints (1
 
 [[2]人体动作捕捉与SMPL模型 (mocap and SMPL model)](https://zhuanlan.zhihu.com/p/158700893)
 
-[[3]三维人体动捕模型 SMPL：A Skinned Multi Person Linear Model](https://yunyang1994.gitee.io/2021/08/21/三维人体模型-SMPL-A-Skinned-Multi-Person-Linear-Model/)
+[[3]三维人体动捕模型 SMPL：A Skinned Multi Person Linear Model](https://yunyang1994.github.io/2021/08/21/三维人体模型-SMPL-A-Skinned-Multi-Person-Linear-Model/)
 
 [[4]基于SMPL的三维人体重建-SMPL模型的计算与构建（3）](https://zhuanlan.zhihu.com/p/458868557?utm_id=0)
 

@@ -58,3 +58,19 @@ CVPR 2024
 本文介绍的**高斯数字人 (GaussianAvatar)** 是一种高效的方法，可通过单个视频创建具有动态三维外观的逼真数字人。我们首先引入了可动画化的 3D 高斯来显式表示不同姿势和服装的人体。这种显式且可动画化的表现形式可以更高效、更一致地从 2D **流形 (manifold)** 中学习 3D 外观。本文的表示进一步增强了动态属性，以支持 pose-dependent 的外观建模，其中通过动态外观网络和可优化的特征张量可以学习 motion-to-appearance 的映射。此外，通过利用可微 motion condition，本文的方法可以在数字人建模过程中对 motion 和 appearance 进行联合优化，这有助于解决长期存在的单目环境下运动估计不准确的问题。GaussianAvatar 在公开数据集和我们收集的数据集上都得到了验证，证明了它在外观质量和渲染效率方面的卓越表现。
 
 > 这篇工作的整体思路和 [Animatable Gaussians](Animatable-Gaussians.thml) 很相似，都是用 2D map 来表示 pose，然后直接通过网络学习出高斯的属性。本文的输入是单个视频，不同 pose下每个顶点的位置用 uv 图 (颜色表示具体的坐标) 表示，然后通过动态外观网络 (网络的架构和 [POP](https://openaccess.thecvf.com/content/ICCV2021/html/Ma_The_Power_of_Points_for_Modeling_Humans_in_Clothing_ICCV_2021_paper.html) 一样) 来学习出高斯的属性。本文还用 motion and appearance 联合优化的方法来缓解 SMPL pose 估计不准的问题。
+
+## ASH: Animatable Gaussian Splats for Efficient and Photoreal Human Rendering
+
+[项目地址](https://vcai.mpi-inf.mpg.de/projects/ash/)
+
+CVPR 2024
+
+![Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407051701353.png)
+
+![Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407051701447.png)
+
+## Abstract
+
+实时渲染逼真、可控的数字人是计算机视觉和图形学的基石。虽然隐式神经渲染技术的最新进展为数字人带来了前所未有的逼真度，但实时性能大多只在静态场景中得到了验证。为了解决这个问题，本文提出了 ASH，一种可动画化的 3DGS 方法，用于实时逼真地渲染动态人体。我们将穿着衣服的人体参数化为可动画化的 3D 高斯，并将其有效地 splatting 到图像空间中，以生成最终的渲染效果。然而，在 3D 空间中天真地学习高斯参数对计算能力提出了严峻的挑战。相反，我们将高斯附加到可变形的角色模型上，并在 2D 纹理空间中学习它们的参数，这样就可以利用高效的 2D 卷积架构，轻松扩展所需的高斯数量。我们在姿态可控的数字人上对 ASH 与其他竞争方法进行了基准测试，结果表明本文的方法远远优于现有的实时方法，并显示出与离线方法相当甚至更好的效果。
+
+> 这篇工作的整体思路和 [Animatable Gaussians](Animatable-Gaussians.thml) 也很相似，输入的也是多视角的视频。首先需要通过 [Real-time deep dynamic characters](https://dl.acm.org/doi/abs/10.1145/3450626.3459749) 生成一个可动画的人体 mesh 模版，根据这个模板可以生成 motion-aware 的 2D 纹理，然后基于 2D 纹理通过两个 2D 卷积神经网络 (几何网络和外观网络) 预测出高斯的属性，最后用**对偶四元数蒙皮 (Dual Quaternion skinning)** 将人体从标准空间变换到 pose 空间。
