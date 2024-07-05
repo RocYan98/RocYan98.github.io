@@ -33,7 +33,7 @@ arXiv preprint arXiv:2311.08581
 
 ICCV 2023
 
-![image-20240527163215445](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261143606.png =x400)
+![Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261143606.png =x400)
 
 ![Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261144768.png)
 
@@ -43,3 +43,18 @@ ICCV 2023
 
 > 这篇文章主要是学习一个动态点云场，可以理解为学习一个基于点云的 PSD，要有 GT 的 mesh 才能学出点云表示的表面。
 
+## GaussianAvatar: Towards Realistic Human Avatar Modeling from a Single Video via Animatable 3D Gaussians
+
+[项目地址](https://huliangxiao.github.io/GaussianAvatar)
+
+CVPR 2024
+
+![Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407051530107.png)
+
+![Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407051531677.png)
+
+### Abstract
+
+本文介绍的**高斯数字人 (GaussianAvatar)** 是一种高效的方法，可通过单个视频创建具有动态三维外观的逼真数字人。我们首先引入了可动画化的 3D 高斯来显式表示不同姿势和服装的人体。这种显式且可动画化的表现形式可以更高效、更一致地从 2D **流形 (manifold)** 中学习 3D 外观。本文的表示进一步增强了动态属性，以支持 pose-dependent 的外观建模，其中通过动态外观网络和可优化的特征张量可以学习 motion-to-appearance 的映射。此外，通过利用可微 motion condition，本文的方法可以在数字人建模过程中对 motion 和 appearance 进行联合优化，这有助于解决长期存在的单目环境下运动估计不准确的问题。GaussianAvatar 在公开数据集和我们收集的数据集上都得到了验证，证明了它在外观质量和渲染效率方面的卓越表现。
+
+> 这篇工作的整体思路和 [Animatable Gaussians](Animatable-Gaussians.thml) 很相似，都是用 2D map 来表示 pose，然后直接通过网络学习出高斯的属性。本文的输入是单个视频，不同 pose下每个顶点的位置用 uv 图 (颜色表示具体的坐标) 表示，然后通过动态外观网络 (网络的架构和 [POP](https://openaccess.thecvf.com/content/ICCV2021/html/Ma_The_Power_of_Points_for_Modeling_Humans_in_Clothing_ICCV_2021_paper.html) 一样) 来学习出高斯的属性。本文还用 motion and appearance 联合优化的方法来缓解 SMPL pose 估计不准的问题。
