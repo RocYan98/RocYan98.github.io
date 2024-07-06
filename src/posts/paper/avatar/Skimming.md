@@ -75,3 +75,19 @@ CVPR 2024
 本文介绍了一种利用 3DGS 从单目视频中创建可动画化人体的方法。基于神经辐射场 (NeRFs) 的现有方法可实现高质量的新视角/新姿势图像合成，但通常需要数天的训练，而且推理速度极慢。最近，业界探索了快速网格结构，用于高效训练穿衣人体。尽管训练速度极快，但这些方法只能勉强达到 15 FPS 左右的交互式渲染帧率。在本文中使用 3DGS 并学习非刚性变形网络来重建可动画的穿衣人体，该方法可在 30 分钟内完成训练，并以实时帧率 (50+ FPS) 进行渲染。鉴于 3DGS 的显式表示，可以进一步在高斯均值向量和协方差矩阵上引入了 as-isometric-aspossible 正则化，从而增强了模型对未见姿势的泛化能力。实验结果表明，与最先进的方法相比，本文的方法在通过单目输入创建动画人体方面取得了相当甚至更好的性能，同时在训练和推理方面分别快了 400 倍和 250 倍。
 
 > 从这篇工作中看到了很多之前 NeRF 相关工作的影子。和 [HumanNeRF](https://openaccess.thecvf.com/content/CVPR2022/html/Weng_HumanNeRF_Free-Viewpoint_Rendering_of_Moving_People_From_Monocular_Video_CVPR_2022_paper.html) 一样，把人体的 pose 变换拆解成非刚性变换 (与 pose 相关的衣服的变形) 和由人体骨骼控制的刚性变换。首先用一个轻量级分层 pose 编码器对 SMPL 的 pose 和 shape 参数进行编码得到 pose 向量 $\mathcal{Z}_p$，然后基于这个向量，用非刚体变换模块将标准空间中的高斯基元 $\mathcal{G}_c$ 变换成非刚体变换后的高斯基元 $\mathcal{G}_d$；再通过 LBS (蒙皮权重是通过一个 MLP 学出来的) 将 $\mathcal{G}_d$ 变换到观测空间 $\mathcal{G}_o$。最后和 [Neural Body](https://openaccess.thecvf.com/content/CVPR2021/html/Peng_Neural_Body_Implicit_Neural_Representations_With_Structured_Latent_Codes_for_CVPR_2021_paper.html) 类似通过一个 MLP 直接预测出每个高斯基元的颜色。
+
+## GauHuman: Articulated Gaussian Splatting from Monocular Human Videos
+
+[项目地址](https://skhu101.github.io/GauHuman/)
+
+CVPR 2024
+
+![Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407060949697.png)
+
+![Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407060949541.png)
+
+### Abstract
+
+本文展示了 GauHuman，这是一种基于 3DGS 的人体模型，用于快速训练 (1∼2 分钟) 和实时渲染 (高达 189 FPS)，现有的基于 NeRF 的隐式表示建模框架需要几个小时的训练和秒级的渲染。具体来说，GauHuman 在标准空间中编码 3DGS，并使用线性混合蒙皮 (LBS) 将 3D 高斯从规范空间转换为 pose 空间，其中设计了有效的 pose 和 LBS refine 模块来学习 3D 人体的精细细节，这些模块的计算成本可以忽略不计。此外，为了实现 GauHuman 的快速优化，本文使用 3D 人类先验来初始化点云和优化 3D 高斯，同时通过 KL 散度引导拆分/克隆，以及一种新颖的合并操作来进一步加快速度。基于 ZJU_Mocap 和 MonoCap 数据集的广泛实验表明，GauHuman 在定量和定性上都达到了最快的训练和实时渲染速度。值得注意的是，在不牺牲渲染质量的情况下，GauHuman 可以使用 13k 个 3D 高斯快速建模 3D 人体。
+
+> 这篇文章主要强调的是训练时间短，渲染速度快。整体的 pipeline 是和以前基于 NeRF 的工作类似，简单概括就是用 3DGS 表示标准空间的人体，通过 LBS 将标准空间的人体变换到 pose 空间，然后用 3DGS 的光栅化器进行渲染，然后优化标准空间中的人体。高斯基元的蒙皮权重是通过一个 MLP 学习出来的，同时还用了一个 MLP 去 refine 估计出来的 pose。文章的主要创新点在 3DGS 的自适应密度控制的部分，用一个 KL 散度和人体先验去优化这个密度控制的策略，最终实现速度上的提升。
