@@ -3,11 +3,11 @@ date: 2024-05-22
 category: 论文
 tag:
   - Paper
-  - Physical Simulation
+  - Segmentation
   - Feature Splatting
   - 3DGS
 title: Feature Splatting-论文笔记
-order: 15
+order: 1
 ---
 
 ## Feature Splatting: Language-Driven Physics-Based Scene Synthesis and Editing

@@ -3,12 +3,12 @@ date: 2024-04-22
 category: 论文
 tag:
   - Paper
-  - 3DGS
   - Avatar
   - Animatable Gaussians
+  - 3DGS
   - SDF
 title: Animatable Gaussians-论文笔记
-order: 11
+order: 4
 ---
 
 ## Animatable Gaussians: Learning Pose-dependent Gaussian Maps  for High-fidelity Human Avatar Modeling

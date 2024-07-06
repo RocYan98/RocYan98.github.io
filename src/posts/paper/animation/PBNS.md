@@ -3,10 +3,11 @@ date: 2024-05-20
 category: 论文
 tag:
   - Paper
-  - Physical Simulation
+  - Cloth Simulation
   - PBNS
+  - Mesh
 title: PBNS-论文笔记
-order: 14
+order: 5
 ---
 
 ## PBNS: Physically Based Neural Simulator for Unsupervised Garment Pose Space Deformation

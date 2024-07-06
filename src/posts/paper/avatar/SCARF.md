@@ -3,12 +3,11 @@ date: 2024-03-29
 category: 论文
 tag:
   - Paper
-  - SCARF
-  - Reconstructing
   - Avatar
-  - Cloth Simulation
+  - SCARF
+  - NeRF
 title: SCARF-论文笔记
-order: 10
+order: 3
 ---
 
 ## SCARF: Capturing and Animation of Body and Clothing from Monocular Video

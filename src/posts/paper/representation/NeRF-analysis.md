@@ -3,10 +3,10 @@ date: 2023-10-26
 category: 论文
 tag:
   - Paper
-  - Analysis
+  - Representation
   - NeRF
 title: NeRF-论文解析
-order: 3
+order: 2
 ---
 
 ## NeRF 是做什么的

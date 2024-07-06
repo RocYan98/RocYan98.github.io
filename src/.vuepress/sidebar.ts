@@ -31,12 +31,19 @@ export default sidebar({
                     collapsible: true,
                     children: [
                         {
-                            text: "GAMES101: 现代计算机图形学入门",
+                            text: "GAMES101",
+                            icon: "GAMES",
                             prefix: "GAMES101/",
                             collapsible: true,
                             children: "structure"
                         },
-                        'coordinate.md'
+                        {
+                            text: "其他",
+                            icon: "others",
+                            prefix: "others/",
+                            collapsible: true,
+                            children: "structure"
+                        },
                     ]
                 },
                 {
@@ -44,8 +51,52 @@ export default sidebar({
                     icon: "paper",
                     prefix: "paper/",
                     collapsible: true,
-                    children: "structure"
+                    children: [
+                        {
+                            text: "表示方式",
+                            icon: "representation",
+                            prefix: "representation/",
+                            collapsible: true,
+                            children: "structure"
+                        },
+                        {
+                            text: "数字人",
+                            icon: "avatar",
+                            prefix: "avatar/",
+                            collapsible: true,
+                            children: "structure"
+                        },
+                        {
+                            text: "仿真",
+                            icon: "animation",
+                            prefix: "animation/",
+                            collapsible: true,
+                            children: "structure"
+                        },
+                        {
+                            text: "分割",
+                            icon: "segmentation",
+                            prefix: "segmentation/",
+                            collapsible: true,
+                            children: "structure"
+                        },
+                        {
+                            text: "其他",
+                            icon: "others",
+                            prefix: "others/",
+                            collapsible: true,
+                            children: "structure"
+                        },
+                        // 'coordinate.md'
+                    ]
                 },
+                // {
+                //     text: "论文",
+                //     icon: "paper",
+                //     prefix: "paper/",
+                //     collapsible: true,
+                //     children: "structure"
+                // },
                 {
                     text: "PAT",
                     icon: "code",

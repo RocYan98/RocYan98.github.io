@@ -3,11 +3,11 @@ date: 2024-03-01
 category: 论文
 tag:
   - Paper
-  - REC-MV
-  - Reconstructing
   - Cloth Simulation
+  - REC-MV
+  - Mesh
 title: REC-MV-论文笔记
-order: 6
+order: 2
 ---
 
 ## REC-MV: REconstructing 3D Dynamic Cloth from Monocular Videos 

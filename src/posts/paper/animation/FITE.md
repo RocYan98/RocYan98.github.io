@@ -3,11 +3,11 @@ date: 2024-04-25
 category: 论文
 tag:
   - Paper
-  - Avatar
+  - Cloth Simulation
   - FITE
   - Occupancy Field
 title: FITE-论文笔记
-order: 12
+order: 4
 ---
 
 ## Learning Implicit Templates for Point-Based Clothed Human Modeling

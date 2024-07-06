@@ -3,10 +3,11 @@ date: 2024-02-27
 category: 论文
 tag:
   - Paper
-  - SMPL
   - Avatar
+  - SMPL
+  - Mesh
 title: SMPL-论文解析
-order: 5
+order: 2
 ---
 
 ## SMPL: A Skinned Multi-Person Linear Model

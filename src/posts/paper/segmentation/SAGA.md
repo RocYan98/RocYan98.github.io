@@ -7,7 +7,7 @@ tag:
   - SAGA
   - 3DGS
 title: SAGA-论文笔记
-order: 16
+order: 2
 ---
 
 ## Segment Any 3D Gaussians

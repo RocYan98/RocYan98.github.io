@@ -13,7 +13,7 @@ export default hopeTheme({
     email: "qpyan23@m.fudan.edu.cn"
   },
 
-  iconAssets: "//at.alicdn.com/t/c/font_4208645_4hed1h93oiq.css",
+  iconAssets: "//at.alicdn.com/t/c/font_4208645_d8z30h19wo8.css",
 
   logo: "/logo.png",
 

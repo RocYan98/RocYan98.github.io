@@ -6,8 +6,9 @@ tag:
   - Avatar
   - SplattingAvatar
   - 3DGS
+  - Mesh
 title: SplattingAvatar-论文笔记
-order: 13
+order: 5
 ---
 
 ## SplattingAvatar: Realistic Real-Time Human Avatars with Mesh-Embedded Gaussian Splatting

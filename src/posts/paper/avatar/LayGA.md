@@ -4,10 +4,11 @@ category: 论文
 tag:
   - Paper
   - Avatar
+  - Segmentation
   - LayGA
   - 3DGS
 title: LayGA-论文笔记
-order: 18
+order: 7
 ---
 
 ## LayGA: Layered Gaussian Avatars for Animatable Clothing Transfer

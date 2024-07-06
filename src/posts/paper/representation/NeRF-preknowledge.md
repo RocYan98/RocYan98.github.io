@@ -3,11 +3,10 @@ date: 2023-10-19
 category: 论文
 tag:
   - Paper
-  - Volume Rendering
-  - Sampling
+  - Representation
   - NeRF
 title: NeRF-前置知识
-order: 4
+order: 
 ---
 
 ## 体渲染 (Volume Rendering) 简介

@@ -3,11 +3,11 @@ date: 2024-07-03
 category: 论文
 tag:
   - Paper
-  - 3D Reconstruction
+  - Representation
   - 2DGS
   - 3DGS
 title: 2DGS-论文笔记
-order: 19
+order: 5
 ---
 
 ## 2DGS: 2D Gaussian Splatting for Geometrically Accurate Radiance Fields

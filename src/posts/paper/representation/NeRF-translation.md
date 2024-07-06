@@ -3,10 +3,10 @@ date: 2023-10-14
 category: 论文
 tag:
   - Paper
-  - Translation
+  - Representation
   - NeRF
 title: NeRF-论文翻译
-order: 2
+order: 1
 ---
 
 ## NeRF：基于神经辐射场的视图合成

@@ -3,10 +3,10 @@ date: 2024-03-15
 category: 论文
 tag:
   - Paper
+  - Representation
   - 3DGS
-  - 3D Reconstruction
 title: 3DGS-论文笔记
-order: 8
+order: 4
 ---
 
 ## 3D Gaussian Splatting for Real-Time Radiance Field Rendering

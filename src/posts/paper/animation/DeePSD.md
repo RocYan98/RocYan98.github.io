@@ -3,10 +3,11 @@ date: 2024-03-06
 category: 论文
 tag:
   - Paper
-  - DeePSD
   - Cloth Simulation
+  - DeePSD
+  - Mesh
 title: DeePSD-论文笔记
-order: 7
+order: 3
 ---
 
 ## DeePSD: Automatic Deep Skinning And Pose Space Deformation For 3D Garment Animation
@@ -26,7 +27,7 @@ ICCV 2021
 虚拟着装人体动画传统的两种方法：
 
 - **基于物理的模拟 (Physically Based Simulation, PBS)**
-- **线性混合蒙皮 (Linear Blend Skinning, LBS)** 和**姿态空间变形(Pose Space Deformation, PSD)**
+- **线性混合蒙皮 (Linear Blend Skinning, LBS)** 和**姿态空间变形 (Pose Space Deformation, PSD)**
 
 PBS 能够以巨大的计算成本为代价获得高度真实的布料动力学，LBS 和 PSD 则适用于计算资源有限或对实时性能有需求的项目。
 
