@@ -24,7 +24,7 @@ SIGGRAPH 2024
 
 ## Introduction
 
-因为体积 3D 高斯模型模拟了完整角度的辐射，这与表面的薄性是冲突的。前人的工作已经证明了**表面元素 (surfels)** 是一个高效表示复杂几何的方法，因此本文用 2D 高斯基元，即**定向椭圆盘 (oriented elliptical disk)** 来表示 3D 场景。相较于 3D 高斯基元，2D 高斯基元可以准确地表示出物体的表面。如图 2 所示，本文采用显式 ray-splat intersection 的方法。3DGS 通过像素光线的相交处来估计高斯的属性，当视角不同时，会产生不同的交平面，最终会导致不一致性。而 ray-splat intersection 的方法能够达到交汇平面的一致性，最实现透视正确的 splatting 效果。并且 2D 基元能够很方便地计算出法线。
+因为体积 3D 高斯模型模拟了完整角度的辐射，这与表面的薄性是冲突的。前人的工作已经证明了**表面元素 (surfels)** 是一个高效表示复杂几何的方法，因此本文用 2D 高斯基元，即**定向椭圆盘 (oriented elliptical disk)** 来表示 3D 场景。相较于 3D 高斯基元，2D 高斯基元可以准确地表示出物体的表面。如图 2 所示，本文采用显式 ray-splat intersection 的方法。3DGS 通过像素光线的相交处来估计高斯的属性，当视角不同时，会产生不同的交平面，最终会导致不一致性。而 ray-splat intersection 的方法能够实现交汇平面的一致性，最终实现透视正确的 splatting 效果。并且 2D 基元能够很方便地计算出法线。
 
 > A surfel, that is, a point structure representing Euclidean xyz coordinates, together with normal coordinates, a RGBA color, a radius, a confidence value and the surface curvature estimate.
 >
