@@ -20,7 +20,7 @@ SIGGRAPH 2024
 
 ## Abstract
 
-3D Gaussian Splatting (3DGS) 最近在辐射场重建领域取得了革命性进展，实现了高质量的新视角合成和快速渲染。然而，由于 3D 高斯的多视图不一致性，3DGS 无法准确表示表面。本文提出了 2D Gaussian Splatting (2DGS)，这是一种从多视图图像中建模和重建几何精确辐射场的新方法。核心思想是将 3D 体积压缩成一组 **2D 定向平面高斯盘 (2D oriented planar Gaussian disks)**。与 3D 高斯不同，2D 高斯在建模表面时内在地提供了视图一致的几何形状。为了准确恢复薄表面并实现稳定优化，本文介绍了利用**光线泼溅交汇 (ray-splat intersection)** 和光栅化实现透视准确的 2D splatting 过程。此外，还结合了**深度误差 (depth distortion)** 和法线一致性项，以进一步提高重建质量。证明了本文的可微渲染器在保持竞争性外观质量、快速训练速度和实时渲染的同时，能够实现无噪声且细节丰富的几何重建。
+3D Gaussian Splatting (3DGS) 最近在辐射场重建领域取得了革命性进展，实现了高质量的新视角合成和快速渲染。然而，由于 3D 高斯的多视图不一致性，3DGS 无法准确表示表面。本文提出了 2D Gaussian Splatting (2DGS)，这是一种从多视图图像中建模和重建几何精确辐射场的新方法。核心思想是将 3D 体积压缩成一组 **2D 定向平面高斯盘 (2D oriented planar Gaussian disks)**。与 3D 高斯不同，2D 高斯在建模表面时内在地提供了视图一致的几何形状。为了准确恢复薄表面并实现稳定优化，本文介绍了利用**光线泼溅交汇 (ray-splat intersection)** 和光栅化实现透视准确的 2D splatting 过程。此外，还结合了**深度失真 (depth distortion)** 和法线一致性项，以进一步提高重建质量。证明了本文的可微渲染器在保持竞争性外观质量、快速训练速度和实时渲染的同时，能够实现无噪声且细节丰富的几何重建。
 
 ## Introduction
 
@@ -31,7 +31,7 @@ SIGGRAPH 2024
 
 ![Fig. 2: Comparison of 3DGS and 2DGS](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407021720559.png)
 
-如果只是用图片求损失来优化效果并不是非常好，因此本文还引入了深度误差和法线一致性损失。深度误差损失将 2D 基元集中在沿光线分布的一个小范围内，解决了渲染过程中忽略高斯基元之间距离的问题；法线一致性损失能最大限度地减少渲染的法线贴图与渲染的深度梯度之间的差异，确保深度和法线定义的几何图形保持一致。
+如果只是用图片求损失来优化效果并不是非常好，因此本文还引入了深度失真和法线一致性损失。深度失真损失将 2D 基元集中在沿光线分布的一个小范围内，解决了渲染过程中忽略高斯基元之间距离的问题；法线一致性损失能最大限度地减少渲染的法线贴图与渲染的深度梯度之间的差异，确保深度和法线定义的几何图形保持一致。
 
 本文的贡献为：
 
@@ -138,7 +138,7 @@ $$
 
 ### Training
 
-**Depth Distortion**. NeRF 是在光线上进行采样，因此会考虑采样点之间的距离，而 3DGS 的体渲染并没有考虑高斯基元之间的距离。在光线方向有重叠的高斯基元之间的距离不同，也可能会产生相似的渲染结果。并且和传统的表面渲染不同，表面渲染只需要渲染与光线相交的第一个表面即可，而体渲染需要对光线上所有的高斯基元进行累加。为了解决这个问题，本文使用了深度误差来最小化 ray-splat intersections 之间的距离来集中权重的分布：
+**Depth Distortion**. NeRF 是在光线上进行采样，因此会考虑采样点之间的距离，而 3DGS 的体渲染并没有考虑高斯基元之间的距离。在光线方向有重叠的高斯基元之间的距离不同，也可能会产生相似的渲染结果。并且和传统的表面渲染不同，表面渲染只需要渲染与光线相交的第一个表面即可，而体渲染需要对光线上所有的高斯基元进行累加。为了解决这个问题，本文使用了深度失真来最小化 ray-splat intersections 之间的距离来集中权重的分布：
 $$
 \mathcal{L}_d = \sum_{i,j} \omega_i \omega_j \left| z_i - z_j \right |
 \tag{10}
@@ -147,12 +147,28 @@ $$
 - $\omega_i = \alpha_i \hat{\mathcal{G}}_i (\mathbf{u}(\mathbf{x})) \prod_{j=1}^{i-1} \left(1 - \alpha_j \hat{\mathcal{G}}_j (\mathbf{u}(\mathbf{x})) \right)$ 表示光线上第 $i$ 个交点的混合权重
 - $z_i$ 表示交点的深度
 
-并且这个正则项是通过 CUDA 实现的。
+从这个公式也能看出高斯基元的不透明度越高，权重也越高，所以这个公式可以理解为减少具有高不透明度基元之间的深度差异。并且这个正则项是通过 CUDA 实现的。
+
+在补充材料中还有对公式 10 进行补充：
+$$
+\begin{aligned}
+\mathcal{L} & =\sum_{i=0}^{N-1} \sum_{j=0}^{i-1} \omega_i \omega_j\left(m_i-m_j\right)^2 \\
+& =\sum_{i=0}^{N-1} \omega_i\left(m_i^2 \sum_{j=0}^{i-1} \omega_j+\sum_{j=0}^{i-1} \omega_j m_j^2-2 m_i \sum_{j=0}^{i-1} \omega_j m_j\right) \\
+& =\sum_{i=0}^{N-1} \omega_i\left(m_i^2 A_{i-1}+D_{i-1}^2-2 m_i D_{i-1}\right),
+\end{aligned}
+\tag{11}
+$$
+- $m_i$ 表示 NDC 空间下第 $i$ 个高斯基元的深度
+- $A_i=\sum_{j=0}^i \omega_j$ 表示前 $i$ 个高斯基元的不透明度权重之和
+- $D_i^2=\sum_{j=0}^i \omega_j m_j^2$ 表示前 $i$ 个高斯基元的深度权重平方之和
+- $D_i=\sum_{j=0}^i \omega_j m_j$ 表示前 $i$ 个高斯基元的深度权重之和
+
+令 $e_i=m_i^2 A_{i-1}+D_{i-1}^2-2 m_i D_{i-1}$， $e_i$ 表示的是直到第 $i$ 个高斯基元的深度失真量。深度失真损失可以像 alpha 混合一样用 $\mathcal{L}_i=\sum^i_{j=0}\omega_je_j$ 来渲染深度失真。
 
 **Normal Consistency**. 因为光线上可能存在很多半透明的点，因此把累积不透明度达到 $0.5$ 的交点 $\mathbf{p}_s$ 作为真实表面。通过下面这个损失函数将表面的法线与深度图的梯度算出来的法线对齐：
 $$
 \mathcal{L}_n=\sum_i\omega_i(1-\mathbf{n}_i^T\mathbf{N})
-\tag{11}
+\tag{12}
 $$
 
 - $\omega_i$ 和公式 10 一样
@@ -162,13 +178,14 @@ $$
 $\mathbf{N}$ 是通过相邻点的深度的有限差分算出来的：
 $$
 \mathbf{N}(x, y) = \frac{\nabla_x \mathbf{p}_s \times \nabla_y \mathbf{p}_s}{|\nabla_x \mathbf{p}_s \times \nabla_y \mathbf{p}_s|}
-\tag{12}
+\tag{13}
 $$
 这样就可以使 2D 高斯基元尽可能分布在物体的表面上。
 
 最终总的损失函数为：
 $$
 \mathcal{L}=\mathcal{L}_c+\lambda_d\mathcal{L}_d+\lambda_n\mathcal{L}_n
+\tag{14}
 $$
 
 - $\mathcal{L}_c$ 表示结合 $\mathcal{L}_1$ 损失和 D-SSIM 损失的 RGB 损失
@@ -184,3 +201,6 @@ $$
 [[4][NeRF坑浮沉记]3DGS的升级？2DGS文献阅读笔记：Gaussian的光栅化](https://zhuanlan.zhihu.com/p/701359317)
 
 [[5]2DGS中的参数化](https://zhuanlan.zhihu.com/p/692094038)
+
+[[6]2DGS的非官方实现以及相关推导](https://zhuanlan.zhihu.com/p/695103095)
+
