@@ -55,7 +55,7 @@ $$
 
 ### 高斯自适应控制 (Adaptive Control of Gaussians)
 
-每 100 轮迭代进行一次密集化，并去除哪些透明的椭球 (不透明度 $\alpha$ 低于某个阈值 $\epsilon_\alpha$ 的椭球) 。对于缺少几何特征 (欠重建) 或高斯球覆盖很大区域 (过重建) 的场景，通常都有很大的观察空间位置梯度，所以对于梯度大于阈值 $\tau_{pos}$ 的区域就进行密集化。
+每 100 轮迭代进行一次密集化，并去除那些透明的椭球 (不透明度 $\alpha$ 低于某个阈值 $\epsilon_\alpha$ 的椭球) 。对于缺少几何特征 (欠重建) 或高斯球覆盖很大区域 (过重建) 的场景，通常都有很大的观察空间位置梯度，所以对于梯度大于阈值 $\tau_{pos}$ 的区域就进行密集化。
 
 ![Fig. 3: Adaptive Gaussian densification scheme](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261146653.png)
 
