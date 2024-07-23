@@ -76,4 +76,4 @@ order: 4
 
 ## 2 总结
 
-**Model 变换**是从**局部空间 (Local Space)** 到 **世界空间 (World Space)**，**View 变换**是从世界空间到**观察空间 (View Space)**，**Projection 变换**是从观察空间到**裁剪空间 (Clip Space)**，**透视除法 (Perspective Division)** 是从裁剪空间到**标准设备坐标系 (Normalized Device Coordinate, NDC)**，**Viewport 变换**是从 NDC 到**屏幕空间 (Screen Space)**。
+**Model 变换**是从**局部空间 (Local Space)** 到 **世界空间 (World Space)**；**View 变换**是从世界空间到**观察空间 (View Space)**；**Projection 变换**是从观察空间到**裁剪空间 (Clip Space)**；**透视除法 (Perspective Division)** 是从裁剪空间到**标准设备坐标系 (Normalized Device Coordinate, NDC)**，这个变换通常是由硬件渲染管线自动进行；**Viewport 变换**是从 NDC 到**屏幕空间 (Screen Space)**。

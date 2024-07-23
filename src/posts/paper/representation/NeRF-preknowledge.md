@@ -6,7 +6,7 @@ tag:
   - Representation
   - NeRF
 title: NeRF-前置知识
-order: 
+order: 2
 ---
 
 ## 体渲染 (Volume Rendering) 简介
