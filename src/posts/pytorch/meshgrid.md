@@ -23,7 +23,7 @@ torch.meshgrid(*tensors, indexing='ij')
 
 'xy' 和 'ij' 可以分别理解为如下坐标系：
 
-![indexing](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407231000090.png)
+![202407231000090](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407290919991.png)
 
 ## 例子
 
