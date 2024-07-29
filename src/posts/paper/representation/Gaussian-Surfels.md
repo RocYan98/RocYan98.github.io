@@ -121,3 +121,29 @@ $$
 
 - $\hat{\mathbf{N}}$ 表示预测出来的法向量图
 - $\nabla \tilde{\mathbf{N}}$ 表示渲染法向量的梯度，对表面的曲率进行正则化
+
+**Opacity loss**. 不透明度损失来约束每个高斯核的不透明度尽量要么为 0 要么为 1：
+$$
+\mathcal{L}_o=\exp(-(o_i-0.5)^2/0.05)
+\tag{8}
+$$
+
+- $o_i$ 是经过 sigmoid 后得到的不透明度
+
+最终的 loss 为：
+$$
+\mathcal{L}=\mathcal{L}_{\mathrm{p}}+\mathcal{L}_{\mathrm{n}}+\lambda_{\mathrm{o}} \mathcal{L}_{\mathrm{o}}+\lambda_{\mathrm{c}} \mathcal{L}_{\mathrm{c}}+\lambda_{\mathrm{m}} \mathcal{L}_{\mathrm{m}}
+\tag{9}
+$$
+
+- $\mathcal{L}_m$ 为渲染 alpha 图和分割 mask 之间的二元交叉熵损失
+
+### Gaussian Point Cutting and Meshing
+
+通过融合渲染的深度图和法线图，然后应用屏蔽泊松表面重建算法 (树深度为 10) 来获得最终的 mesh。
+
+但是如图 4 所示，如果椭圆超出了真正的表面边界，且相关权重无法快速衰减为零，则背景表面的渲染深度将受到前景高斯核 alpha 值的影响，导致深度错误。由于 Gaussian Surfels 的复杂分布，很难通过丢弃远离中位数或 alpha 加权平均值的 surfels 来去除每条射线上的异常值。因此根据每个 Gaussian Surfels 的累积的 alpha 值实施体积切割。
+
+![Fig. 4: An example of error in the rendered depth](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407291841538.png)
+
+**Volumetric cutting**. 这样做的目的是将那些远离 Gaussian Surfels 的体素标记为未占用体素，即从 grid 中删除这些体素。因此，图 4 中红色的错误 3D 点可以被删除，因为它位于未被占用的体素内部。具体来说，首先在 bounding box 内构建 $512^3$ 个体素网格。然后，遍历所有高斯椭圆，计算它们与周围体素的交点，并累积相应体素的加权不透明度 $G(\mathbf{x},\mathbf{x}_i,\Sigma_i)\cdot o_i$。为了降低计算成本，使用体素中心的加权不透明度来近似交叉区域内的高斯权重和不透明度。如果一个体素的累积加权不透明度较低，在实验中低于 $\lambda=1$，表明与前景或背景表面的距离较大，就会剪除这些体素以及其中根据深度计算出的 3D 点。
