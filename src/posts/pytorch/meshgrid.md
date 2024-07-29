@@ -15,7 +15,7 @@ torch.meshgrid(*tensors, indexing='ij')
 
 - *tensors：任意数量的一维张量。这些张量定义了网格的每一个维度
 
-- indexing：网格的索引方式。可以是 'xy' 或 'ij'
+- indexing：网格的索引方式。可以是 'xy' 或 'ij'，默认是 'ij'
 
   - 'xy'：适合笛卡尔坐标系，其中第一个张量表示 x 轴，第二个张量表示 y 轴
 
