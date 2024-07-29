@@ -147,3 +147,7 @@ $$
 ![Fig. 4: An example of error in the rendered depth](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407291841538.png)
 
 **Volumetric cutting**. 这样做的目的是将那些远离 Gaussian Surfels 的体素标记为未占用体素，即从 grid 中删除这些体素。因此，图 4 中红色的错误 3D 点可以被删除，因为它位于未被占用的体素内部。具体来说，首先在 bounding box 内构建 $512^3$ 个体素网格。然后，遍历所有高斯椭圆，计算它们与周围体素的交点，并累积相应体素的加权不透明度 $G(\mathbf{x},\mathbf{x}_i,\Sigma_i)\cdot o_i$。为了降低计算成本，使用体素中心的加权不透明度来近似交叉区域内的高斯权重和不透明度。如果一个体素的累积加权不透明度较低，在实验中低于 $\lambda=1$，表明与前景或背景表面的距离较大，就会剪除这些体素以及其中根据深度计算出的 3D 点。
+
+## Reference
+
+[[1]High-quality Surface Reconstruction using Gaussian Surfels](https://arxiv.org/pdf/2404.17774)
