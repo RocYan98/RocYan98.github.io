@@ -93,3 +93,31 @@ $$
 
 ### Optimization
 
+**Photometric loss**. 光度损失和 3DGS 中一样：
+$$
+\mathcal{L}_\mathrm{p}=0.8\cdot L_1(\tilde{\mathbf{I}},\mathbf{I})+0.2\cdot L_{DSSIM}\cdot(\tilde{\mathbf{I}},\mathbf{I})
+\tag{5}
+$$
+
+- $\tilde{\mathbf{I}}, \mathbf{I}$ 分别表示渲染出来的图像和 GT
+
+**Depth-normal consistency loss**. 这个正则项用来约束渲染深度和渲染法向量之间的一致性：
+$$
+\mathcal{L}_c=1-\tilde{\mathbf{N}}\cdot N(V(\tilde{\mathbf{D}}))
+\tag{6}
+$$
+
+- $\tilde{\mathbf{N}},\tilde{\mathbf{D}}$ 分别表示渲染深度和渲染法向量
+- $V(\cdot)$ 将每个像素的深度映射回 3D 点
+- $N(\cdot)$ 通过相邻点法向量的叉乘计算当前点的法向量
+
+这个正则项在本文的优化过程中起着至关重要的作用，尤其是在解决每个 Gaussian Surfels 的梯度消失问题时。
+
+**Normal-prior loss**. 在高光的区域，光度损失可能会导致错误的表面，因此用预测的法向量图作为先验，来提高优化的稳定性：
+$$
+\mathcal{L}_{\mathrm{n}}=0.04 \cdot(1-\tilde{\mathbf{N}} \cdot \hat{\mathbf{N}})+0.005 \cdot L_1(\nabla \tilde{\mathbf{N}}, \mathbf{0})
+\tag{7}
+$$
+
+- $\hat{\mathbf{N}}$ 表示预测出来的法向量图
+- $\nabla \tilde{\mathbf{N}}$ 表示渲染法向量的梯度，对表面的曲率进行正则化
