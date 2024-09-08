@@ -47,7 +47,7 @@ SIGGRAPH 2024
 
 ![Fig. 3: Illustration of 2D Gaussian Splatting](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202407031111398.png)
 
-一个 2D 高斯被在世界空间中的局部**切平面 (tangent plane)** 的定义如下：
+一个定义在局部**切平面 (tangent plane)** 的 2D 高斯在世界空间中的坐标如下：
 $$
 P(u, v)=\mathbf{p}_k+s_u \mathbf{t}_u u+s_v \mathbf{t}_v v=\mathbf{H}(u, v, 1,1)^{\mathrm{T}} 
 \tag{1}

@@ -179,7 +179,7 @@ $$
 
 ## SMPL-X 预训练模型参数
 
-SMPL-X 默认的是 1 个根节点 + 21 个身体 joints + 3 个头部 joints (1 个下巴 + 2 个眼睛) + 30 个手部 joints (15 个左手 + 15 个右手) +  + 21 个 extra joints + 51 个面部 landmarks = 127 个 joints，当然有些 projects 会选择 127 + 17 个面部轮廓 landmarks = 144 个 joints，不过可以控制的 joints 还是只有 1 +  21 + 3 + 30 = 55 个。
+SMPL-X 默认的是 1 个根节点 + 21 个身体 joints + 3 个头部 joints (1 个下巴 + 2 个眼睛) + 30 个手部 joints (15 个左手 + 15 个右手) + 21 个 extra joints + 51 个面部 landmarks = 127 个 joints，当然有些 projects 会选择 127 + 17 个面部轮廓 landmarks = 144 个 joints，不过可以控制的 joints 还是只有 1 +  21 + 3 + 30 = 55 个。
 
 10 个 shape 参数 $\beta$，10 个 pose 参数 $\theta$，10 个 expression 参数 $\psi$。在 SMPL-X 中，N = 10475，K = 54 (不包括根节点)。
 
