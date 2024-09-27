@@ -18,7 +18,7 @@ order: 6
 
 ## Abstract
 
-我们介绍了高斯服装，这是一种从多视角视频中重建逼真的可模拟服装资产的新方法。我们的方法结合三维网格和高斯纹理来表示服装，高斯纹理同时编码了颜色和高频表面细节。这种表示方法可以从多视角视频中将服装几何图形准确地进行配准，并有助于将纹理的固有颜色与光照效果区分开来。此外，我们还演示了如何对预先训练好的图神经网络（GNN）进行微调，以复制每件服装的真实行为。重建的高斯服装可自动组合成多件服装，并通过微调后的 GNN 制作动画。
+我们介绍了高斯服装，这是一种从多视角视频中重建逼真的可模拟服装资产的新方法。我们的方法结合三维网格和高斯纹理来表示服装，高斯纹理同时编码了颜色和高频表面细节。这种表示方法可以从多视角视频中将服装几何图形准确地进行配准，并有助于将纹理的反照率 (固有颜色) 与光照效果区分开来。此外，我们还演示了如何对预先训练好的图神经网络（GNN）进行微调，以复制每件服装的真实行为。重建的高斯服装可自动组合成多件服装，并通过微调后的 GNN 制作动画。
 
 ## Introduction
 
@@ -51,7 +51,7 @@ order: 6
 
 #### Gaussian texture
 
-Gaussian texture 对 3D mesh 表面和 2D 纹理图进行映射来控制表面的外观。纹理图上的每个点都定义了 3DGS 模型的一个参数：球谐函数系数 $\boldsymbol{\phi} \in [0,1]^{16\times3}$，不透明度 $\alpha$，缩放 $\mathbf{s}\in\R^3_+$，局部的旋转 $\mathbf{r} \in \mathbb{H}$ 和偏移 $\boldsymbol{\mu} \in \R^3$，其中最后两项是在局部坐标系中。
+Gaussian texture 对 3D mesh 表面和 2D 纹理图进行映射来控制表面的外观。纹理图上的每个点都定义了 3DGS 模型的一个参数：球谐函数系数 $\boldsymbol{\phi} \in [0,1]^{16\times3}$，不透明度 $\alpha$，缩放 $\mathbf{s}\in\R^3_+$，局部的旋转 $\mathbf{r} \in \mathbb{H}$ 和位移 $\boldsymbol{\mu} \in \R^3$，其中最后两项是在局部坐标系中。
 
 首先在纹理图中进行采样，然后找到他在 mesh 中对应的面 $f_i$ 以及在 $f_i$ 中的重心坐标，这两个值定义了高斯基元在 mesh 表面的初始位置，本文把这个位置称为高斯的**表面点 (surface point)**。 这个表面点作为局部坐标系的原点，局部坐标系的基由 $f_i$ 的法向量以及表面上两个正交的向量组成 (见图 3 的左半边)。
 
@@ -70,7 +70,7 @@ $$
 \tag{2}
 $$
 
-$\mathcal{L}_{pos}$ 用来约束高斯基元与表面点的距离，$\mu$ 表示局部偏移，$\epsilon_{pose}$ 表示容许阈值。
+$\mathcal{L}_{pos}$ 用来约束高斯基元与表面点的距离，$\mu$ 表示局部位移，$\epsilon_{pose}$ 表示容许阈值。
 $$
 \mathcal{L}_{scale}=||max(s-\epsilon_{scale},0)||_2
 \tag{3}
@@ -130,7 +130,36 @@ $$
 $$
 
 
-![Fig. 4: Ablation study](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202409271442741.png)
+![Fig. 4: Ablation study of mesh registration](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202409271442741.png)
 
 ### Appearance reconsturction
 
+本文将服装的外观分成两个组成部份：
+
+- 前文提到的**高斯纹理 (Gaussian texture)**
+- 神经网络 $f_\theta$ 
+
+本文的神经网络 $f_\theta$ 是 StyleUNet 用来提升纹理的质量，以 mesh 的反照率和遮挡贴图 $A$ 以及法向量图 $N$ 作为输入，输出的是纹理的球谐函数系数偏移 $\Delta\boldsymbol{\phi}$ 和位移偏移 $\Delta\boldsymbol{\mu}$ (这两个都是在原高斯纹理上的偏移量)。
+
+球谐函数系数偏移可以将反照率和光照效果分开 (图 5)，位移偏移可以解释为观测噪声，目的是为了保留高频细节和表面的局部几何 (图 6)。
+
+![Fig. 5: Disentangle the albedo color of the Gaussian Garments from the lighting effects](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202409271603804.png)
+
+![Fig. 6: Ablations study of appearance model](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202409271607358.png)
+
+最终高斯纹理 $\Omega$ 表示为：
+$$
+\Omega=\{\boldsymbol{\phi}+\Delta \boldsymbol{\phi}, \alpha, \mathbf{s}, \mathbf{r}, \boldsymbol{\mu}+\Delta \boldsymbol{\mu}\} \in \mathbb{R}^{H \times W \times 59}
+\tag{9}
+$$
+
+$$
+\Delta \boldsymbol{\phi},\Delta \boldsymbol{\mu}=f_\theta(A,N)
+\tag{10}
+$$
+
+### Mesh-based 3DGS rendering
+
+对于多层衣服在进行 3DGS 渲染的时候，可能里面的衣服会有部份穿透到外面来 (如图 7A 所示)，为了解决这个问题，本文只渲染可见的表面点。因为每一件衣服都有一个对应的 mesh，本文就利用了 mesh 和高斯之间的耦合关系。对于每一个高斯基元，都会从相机投射出一条光线到对应的表面点，看这个表面点是否被其他 mesh 所遮挡，如果没有被遮挡才会渲染。
+
+![Fig. 7](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202409271618619.png)
