@@ -133,4 +133,3 @@ $$
 ![Fig. 4: Ablation study](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202409271442741.png)
 
 ### Appearance reconsturction
-
