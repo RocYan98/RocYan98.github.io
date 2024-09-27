@@ -14,7 +14,7 @@ order: 6
 
 [项目地址](https://ribosome-rbx.github.io/Gaussian-Garments/)
 
-![Overview](/Users/Yan/Library/Application Support/typora-user-images/image-20240926142158040.png)
+![Fig. 1: Overview](/Users/Yan/Library/Application Support/typora-user-images/image-20240926142158040.png)
 
 ## Abstract
 
@@ -34,4 +34,71 @@ order: 6
 
 ## Method
 
- 
+ ![Fig. 2: Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202409261507278.png)
+
+主要分为 4 步：
+
+- 从多视角视频的一帧中初始化服装的几何和外观
+- 对多视角视频中的衣服进行配准
+- 通过视频序列对服装的外观进行优化
+- 微调 GNN 网络来准确复现出服装的行为
+
+### Gaussian garment initialization
+
+#### Mesh reconstruction
+
+首先用 COLMAP 从模版帧中初始化点云；然后过滤掉背景点云并且用泊松表面重建算法重建出穿衣人体的表面；最后用语义分割图把衣服单独分割出来，用 re-meshing 算法获取衣服的 mesh。每件衣服的 mesh 都是 8000 个顶点。
+
+#### Gaussian texture
+
+Gaussian texture 对 3D mesh 表面和 2D 纹理图进行映射来控制表面的外观。纹理图上的每个点都定义了 3DGS 模型的一个参数：球谐函数系数 $\boldsymbol{\phi} \in [0,1]^{16\times3}$，不透明度 $\alpha$，缩放 $\mathbf{s}\in\R^3_+$，局部的旋转 $\mathbf{r} \in \H$ 和偏移 $\boldsymbol{\mu} \in \R^3$，其中最后两项是在局部坐标系中。
+
+首先在纹理图中进行采样，然后找到他在 mesh 中对应的面 $f_i$ 以及在 $f_i$ 中的重心坐标，这两个值定义了高斯基元在 mesh 表面的初始位置，本文把这个位置称为高斯的**表面点 (surface point)**。 这个表面点作为局部坐标系的原点，局部坐标系的基由 $f_i$ 的法向量以及表面上两个正交的向量组成 (见图 3 的左半边)。
+
+![Fig. 3: Register the garment mesh](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202409261604188.png)
+
+### Tracking-based registration
+
+首先初始化外观，将高斯的参数都设置为 0，在 mesh 表面上创建高斯基元，通过优化参数来使衣服的外观与模版帧想匹配。主要通过 3 个损失函数来约束：
+$$
+\mathcal{L}_{RGB}=\lambda_{RGB}\mathcal{L}_1+(1-\lambda_{RGB})\mathcal{L}_{SSIM}
+\tag{1}
+$$
+
+$$
+\mathcal{L}_{pos}=||\max(\mu-\epsilon_{pos},0)||_2
+\tag{2}
+$$
+
+$\mathcal{L}_{pos}$ 用来约束高斯基元与表面点的距离，$\mu$ 表示局部偏移，$\epsilon_{pose}$ 表示容许阈值。
+$$
+\mathcal{L}_{scale}=||max(s-\epsilon_{scale},0)||_2
+\tag{3}
+$$
+$\mathcal{L}_{scale}$ 用来约束高斯基元的缩放，$s$ 表示缩放，$\epsilon_{scale}$ 表示容许阈值。
+
+这样就能把 3D 高斯刚性固定在 mesh 的 face 上，这里得到的初始外观模型只用来进行 mesh 的配准，提高视觉质量会在下一节进行。在得到初始外观模型后需要对模版 mesh 进行配准，这一部分的关键是将梯度从图片空间传递到 mesh 上，本文通过技术渲染图片和 GT 之间的 $\mathcal{L}_{RGB}$ (和公式 1 一样) 来实现，把梯度从 3D 高斯传递到 mesh 上。
+
+但是只用 RGB 来约束可能会导致 mesh 的扭曲，因此本文还加入了很多物理能量的约束。
+
+首先用弯曲能量 $\mathcal{L}_{bending}$ 来约束相邻 face 间的弯曲角度：
+$$
+\mathcal{L}_{\text {bending }}=\sum_{(i, j)} \frac{\left\|e_{i j}\right\|^2}{a_{i j}} \operatorname{atan} 2\left(\sin \left(\theta_{i j}\right), \cos \left(\theta_{i j}\right)\right)^2
+\tag{4}
+$$
+
+- $(i,j)$ 表示相邻三角形的索引
+- $\theta_{ij}$ 表示相邻三角形法向量之间的夹角
+- $||e_{ij}||$ 表示两个三角形公共边的长度
+- $a_{ij}$ 表示两个三角形的面积和
+
+用应变能量 $\mathcal{L}_{strain}$ 约束三角形与模版帧中对应三角形的伸缩。这个应变能量是基于 St. Venant–Kirchhoff 材料模型，通过计算当前帧的几何 $x_t$ 与对应模版帧的几何 $X$ 之间的形变梯度 $\mathbf{F}=\frac{\partial x_t}{\partial X}$ 来约束：
+$$
+\mathcal{L}_{\text {strain }}=\sum_i V_i\left(\frac{\lambda}{2} \operatorname{tr}\left(\mathbf{G}_i\right)^2+\mu \operatorname{tr}\left(\mathbf{G}_i^2\right)\right)
+\tag{5}
+$$
+
+- $\mathbf{G}_i=\frac{1}{2}(\mathbf{F}_\mathbf{i}^T\mathbf{F}_\mathbf{i}-\mathbf{I})$ 表示面 $f_i$ 的 Green 应变张量
+- $V_i$ 表示面的体积 (厚度乘上面积)
+- $\lambda$ 和 $\mu$ 是 Lame 系数，类似于权重
+
