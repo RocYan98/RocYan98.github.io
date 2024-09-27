@@ -101,4 +101,3 @@ $$
 - $\mathbf{G}_i=\frac{1}{2}(\mathbf{F}_\mathbf{i}^T\mathbf{F}_\mathbf{i}-\mathbf{I})$ 表示面 $f_i$ 的 Green 应变张量
 - $V_i$ 表示面的体积 (厚度乘上面积)
 - $\lambda$ 和 $\mu$ 是 Lame 系数，类似于权重
-
