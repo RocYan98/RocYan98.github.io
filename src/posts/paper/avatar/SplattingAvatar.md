@@ -21,11 +21,11 @@ CVPR 2024
 
 ## Abstract
 
-我们展示了 SplattingAvatar，这是一种在三角形网格上嵌入 3DGS 的逼真数字人的混合 3D 表现形式，在现代 GPU 上的渲染速度超过 300 FPS，在移动设备上的渲染速度为 30 FPS。我们通过显式网格和隐式高斯进行拼接建模，将数字人的运动和外观分离开来。高斯由三角形网格上的重心坐标和位移定义为 Phong Surface[[2]][ref2]。我们通过改进 Lifted Optimiaztion[[2]][ref2] 方法，在三角形网格上 walking 的同时优化高斯参数。SplattingAvatar 是数字人的混合表现形式，其中网格代表低频运动和表面变形，而高斯则代表高频几何和细节外观。现有的变形方法依赖于基于 MLP 的线性混合蒙皮 (LBS) 来表示运动，与之不同的是，我们直接通过网格来控制高斯的旋转和平移，这就增强了它与各种动画技术 (如骨骼动画、混合形状和网格编辑) 的兼容性。SplattingAvatar 可通过单目视频对全身和头部进行训练，在多个数据集上显示出一流的渲染质量。
+我们展示了 SplattingAvatar，这是一种在三角形网格上嵌入 3DGS 的逼真数字人的混合 3D 表现形式，在现代 GPU 上的渲染速度超过 300 FPS，在移动设备上的渲染速度为 30 FPS。我们通过显式网格和隐式高斯进行拼接建模，将数字人的运动和外观分离开来。高斯由三角形网格上的重心坐标和位移定义为 [Phong Surface](https://arxiv.org/pdf/2007.04940)。我们通过改进 [Lifted Optimiaztion](https://arxiv.org/pdf/2007.04940) 方法，在三角形网格上 walking 的同时优化高斯参数。SplattingAvatar 是数字人的混合表现形式，其中网格代表低频运动和表面变形，而高斯则代表高频几何和细节外观。现有的变形方法依赖于基于 MLP 的线性混合蒙皮 (LBS) 来表示运动，与之不同的是，我们直接通过网格来控制高斯的旋转和平移，这就增强了它与各种动画技术 (如骨骼动画、混合形状和网格编辑) 的兼容性。SplattingAvatar 可通过单目视频对全身和头部进行训练，在多个数据集上显示出一流的渲染质量。
 
 ## Introduction
 
-本文提出用可训练的 mesh 的 embedding 来显示控制高斯，将 mesh 表示为 Phong surface[[2]][ref2]，embedding 表示为 $(k,u,v,d)$，其中 $(u,v)$ 表示第 $k$ 个 mesh 的重心坐标在 embedding 上的位置，$d$ 表示沿着法向量方向的位移。
+本文提出用可训练的 mesh 的 embedding 来显示控制高斯，将 mesh 表示为 [Phong surface](https://arxiv.org/pdf/2007.04940)，embedding 表示为 $(k,u,v,d)$，其中 $(u,v)$ 表示第 $k$ 个 mesh 的重心坐标在 embedding 上的位置，$d$ 表示沿着法向量方向的位移。
 
 本文的主要贡献：
 
@@ -137,5 +137,3 @@ $$
 [[1]SplattingAvatar: Realistic Real-Time Human Avatars with Mesh-Embedded Gaussian Splatting](https://arxiv.org/abs/2403.05087)
 
 [[2]The Phong Surface: Efficient 3D Model Fitting Using Lifted Optimization](https://arxiv.org/pdf/2007.04940)
-
-[ref2]: https://arxiv.org/pdf/2007.04940	"The Phong Surface: Efficient 3D Model Fitting Using Lifted Optimization"

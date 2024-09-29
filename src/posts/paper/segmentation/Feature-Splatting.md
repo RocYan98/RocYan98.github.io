@@ -49,13 +49,13 @@ $$
 $$
 **Systenms Considerations**：直接光栅化高维度特征会导致昂贵的训练时间，深入分析后发现主要瓶颈在内存访问模式，通过设计了 cuda kernal 解决。
 
-**Improving Reference Feature Quality Using Part-Priors**：CLIP[[3]][ref3] 是用 2D 视觉模型获取语义特征，其中会包含一些噪声 (如图 3 所示)，对于基于 NeRF 的模型来说直接用是没问题的，因为 NeRF 的连续表示是一种隐式的正则化。而对于高斯来说会过拟合，把噪声也当作语义特征。
+**Improving Reference Feature Quality Using Part-Priors**：[CLIP](http://proceedings.mlr.press/v139/radford21a) 是用 2D 视觉模型获取语义特征，其中会包含一些噪声 (如图 3 所示)，对于基于 NeRF 的模型来说直接用是没问题的，因为 NeRF 的连续表示是一种隐式的正则化。而对于高斯来说会过拟合，把噪声也当作语义特征。
 
 ![Fig. 3: overfit to reference CLIP features with artifacts](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261137285.png)
 
 ![Fig. 4: Raw and Enhanced Feature Maps](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261137581.png)
 
-本文用 DINOv2[[4]][ref4] 和 SAM[[5]][ref5] 的物体先验来提升高斯特征的质量。对于输入图像，首先用 SAM 获取 part-level masks $\{\mathbf{M}\}$ (图 4c)，然后对 $\mathbf{M}$ 和粗糙的 CLIP feature map $\mathbf{F}_C$ 使用**掩码平均池化 (Masked Average Pooling, MAP)** 来聚合成单个特征向量：
+本文用 [DINOv2](https://arxiv.org/abs/2304.07193) 和 [SAM](https://openaccess.thecvf.com/content/ICCV2023/html/Kirillov_Segment_Anything_ICCV_2023_paper.html) 的物体先验来提升高斯特征的质量。对于输入图像，首先用 SAM 获取 part-level masks $\{\mathbf{M}\}$ (图 4c)，然后对 $\mathbf{M}$ 和粗糙的 CLIP feature map $\mathbf{F}_C$ 使用**掩码平均池化 (Masked Average Pooling, MAP)** 来聚合成单个特征向量：
 $$
 w=\operatorname{MAP}\left(\mathbf{M}, \mathbf{F}_C\right)=\frac{\sum_{i \in \mathbf{F}_C} \mathbf{M}(i) \cdot \frac{\mathbf{F}_C(i)}{\left\|\mathbf{F}_C(i)\right\|}}{\sum_{i \in \mathbf{F}_C} \mathbf{M}(i)}
 \tag{2}
@@ -91,8 +91,4 @@ DINOv2 的特征是作为一个平滑项对 CLIP 特征进行正则化，所以�
 [[4]DINOv2: Learning Robust Visual Features without Supervision](https://arxiv.org/abs/2304.07193)
 
 [[5]Segment Anything](https://openaccess.thecvf.com/content/ICCV2023/html/Kirillov_Segment_Anything_ICCV_2023_paper.html)
-
-[ref3]: http://proceedings.mlr.press/v139/radford21a	"Learning Transferable Visual Models From Natural Language Supervision"
-[ref4]: https://arxiv.org/abs/2304.07193	"DINOv2: Learning Robust Visual Features without Supervision"
-[ref5]: https://openaccess.thecvf.com/content/ICCV2023/html/Kirillov_Segment_Anything_ICCV_2023_paper.html "Segment Anything"
 

@@ -100,7 +100,7 @@ $$
 
 - $\mathbf{G}_i=\frac{1}{2}(\mathbf{F}_\mathbf{i}^T\mathbf{F}_\mathbf{i}-\mathbf{I})$ 表示面 $f_i$ 的 Green 应变张量
 - $V_i$ 表示面的体积 (厚度乘上面积)
-- $\lambda$ 和 $\mu$ 是 Lame 系数，类似于权重
+- $\lambda$ 和 $\mu$ 是 Lamé 参数，类似于权重
 
 整体的物理正则项就是 $\mathcal{L}_{phys}=\mathcal{L}_{bending}+\mathcal{L}_{strain}$，但是只有物理正则项无法约束衣服和人体之间的关系，因此还需要用一个**三次能量 (cubic energy)** 来约束服装上的一个点与其最近的人体上的面之间的负法向距离：
 $$
