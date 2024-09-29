@@ -17,4 +17,3 @@ order: 7
 SIGGRAPH 2024
 
 ## Abstract
-
