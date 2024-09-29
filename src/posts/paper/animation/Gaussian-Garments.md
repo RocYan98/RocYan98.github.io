@@ -163,3 +163,26 @@ $$
 对于多层衣服在进行 3DGS 渲染的时候，可能里面的衣服会有部份穿透到外面来 (如图 7A 所示)，为了解决这个问题，本文只渲染可见的表面点。因为每一件衣服都有一个对应的 mesh，本文就利用了 mesh 和高斯之间的耦合关系。对于每一个高斯基元，都会从相机投射出一条光线到对应的表面点，看这个表面点是否被其他 mesh 所遮挡，如果没有被遮挡才会渲染。
 
 ![Fig. 7](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202409271618619.png)
+
+### Behavior fine-tuning
+
+本文用 [ContourCraft](ContourCraft.html) 中的 GNN $g_{\psi}$ 来模拟衣服的动态，其中 $\psi$ 表示网络的参数，以 $t$ 帧的 mesh 节点的位置 $\mathbf{x}_t$、速度 $\mathbf{v}_t$、每个节点的材料向量 $\mathbf{m}$ 和每条边的静止几何 $\bar{E}$ 为输入，预测节点的关于下一帧的加速度 $\mathbf{\hat{a}}_{t+1}$：
+$$
+\hat{\mathbf{a}}_{t+1}=g_\psi\left(\mathbf{x}_t, \mathbf{v}_t, \mathbf{m}, \bar{E}\right)
+\tag{11}
+$$
+并且为了使服装的动态与真实观测到的衣服的动态更加拟合，本文还同时优化了模型的权重，材料向量和边的静止几何来最小化损失函数 $\mathcal{L}_{behavior}$。这个损失函数将预测的节点位置和配准的节点位置之间的均方误差与一组物理项结合：
+$$
+\begin{aligned}
+\psi^*, \mathbf{m}^*, \bar{E}^* & =\underset{\psi^*, \mathbf{m}^*, \bar{E}^*}{\operatorname{argmin}}[ \left.\sum \mathcal{L}_{\text {behavior }}\left(g_\psi\left(\mathbf{x}_t, \mathbf{v}_t, \mathbf{m}, \bar{E}\right), \mathbf{a}_{t+1}\right)\right]
+\end{aligned}
+\tag{12}
+$$
+
+- $\mathbf{a}_{t+1}$ 表示配准序列中第 $t+1$ 帧节点的加速度
+
+## Reference
+
+[[1]Gaussian Garments: Reconstructing Simulation-Ready Clothing with Photorealistic Appearance from Multi-View Video](https://arxiv.org/abs/2409.08189)
+
+[[2]ContourCraft: Learning to Resolve Intersections in Neural Multi-Garment Simulations](https://dl.acm.org/doi/10.1145/3641519.3657408)

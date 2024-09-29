@@ -13,8 +13,6 @@ order: 1
 
 [项目地址](https://zielon.github.io/d3ga/)
 
-arXiv preprint arXiv:2311.08581
-
 ![Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261143740.png)
 
 ![Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261143918.png)
