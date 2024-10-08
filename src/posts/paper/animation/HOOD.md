@@ -6,7 +6,7 @@ tag:
   - Cloth Simulation
   - HOOD
   - Mesh
-title: ContourCraft-论文笔记
+title: HOOD-论文笔记
 order: 7
 ---
 
@@ -39,7 +39,7 @@ GNN 通过局部变换和消息传递在网格中传播信号，但由于消息�
 
 ## Method
 
-![Fig. 2: Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202409291447477.png)
+![Fig. 2: Pipeline](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202410081451205.png)
 
 本文通过图神经网络将服装与仿真解耦学习布料的局部动态，通过分层消息传递能够有效地捕获布料的长距离耦合，最后利用基于物理的损失函数实现自监督训练。
 
@@ -79,6 +79,14 @@ $$
 #### Extensions for Clothing
 
 为了能够模拟不同种类的布料以及多材质组合的服装，本文将每个节点和边的特征向量中添加了局部材质参数，包括：杨氏模量和泊松比 (这两个参数会被映射为 Lamé 参数 $\mu$ 和 $\lambda$) 来分别描述材料的拉伸抗性和区域保持性；弯曲系数 $k_{bending}$ 用来惩罚布料的折叠和褶皱；以及布料的密度来定义布料的重量。
+
+### Hierarchical Message Passing
+
+织物材料具有足够的刚度，因此施加在某一位置的力会迅速传遍整个服装。然而，当使用固定数量的信息传递步长时，在给定的时间步长内，力只能在有限的半径范围内传播。因此，如果信息传递步数太少，服装就会显得过于有弹性和橡胶一样。本文通过扩展 MeshGraphNets 来加速信号传播，从而解决了这一问题。为此，从平面输入图中构建了一个分层图表示法，并利用它在信息传递过程中加速信号传播。
+
+#### Hierarchical Graph Construction
+
+
 
 ## Reference
 
