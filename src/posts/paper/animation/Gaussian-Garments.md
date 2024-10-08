@@ -166,7 +166,7 @@ $$
 
 ### Behavior fine-tuning
 
-本文用 [ContourCraft](ContourCraft.html) 中的 GNN $g_{\psi}$ 来模拟衣服的动态，其中 $\psi$ 表示网络的参数，以 $t$ 帧的 mesh 节点的位置 $\mathbf{x}_t$、速度 $\mathbf{v}_t$、每个节点的材料向量 $\mathbf{m}$ 和每条边的静止几何 $\bar{E}$ 为输入，预测节点的关于下一帧的加速度 $\mathbf{\hat{a}}_{t+1}$：
+本文用 [ContourCraft](https://dolorousrtur.github.io/contourcraft/) 中的 GNN $g_{\psi}$ 来模拟衣服的动态，其中 $\psi$ 表示网络的参数，以 $t$ 帧的 mesh 节点的位置 $\mathbf{x}_t$、速度 $\mathbf{v}_t$、每个节点的材料向量 $\mathbf{m}$ 和每条边的静止几何 $\bar{E}$ 为输入，预测节点的关于下一帧的加速度 $\mathbf{\hat{a}}_{t+1}$：
 $$
 \hat{\mathbf{a}}_{t+1}=g_\psi\left(\mathbf{x}_t, \mathbf{v}_t, \mathbf{m}, \bar{E}\right)
 \tag{11}

@@ -7,7 +7,7 @@ tag:
   - HOOD
   - Mesh
 title: ContourCraft-论文笔记
-order: 8
+order: 7
 ---
 
 ## HOOD: Hierarchical Graphs for Generalized Modelling of Clothing Dynamics
@@ -16,7 +16,7 @@ order: 8
 
 CVPR 2023
 
-![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202409291413381.png)
+![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202410041405905.png)
 
 ## Abstract
 
