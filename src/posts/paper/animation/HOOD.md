@@ -121,7 +121,11 @@ $$
 
 最后建立一个服装随时间变化的能量模型：
 $$
-\mathcal{L}_{\text {total }}=\mathcal{L}_{\text {stretching }}\left({x}^{t+1}\right)+\mathcal{L}_{\text {bending }}\left(\mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {gravity }}\left(\mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {friction }}\left(\mathbf{x}^t, \mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {collision }}\left(\mathbf{x}^t, \mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {inertia }}\left(\mathbf{x}^{t-1}, \mathbf{x}^t, \mathbf{x}^{t+1}\right)
+\begin{aligned}
+\mathcal{L}_{\text {total }}= & \mathcal{L}_{\text {stretching }}\left(\mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {bending }}\left(\mathbf{x}^{t+1}\right)+ \\
+& \mathcal{L}_{\text {gravity }}\left(\mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {friction }}\left(\mathbf{x}^t, \mathbf{x}^{t+1}\right)+ \\
+& \mathcal{L}_{\text {collision }}\left(\mathbf{x}^t, \mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {inertia }}\left(\mathbf{x}^{t-1}, \mathbf{x}^t, \mathbf{x}^{t+1}\right)
+\end{aligned}
 \tag{5}
 $$
 
