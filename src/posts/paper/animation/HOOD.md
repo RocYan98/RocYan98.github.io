@@ -121,10 +121,13 @@ $$
 
 最后建立一个服装随时间变化的能量模型：
 $$
-\mathcal{L}_{\text {total }}=\mathcal{L}_{\text {stretching }}\left(\mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {bending }}\left(\mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {gravity }}\left(\mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {friction }}\left(\mathbf{x}^t, \mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {collision }}\left(\mathbf{x}^t, \mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {inertia }}\left(\mathbf{x}^{t-1}, \mathbf{x}^t, \mathbf{x}^{t+1}\right)
+\mathcal{L}_{\text {total }}=\mathcal{L}_{\text {stretching }}\left({x}^{t+1}\right)+\mathcal{L}_{\text {bending }}\left(\mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {gravity }}\left(\mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {friction }}\left(\mathbf{x}^t, \mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {collision }}\left(\mathbf{x}^t, \mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {inertia }}\left(\mathbf{x}^{t-1}, \mathbf{x}^t, \mathbf{x}^{t+1}\right)
 \tag{5}
 $$
 
+- $\mathbf{x}^{t-1}$、$\mathbf{x}^t$ 和 $\mathbf{x}^{t+1}$ 分别表示上一帧、当前帧和下一帧的节点位置
+
+最小化 $\mathcal{L}_{total}$ 与步骤结束位置的关系等同于求解隐式欧拉方程，为前向模拟提供了一种稳健的方法。在训练过程中作为损失使用时，这种增量势能允许网络在没有监督的情况下学习服装的动态。
 
 ## Reference
 
