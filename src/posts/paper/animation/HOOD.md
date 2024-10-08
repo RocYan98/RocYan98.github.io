@@ -80,8 +80,6 @@ $$
 
 为了能够模拟不同种类的布料以及多材质组合的服装，本文将每个节点和边的特征向量中添加了局部材质参数，包括：杨氏模量和泊松比 (这两个参数会被映射为 Lamé 参数 $\mu$ 和 $\lambda$) 来分别描述材料的拉伸抗性和区域保持性；弯曲系数 $k_{bending}$ 用来惩罚布料的折叠和褶皱；以及布料的密度来定义布料的重量。
 
-
-
 ## Reference
 
 [[1]HOOD: Hierarchical Graphs for Generalized Modelling of Clothing Dynamics](https://arxiv.org/abs/2212.07242)
