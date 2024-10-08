@@ -86,6 +86,44 @@ $$
 
 #### Hierarchical Graph Construction
 
+要让信息在单步内传的更远，需要在节点之间建立长距离的连接，为此，通过一个简单而有效的递归过程对给定的输入图进行递归粗化，以获得分层表示。具体来说，将输入图的节点连续划分为更粗的集合，这样节点间距离 (两个节点之间最短路径的边数) 就会增加。然后，为每个分区创建新的粗化边集合。
+
+通过递归应用这种算法，可以得到一个被嵌套的层次图，其中每个较粗层次的节点都是下一个较细层次节点的适当子集，即 $V_{l+1}\sub V_l$。这一特性对多层信息传递方案非常重要，将在下文中进行描述。
+
+#### Multi-level Message Passing
+
+嵌套分层图表示法可通过在多层次上同时进行处理来加速信息传递。为此，为图中的每个层级 $l$ 赋予了自己的边特征向量 $e^l_{ij}$，而节点特征向量 $v_i$ 则在所有层级中共享。在每个信息传递步骤开始时，首先使用最底层的节点特征更新所有层的边特征：
+$$
+e^l_{ij}\leftarrow f^l_{v\rightarrow e}(e^l_{ij},v^0_i,v^0_j)
+\tag{3}
+$$
+
+- $f^l_{v\rightarrow e}$ 表示 $l$ 层的 MPL
+
+然后节点特征更新为：
+$$
+v_i \leftarrow f_{e \rightarrow v}\left(v_i, \sum_j e_{i j}^{b o d y}, \sum_j e_{i j}^1, \ldots, \sum_j e_{i j}^L\right)
+\tag{4}
+$$
+在每个信息传递步骤中，都会更新身体边 $e^{body}_{ij}$，只保留那些与当前处理的服装节点相连的边。
+
+这种方案的重要优势在于，它不需要任何显式平均或插值运算符来进行层级间传输。由于分层图具有嵌套特性，因此节点可以跨层共享，而且所有信息传递都是通过在每个信息传递步骤结束时处理 MLP $f_{e\rightarrow v}$ 来隐式实现的。
+
+多层次信息传递方案可以同时在任意数量的层次上运行。图 3 所示的类似 UNet 的架构具有三级层次结构，同时在两个相邻的层次上进行信息传递，在推理时间和结果质量之间实现了权衡。
+
+![Fig. 3: Hierarchical network architecture with 1 fine (green) and 2 coarse (yellow, orange) levels](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202410081545662.png)
+
+为了计算多级信息传递方案的传播半径，本文将信息在每个信息传递步骤中的最大传播距离相加。在计算量大致相同的情况下，多层的架构产生的传播半径为 48 条边，而单级方案为 15 条边。
+
+### Garment Model
+
+要了解服装的动力学特性，必须对其机械行为进行建模，即内部变形和弹性能量之间的关系，以及和身体的摩擦和接触。本文的方法遵循布料仿真的标准做法：使用三角有限元和 St. Venant–Kirchhoff 材料模型，通过能量 $\mathcal{L}_{stretching}$ 建立抗拉伸模型。$\mathcal{L}_{bending}$ 是对离散曲率变化的惩罚，它是相邻三角形之间二面角的函数。为了防止布料与人体之间的相互穿透，当服装节点与其在身体网格上最近点的距离低于某个阈值时，使用三次能量项 $\mathcal{L}_{collision}$ 来惩罚服装节点与人体网格上最近点之间的负距离。此外，$\mathcal{L}_{inertia}$ 是一个能量项，其关于下一个时间帧 $x_{t+1}$ 的梯度产生惯性力。最后，引入了一个摩擦项 $\mathcal{L}_{friction}$，用于惩罚服装节点在身体上的切向运动。
+
+最后建立一个服装随时间变化的能量模型：
+$$
+\mathcal{L}_{\text {total }}=\mathcal{L}_{\text {stretching }}\left(\mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {bending }}\left(\mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {gravity }}\left(\mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {friction }}\left(\mathbf{x}^t, \mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {collision }}\left(\mathbf{x}^t, \mathbf{x}^{t+1}\right)+\mathcal{L}_{\text {inertia }}\left(\mathbf{x}^{t-1}, \mathbf{x}^t, \mathbf{x}^{t+1}\right)
+\tag{5}
+$$
 
 
 ## Reference
