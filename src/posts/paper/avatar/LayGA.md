@@ -8,7 +8,7 @@ tag:
   - LayGA
   - 3DGS
 title: LayGA-论文笔记
-order: 7
+order: 8
 ---
 
 ## LayGA: Layered Gaussian Avatars for Animatable Clothing Transfer

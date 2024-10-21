@@ -3,11 +3,12 @@ date: 2024-03-24
 category: 论文
 tag:
   - Paper
+  - Avatar
   - Reconstructing
   - SMPLicit
   - Mesh
 title: SMPLicit-论文笔记
-order: 1
+order: 3
 ---
 
 ## SMPLicit: Topology-aware Generative Model for Clothed People

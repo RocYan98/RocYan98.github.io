@@ -7,7 +7,7 @@ tag:
   - SCARF
   - NeRF
 title: SCARF-论文笔记
-order: 3
+order: 4
 ---
 
 ## SCARF: Capturing and Animation of Body and Clothing from Monocular Video

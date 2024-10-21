@@ -7,7 +7,7 @@ tag:
   - GoMAvatar
   - 3DGS
 title: GoMAvatar-论文笔记
-order: 6
+order: 7
 ---
 
 ## GoMAvatar: Efficient Animatable Human Modeling from Monocular Video Using Gaussians-on-Mesh
