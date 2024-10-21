@@ -74,6 +74,13 @@ export default sidebar({
                             children: "structure"
                         },
                         {
+                            text: "AIGC",
+                            icon: "AIGC",
+                            prefix: "AIGC/",
+                            collapsible: true,
+                            children: "structure"
+                        },
+                        {
                             text: "分割",
                             icon: "segmentation",
                             prefix: "segmentation/",

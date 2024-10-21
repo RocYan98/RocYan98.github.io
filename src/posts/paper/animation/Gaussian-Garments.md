@@ -14,6 +14,8 @@ order: 6
 
 [项目地址](https://ribosome-rbx.github.io/Gaussian-Garments/)
 
+arXiv
+
 ![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202409271502651.png)
 
 ## Abstract

@@ -14,7 +14,7 @@ order: 1
 
 [项目地址](https://feature-splatting.github.io)
 
-arXiv preprint arXiv:2404.01223
+ECCV 2024
 
 ![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261136368.png)
 
