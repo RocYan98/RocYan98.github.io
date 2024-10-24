@@ -160,7 +160,7 @@ $$
 
 - $G'_k(\vec\theta,\mathbf{J})$ 表示从标准姿态到当前姿态的仿射变换矩阵。
 
-对于 LBS 的更详细的介绍可以看[这篇文章](https://yunyang1994.gitee.io/2021/08/21/三维人体模型-SMPL-A-Skinned-Multi-Person-Linear-Model/)。
+对于 LBS 的更详细的介绍可以看[这篇文章](https://yunyang1994.github.io/2021/08/21/三维人体模型-SMPL-A-Skinned-Multi-Person-Linear-Model/)。
 
 在经过 3.1、3.2 和 3.3 的之后，公式 (5) 可以进一步写为：
 $$

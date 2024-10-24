@@ -193,3 +193,5 @@ $$
 ## Reference
 
 [[1]Capturing and Animation of Body and Clothing from Monocular Video](https://arxiv.org/abs/2210.01868)
+
+[[2]哈达玛积](https://www.zhihu.com/search?q=哈达玛积&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"answer"%2C"sourceId"%3A2759730412})

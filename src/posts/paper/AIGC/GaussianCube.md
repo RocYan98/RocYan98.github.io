@@ -14,7 +14,7 @@ order: 3
 
 [项目地址](https://gaussiancube.github.io)
 
-arXiv
+NeurlPS 2024
 
 ![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202410211702844.png)
 
@@ -36,5 +36,55 @@ GaussianCube 是一种结构化且显式的辐射表示法，具备强大的拟�
 
 ### Representation Construction
 
+和 3DGS 一样，每个高斯核 $\boldsymbol{g}_i$ 可以定义为由 $C$ 通道的特征向量 $\boldsymbol{\theta}_i=\left\{\boldsymbol{\mu}_i, \boldsymbol{s}_i, \boldsymbol{q}_i, \alpha_i, \boldsymbol{c}_i\right\} \in \mathbb{R}^C$。
 
+- $\boldsymbol{\mu}\in\R^3$ 表示高斯核的中心位置
+- $\boldsymbol{s}\in\R^3$ 表示缩放向量
+- $\boldsymbol{q}\in\R^4$ 表示旋转四元数
+- $\alpha\in\R$ 表示不透明度
+- $\boldsymbol{c}\in\R^3$ 表示颜色特征向量
 
+#### Densification-constrained fitting
+
+这个方法的目的是为了限制不同物体重建出来的高斯核 $\boldsymbol{g}\in\R^{N_{max}\times C}$ 的数量。
+
+![Fig. 3: Illustration of representation construction](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202410221708188.png)
+
+在保留 3DGS 自适应密度控制策略中的 pruning 过程并在 densification 阶段增加了新的约束 (如图 3a 所示)，包含几个独立的阶段：
+
+- Densification Detection：假设当前迭代有 $N_c$ 个高斯核，将 view-space 中位置梯度大于阈值 $\tau$ 的高斯核当作 densification candidates，个数为 $N_d$。
+- Candidate sampling：为了防止高斯核的个数超过最大值 $N_{max}$，在 candidates 中挑选 $\min(N_{max}-N_c,N_d)$ 个梯度最大的高斯核。
+- Densification：将致密化方法中的 clone 和 split 之间从原来的交替进行修改为单独的步骤。
+- Pruning Detection and Pruning：删除那些 $\alpha$ 小于阈值的高斯核。在完成重建后，填充一些 $\alpha=0$ 的高斯核使高斯核的数量达到 $N_{max}$。
+
+#### Gaussian structuralization via Optimal Transport.
+
+Optimal Transport (OT) 就是让高斯核移动到每个体素的中心位置，并且保留原本的几何关系。预定义一个体素网格 $\boldsymbol{v}\in\R^{N_v\times N_v \times N_v \times C}$，其中 $N_v=\sqrt[3]{N_{max}}$。用 Jonker-Volgenant 算法来计算全局最小传输距离：
+$$
+\underset{\mathbf{T}}{\arg \min } \sum_{i=1}^{N_{max}} \sum_{j=1}^{N_{max}} \mathbf{T}_{ij}\mathbf{D}_{ij}
+$$
+
+- $\{\boldsymbol{\mu}_i,i=1,...,N_{max}\}$ 表示高斯核的空间位置
+- $\{\boldsymbol{x}_i,i=1,...,N_{max}\}$ 表示体素的中心位置
+- $\mathbf{D}_{ij}=||\boldsymbol{\mu}_i-\boldsymbol{x}_j||^2$ 表示从 $\boldsymbol{\mu}_i$ 到 $\boldsymbol{x}_j$ 需要移动的距离
+- $\mathbf{T} \in \R^{N_{max}\times N_{max}}$ 表示 OT 方案，$\mathbf{T}_{ij}$ 是一个二进制变量表示高斯核 $\boldsymbol{\mu}_i$ 是否移动到 $\boldsymbol{x}_j$。
+
+OT 问题有个约束条件，每个高斯核只能移动到一个体素内，每个体素内只能有一个高斯核。
+
+> 为什么不直接用最近邻点算法？因为最近邻点算法只关心局部最近，而 Jonker-Volgenant 算法是全局最优，这样能保持整体几何关系的前提下，找到最小的移动距离。
+
+### 3D Diffusion on GaussianCube
+
+#### Model architecture
+
+本文只是用 diffusion 中的标准 U-Net，把原本的 2D 算子改成了 3D 算子，并没有做什么复杂的设计。
+
+#### Conditioning mechanism
+
+对于**类条件 (class-conditioned)** 扩散模型，用 [adaptive group normalization (AdaGN)](https://proceedings.neurips.cc/paper/2021/hash/49ad23d1ec9fa4bd8d77d02681df5cfa-Abstract.html) 把类标签注射到模型内。
+
+## Reference
+
+[[1]GaussianCube: A Structured and Explicit Radiance Representation for 3D Gener](http://arxiv.org/abs/2403.19655)
+
+[[2]Diffusion Models Beat GANs on Image Synthesis](https://proceedings.neurips.cc/paper/2021/hash/49ad23d1ec9fa4bd8d77d02681df5cfa-Abstract.html)
