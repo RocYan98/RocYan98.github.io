@@ -62,6 +62,7 @@ GaussianCube 是一种结构化且显式的辐射表示法，具备强大的拟�
 Optimal Transport (OT) 就是让高斯核移动到每个体素的中心位置，并且保留原本的几何关系。预定义一个体素网格 $\boldsymbol{v}\in\R^{N_v\times N_v \times N_v \times C}$，其中 $N_v=\sqrt[3]{N_{max}}$。用 Jonker-Volgenant 算法来计算全局最小传输距离：
 $$
 \underset{\mathbf{T}}{\arg \min } \sum_{i=1}^{N_{max}} \sum_{j=1}^{N_{max}} \mathbf{T}_{ij}\mathbf{D}_{ij}
+\tag{1}
 $$
 
 - $\{\boldsymbol{\mu}_i,i=1,...,N_{max}\}$ 表示高斯核的空间位置
@@ -81,10 +82,44 @@ OT 问题有个约束条件，每个高斯核只能移动到一个体素内，�
 
 #### Conditioning mechanism
 
-对于**类条件 (class-conditioned)** 扩散模型，用 [adaptive group normalization (AdaGN)](https://proceedings.neurips.cc/paper/2021/hash/49ad23d1ec9fa4bd8d77d02681df5cfa-Abstract.html) 把类标签注射到模型内。
+对于**类条件 (class-conditioned)** 扩散模型，用 [adaptive group normalization (AdaGN)](https://proceedings.neurips.cc/paper/2021/hash/49ad23d1ec9fa4bd8d77d02681df5cfa-Abstract.html) 把类标签注射到模型内。对于图像条件数字人创建，用一个预训练的 [ViT](https://openaccess.thecvf.com/content/ICCV2021/html/Caron_Emerging_Properties_in_Self-Supervised_Vision_Transformers_ICCV_2021_paper) 把条件图像 encode 成 feature tokens 序列。随后，采用[交叉注意力机制](https://arxiv.org/abs/2309.07920)的方法，让模型学习 3D activations 与 2D 图像 feature tokens 之间的对应关系。在根据文本创建 3D 对象时，也将交叉注意机制作为条件机制，这与之前的[文本到图像扩散模型](https://openaccess.thecvf.com/content/CVPR2022/html/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.html)类似。
+
+#### Training objective
+
+在 3D diffusion 训练中，参数化模型 $\hat{\boldsymbol{y}_\theta}$ 来预测没有噪声的输入 $\boldsymbol{y}_0$：
+$$
+\mathcal{L}_{\text {simple }}=\mathbb{E}_{t, \boldsymbol{y}_0, \boldsymbol{\epsilon}}\left[\left\|\hat{\boldsymbol{y}}_\theta\left(\alpha_t \boldsymbol{y}_0+\sigma_t \boldsymbol{\epsilon}, t, \boldsymbol{c}_{\mathrm{cls}}\right)-\boldsymbol{y}_0\right\|_2^2\right]
+\tag{2}
+$$
+
+- $t\in[0,T]$ 表示某一个时间步
+- $\boldsymbol{\epsilon}\in\mathcal{N}(\boldsymbol{0},\boldsymbol{I})$ 表示添加的高斯噪声
+- $\alpha_t \boldsymbol{y}_0+\sigma_t \boldsymbol{\epsilon}$ 表示输入给模型的带噪声的数据
+- $\boldsymbol{c}_{\mathrm{cls}}$ 表示条件信号，只有在训练条件扩散模型的时候才需要
+
+为了提升渲染质量，还加了一个 image-level 的监督：
+$$
+\mathcal{L}_{\text {image }}=\mathbb{E}_{t, I_{\text {pred }}}\left(\sum_l\left\|\Psi^l\left(I_{\text {pred }}\right)-\Psi^l\left(I_{\mathrm{gt}}\right)\right\|_2^2\right)+\mathbb{E}_{t, I_{\mathrm{pred}}}\left(\left\|I_{\mathrm{pred}}-I_{\mathrm{gt}}\right\|_2\right)
+\tag{3}
+$$
+
+- $I_{pred}$ 和 $I_{gt}$ 分别表示渲染图片和 GT
+- $\Psi^l$ 表示从预训练的 VGG 模型中提取的多分辨率的特征
+
+最后总的损失函数为：
+$$
+\mathcal{L}=\mathcal{L}_{simple}+\lambda\mathcal{L}_{image}
+\tag{4}
+$$
 
 ## Reference
 
 [[1]GaussianCube: A Structured and Explicit Radiance Representation for 3D Gener](http://arxiv.org/abs/2403.19655)
 
 [[2]Diffusion Models Beat GANs on Image Synthesis](https://proceedings.neurips.cc/paper/2021/hash/49ad23d1ec9fa4bd8d77d02681df5cfa-Abstract.html)
+
+[[3]Emerging Properties in Self-Supervised Vision Transformers](https://openaccess.thecvf.com/content/ICCV2021/html/Caron_Emerging_Properties_in_Self-Supervised_Vision_Transformers_ICCV_2021_paper)
+
+[[4]Large-Vocabulary 3D Diffusion Model with Transformer](https://arxiv.org/abs/2309.07920)
+
+[[5]High-Resolution Image Synthesis with Latent Diffusion Models](https://openaccess.thecvf.com/content/CVPR2022/html/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.html)
