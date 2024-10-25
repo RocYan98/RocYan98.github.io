@@ -7,7 +7,7 @@ tag:
   - GaussianCube
   - 3DGS
 title: GaussianCube-论文笔记
-order: 3
+order: 1
 ---
 
 ## GaussianCube: A Structured and Explicit Radiance Representation for 3D Gener
