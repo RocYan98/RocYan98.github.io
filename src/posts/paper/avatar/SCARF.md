@@ -78,20 +78,21 @@ $$
 
 上采样后还是用三角 mesh 来表示模型，四边形的版本只是用来上采样。为了增加模型的可变形，还要学习一个位移，分别用两个隐式模型 $F_d:t\to o$ 和 $F_t:t\to c$ 来预测模板 $T$ 上每个顶点 $t$ 的位移和颜色。
 
-**服装表示 (Clothing representation)**：用 NeRF $F_c:x^c\to(c,\sigma)$ 表示标准空间下的服装。~~因为只有标准空间下的衣服表示，所以还要学一个从观测空间到标准空间的非刚体变换函数：~~ 因为直接使用 LBS 将观测空间中的点变换到标准空间还会有偏差，所以还需要学习一个非刚体变换函数来修正偏差：
+**服装表示 (Clothing representation)**：用 NeRF $F_c:\mathbf{x}^c\to(c,\sigma)$ 表示标准空间下的服装，本文只用 NeRF 表示衣服，不表示人体的部分。但是 SMPL 模型并没有穿着衣服，所以对于衣服在不同 pose 下的变形还需要学习一个标准空间中的 MLP $F_m:\R^6\to\R^3$ 来表示一个非刚体形变：
 $$
 F_m(\mathbf{x}^c,\mathbf{v}^p_{nn(\mathbf{x})})\to d^c
 \tag{4}
 $$
 
-- $\mathbf{x}^c$​ 表示标准空间的一个点 
-- $\mathbf{x}$ 表示观测空间的一个点
-- $\mathbf{v}^p_{nn(x)}$ 表示观测空间的身体表示中距离 $\mathbf{x}$​ 最近的那个点
+- $\mathbf{x}^c$​ 表示标准空间的一个点
+- $\mathbf{x}$ 表示观测空间衣服上的一个点
+- $\mathbf{v}^p_{nn(x)}$ 表示观测空间的人体表示中与 $\mathbf{x}$​ 最近的那个点
 
 预测结果 $d^c$ 是偏移量，因此最后输入 $F_c$ 的是 $\mathbf{x}^c+\mathbf{d}^c$。
 
 ### 标准化 (Canonicalization)
 
+使用基于 SMPL-X 模型的逆变换，将模型从观测空间变换到标准空间。公式 3 只是适用于人体表面上的点，下面这个公式可以拓展到整个空间中的点。给出一个人体 mesh $M(\beta,\theta,\psi,O)\to V$ 和观测空间中的一个点 $\mathbf{x}$，可以将 $\mathbf{x}$ 变换到标准空间：
 $$
 \sum_{v_i\in\mathcal{N}(\mathbf{x})}\frac{\omega_i(\mathbf{x})}{\omega(\mathbf{x})}M_i(0,\theta^c,0,0)(M_i(\beta,\theta,\psi,O))^{-1}\mathbf{x}\rarr \mathbf{x}^c
 \tag{5}
@@ -105,6 +106,8 @@ $$
 $$
 
 - $\mathcal{N}(\mathbf{x})$ 表示在 $\mathrm{V}$ 中距离 $\mathbf{x}$ 最近的点集，$\mathrm{V}$ 表示观测空间中 body mesh 的点集
+- $w_i$ 表示 $v_i$ 的混合蒙皮权重
+- $\sigma$ 是个恒定的权重
 
 ### 损失函数
 
