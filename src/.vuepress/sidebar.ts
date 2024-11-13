@@ -25,9 +25,9 @@ export default sidebar({
                     children: "structure"
                 },
                 {
-                    text: "计算机图形学",
+                    text: "学习笔记",
                     icon: "threeD",
-                    prefix: "CG/",
+                    prefix: "notes/",
                     collapsible: true,
                     children: [
                         {

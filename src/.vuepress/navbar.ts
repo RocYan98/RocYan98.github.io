@@ -29,9 +29,9 @@ export default navbar([
         link: "pytorch/",
       },
       {
-        text: "计算机图形学",
+        text: "学习笔记",
         icon: "threeD",
-        link: "CG/",
+        link: "notes/",
       },
       {
         text: "论文",
