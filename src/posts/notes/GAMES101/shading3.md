@@ -4,7 +4,7 @@ tag:
   - CG
   - GAMES101
 category:
-  - 计算机图形学
+  - 学习笔记
 #cover: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/4rrgwz.png
 order: 9
 ---

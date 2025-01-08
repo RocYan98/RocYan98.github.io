@@ -1,6 +1,6 @@
 ---
 date: 2024-04-30
-category: 计算机图形学
+category: 学习笔记
 tag:
   - Coordinate
   - Render

@@ -5,7 +5,7 @@ tag:
   - GAMES101
   - 线性代数
 category:
-  - 计算机图形学
+  - 学习笔记
 #cover: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/4rrgwz.png
 order: 2
 ---
