@@ -61,7 +61,7 @@ Gaussian texture 对 3D mesh 表面和 2D 纹理图进行映射来控制表面�
 
 ### Tracking-based registration
 
-首先初始化外观，将高斯的参数都设置为 0，在 mesh 表面上创建高斯基元，通过优化参数来使衣服的外观与模版帧想匹配。主要通过 3 个损失函数来约束：
+首先初始化外观，将高斯的参数都设置为 0，在 mesh 表面上创建高斯基元，通过优化参数来使衣服的外观与模版帧相匹配。主要通过 3 个损失函数来约束：
 $$
 \mathcal{L}_{RGB}=\lambda_{RGB}\mathcal{L}_1+(1-\lambda_{RGB})\mathcal{L}_{SSIM}
 \tag{1}
