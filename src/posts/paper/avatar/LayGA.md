@@ -43,7 +43,7 @@ SIGGRAPH 2024
 
 这篇文章是基于 [Animatable Gaussians](Animatable-Gaussians.html) 做的，通过预测二维的 pose 相关高斯图来创建高保真的数字人。本文的服装感知数字人表示 (图 3) 就是在其 pose 相关高斯图上对做了针对性修改。
 
-先学习 position map，然后再用 StyleUNet 学习 Gaussian map 的过程和 [Animatable Gaussians](Animatable-Gaussians.thml) 是一样的，这篇文章的创新是除了高斯的基本参数外，额外多学习一个 label 用来区分这个高斯是属于身体还是衣服。
+先学习 position map，然后再用 StyleUNet 学习 Gaussian map 的过程和 [Animatable Gaussians](Animatable-Gaussians.html) 是一样的，这篇文章的创新是除了高斯的基本参数外，额外多学习一个 label 用来区分这个高斯是属于身体还是衣服。
 
 本文的高斯参数为：
 
