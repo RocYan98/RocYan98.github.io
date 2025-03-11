@@ -149,3 +149,11 @@ $L_{distance}$ 防止身体的 mesh 过于原来初始的 SMPL-X 的 mesh。
 ### Physics-based Driving
 
 这部分直接用的 [HOOD](../animation/HOOD.html)。
+$$
+\mathbf{m}_V\left(\alpha_1, \alpha_2, \alpha_3\right)=\alpha_1 \mathbf{v}_1+\alpha_2 \mathbf{v}_2+\alpha_3 \mathbf{v}_3
+$$
+
+- $\mathbf{m}_V$ 表示高斯的均值，即高斯核的位置
+- $\mathbf{v}_1$，$\mathbf{v}_2$，$\mathbf{v}_3$ 表示 mesh face 的三个顶点
+
+- $\alpha_1$，$\alpha_2$，$\alpha_3$ 是可训练的参数

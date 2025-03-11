@@ -31,7 +31,7 @@ tag:
 
 ### 2.1 网络认证
 
-插上实验室的网线之后可能需要去网络认证一下，网址是 wlrz.fudan.edu.cn，如果没法上网的话去认证一下。因为校园网的 ip 基本上不会改变，也就不需要弄静态 ip，直接用就好了。
+插上实验室的网线之后可能需要去网络认证一下，网址是 http://10.250.3.66，如果没法上网的话去认证一下。因为校园网的 ip 基本上不会改变，也就不需要弄静态 ip，直接用就好了。
 
 ### 2.2 SSH
 
@@ -43,17 +43,26 @@ sudo apt install openssh-server
 
 ### 2.3 免密 SSH 连接
 
-嫌每次 ssh 连接都要输密码很麻烦， 可以在自己的电脑的终端上输入：
+嫌每次 ssh 连接或者 scp 传文件都要输密码很麻烦可以设置免密。
 
+首先，请确保您在本地系统上已经生成了 SSH 密钥对。如果还没有生成，请使用以下命令来生成 SSH 密钥对：
 ```bash
-ssh-copy-id 主机上的用户@主机的 ip
+ssh-keygen -t rsa -b 4096
 ```
 
-然后输入主机的密码，这样以后连接就不用再输密码。
+将在默认目录 `~/.ssh/` 下生成密钥对文件。
+
+然后可以使用以下命令将公钥复制到远程主机：
+
+```bash
+ssh-copy-id 主机上的用户@主机的ip
+```
+
+然后输入远程主机的密码，这样以后连接就不用再输密码。
 
 ### 2.4 修改主机名
 
-如果你嫌自己默认的主机名太长太丑，可以直接修改 /etc/hostname 这个文件，修改后重启就好。
+如果你嫌自己默认的主机名太长太丑，可以直接修改 `/etc/hostname` 这个文件，修改后重启就好。
 
 <img src="https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261228183.png" alt="image-20240415161239236" style="zoom:50%;" /> @ 前面的是用户名，@ 后面的是主机名。
 
@@ -144,6 +153,69 @@ sudo apt install curl
 
 参考[这篇文章](https://blog.csdn.net/t624124600/article/details/111085234)。
 
+## 4 挂载新硬盘
+
+### 4.1 查找硬盘
+
+通过 `df -h` 命令可以查看已挂载硬盘，ubuntu 可能会自动把硬盘挂载到 `/media` 下。
+
+再通过 `lsblk -f` 命令查看所有硬盘信息，两边比对一下就能找到新硬盘的名字，比如我找到的硬盘名字叫 nvme1n1，那硬盘的位置就在 `/dev/nvme1n1`。
+
+### 4.2 格式化硬盘
+
+新的硬盘一般需要格式化，如果已经格式化过的可以跳过这一步。也可以对硬盘进行分区，这里跳过分区的步骤。
+
+linux 默认支持的格式是 ext4：
+
+```bash
+sudo mkfs -t ext4 /dev/nvme1n1
+```
+
+如果想要与 mac 兼容可以格式化为 exfat 格式：
+
+```bash
+sudo mkfs -t exfat /dev/nvme1n1
+```
+
+格式化为 exfat 格式的时候可能会报错 mkfs: failed to execute mkfs.exfat: No such file or directory，这是因为不支持 exfat 格式， `sudo apt-get install exfat-fuse` 安装 exfat-fuse 即可。
+
+### 4.3 临时挂载硬盘
+
+需要新建一个文件夹作为挂载点，并挂载:
+
+```bash
+mkdir ~/data
+sudo mount /dev/nvme1n1 ~/data
+```
+
+如果想要卸载可以 `sudo umount ~/data` 即可。
+
+### 4.4 开机自动挂载
+
+临时挂载重启后还是需要重新挂载，如果想要自动挂载：
+
+```bash
+blkid /dev/nvme1n1 #找到硬盘的 UUID
+sudo vim /etc/fstab #修改 fstab 文件
+```
+
+在 ` /etc/fstab` 文件的末尾加入：
+
+```bash
+UUID=xxx /home/yan/data exfat defaults 0 2
+```
+
+- 第一个参数就是 UUID
+- 第二个参数是要挂载的位置
+- 第三个参数是磁盘的 TYPE
+- 第四个参数是挂载的选项，直接 defaults 就好
+- 第五个参数是 dump 备份设置，1 允许 dump 备份，0 忽略备份
+- 第六个参数是 fsck 磁盘检查设置：其值是一个顺序。当其值为 0 时，永远不检查；而 / 根目录分区永远都为1。其它分区从 2 开始，数字越小越先检查，如果两个分区的数字相同，则同时检查。
+
+
+
+如果 ` /etc/fstab` 写错了是会导致开机就进入紧急模式无法进入图形化界面，这时候把文件末尾加的这个删掉就好。
+
 ## Reference：
 
 [Ubuntu20.04双系统安装详解](https://blog.csdn.net/wyr1849089774/article/details/133387874)
@@ -159,3 +231,7 @@ sudo apt install curl
 [使用Barrier共享鼠标键盘，通过macos控制ubuntu系统](https://blog.csdn.net/zc15210073939/article/details/136685526)
 
 [ubuntu18.04设置开机启动命令/脚本的三种方法（可sudo）](https://blog.csdn.net/t624124600/article/details/111085234)
+
+[[Ubuntu-22.04 挂载磁盘](https://www.cnblogs.com/luoguoguo/p/18554122)](https://www.cnblogs.com/luoguoguo/p/18554122)
+
+[Ubuntu 系统不支持exFat文件系统的移动存储介质直接挂载](https://blog.csdn.net/Terminal_wen/article/details/128088973)
