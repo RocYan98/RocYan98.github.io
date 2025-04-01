@@ -15,7 +15,7 @@ order: 9
 
 [项目地址](https://ustc3dv.github.io/PICA/)
 
-TVCG
+TVCG 
 
 ![Fig. 1: Overview](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202501151312550.png)
 
