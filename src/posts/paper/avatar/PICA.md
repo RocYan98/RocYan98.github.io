@@ -13,7 +13,7 @@ order: 9
 
 ## PICA: Physics-Integrated Clothed Avatar
 
-项目地址(未开源)
+[项目地址](https://ustc3dv.github.io/PICA/)
 
 TVCG
 
