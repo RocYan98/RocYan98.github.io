@@ -190,6 +190,19 @@ sudo mount /dev/nvme1n1 ~/data
 
 如果想要卸载可以 `sudo umount ~/data` 即可。
 
+由于 exFAT 本身没有权限，需要在挂载时**强制设置所有文件的权限**：
+
+```bash
+sudo mount -o uid=1000,gid=1000,fmask=133,dmask=022 /dev/nvme1n1 ~/data
+```
+
+- **`uid=1000`**：设置默认用户（用 `id -u` 查你的用户ID）。
+- **`gid=1000`**：设置默认组（用 `id -g` 查你的组ID）。
+- **`fmask=133`**：
+  - 文件权限 `133` = `644`（`rw-r--r--`），即用户可读写，其他人只读。
+- **`dmask=022`**：
+  - 目录权限 `022` = `755`（`rwxr-xr-x`），即用户可读写执行，其他人只读和执行。
+
 ### 4.4 开机自动挂载
 
 临时挂载重启后还是需要重新挂载，如果想要自动挂载：
@@ -211,6 +224,14 @@ UUID=xxx /home/yan/data exfat defaults 0 2
 - 第四个参数是挂载的选项，直接 defaults 就好
 - 第五个参数是 dump 备份设置，1 允许 dump 备份，0 忽略备份
 - 第六个参数是 fsck 磁盘检查设置：其值是一个顺序。当其值为 0 时，永远不检查；而 / 根目录分区永远都为1。其它分区从 2 开始，数字越小越先检查，如果两个分区的数字相同，则同时检查。
+
+同理如果是 exFAT 也需要设置文件的权限：
+
+```bash
+UUID=xxx /home/yan/data exfat defaults,uid=1000,gid=1000,fmask=133,dmask=022 0 2
+```
+
+
 
 
 
