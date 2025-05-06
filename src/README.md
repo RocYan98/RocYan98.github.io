@@ -8,7 +8,7 @@ title: 博客主页
 bgImage: https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261201662.png
 heroText: Roc Yan的博客
 heroFullScreen: false
-tagline: 摆烂中
+tagline: 独立思考
 #projects:
 #  - icon: http://rocyan.oss-cn-hangzhou.aliyuncs.com/notes/jksiq8.png
 #    name: FDU
