@@ -56,7 +56,7 @@ $$
 
 找到标准空间中的对应点后，查询该点的 SDF 和颜色，通过基于 SDF 的体渲染方法来渲染 RGB 图像。将渲染图像和 GT 之间进行比较来优化标准空间的 SDF。最后从 SDF 中提取出几何模板，并且通过预计算的权重体积 $\mathcal{W}$​ 查询每个顶点的蒙皮权重来获取可变形参数化模板。
 
-**Template-guided Parameterization**：这一部分的目的是获取 posed position maps。用 2D CNN 取代 MLP 来获取更高质量的数字人，首先需要将 3D 表示的数字人参数化到 2D 空间。本文提出通过正交投影到方法，把 3D 高斯参数化为正反 2 个 posed position maps，投影的过程如图 3 所示。要用 2D 图像来表示 3D 信息，一个很好的解决方法就是用颜色来表示第三维。首先将参数化模板通过 LBS 变形到 pose 空间，用标准空间中的顶点和其对应 pose 空间顶点的颜色，然后用正交投影的方式渲染成正反 2 个 posed position maps $\mathcal{P}_f(\Theta)$ 和 $\mathcal{P}_b(\Theta)$，作为网络的 pose 条件。
+**Template-guided Parameterization**：这一部分的目的是获取 posed position maps。用 2D CNN 取代 MLP 来获取更高质量的数字人，首先需要将 3D 表示的数字人参数化到 2D 空间。本文提出通过正交投影到方法，把 3D 高斯参数化为正反 2 个 posed position maps，投影的过程如图 3 所示。要用 2D 图像来表示 3D 信息，一个很好的解决方法就是用颜色来表示第三维。首先将参数化模板通过 LBS 变形到 pose 空间，用 RGB 三通道的颜色来表示每个顶点在 pose 空间的坐标 XYZ，然后用正交投影的方式渲染成正反 2 个 posed position maps $\mathcal{P}_f(\Theta)$ 和 $\mathcal{P}_b(\Theta)$，作为网络的 pose 条件（每一个 pose 对应两个 posed position maps）。
 
 ![Fig. 3: Posed Position Maps](https://rocyan.oss-cn-hangzhou.aliyuncs.com/blog/202406261136549.png)
 
@@ -76,7 +76,7 @@ $$
 
 - $\mathbf{p}_p$ 和 $\mathbf{p}_c$ 分别表示高斯基元在 pose 空间和标准空间的位置
 - $\Sigma_p$ 和 $\Sigma_c$ 分别表示高斯基元在 pose 空间和标准空间的协方差
-- $\mathbf{R}$ 和 $\mathbf{t}$ 分别表示每个高斯基元的选择矩阵和位移向量
+- $\mathbf{R}$ 和 $\mathbf{t}$ 分别表示每个高斯基元的旋转矩阵和位移向量
 
 **Training**：本文训练的时候是在参数模板上预测一个位移 $\Delta\mathcal{O}(\Theta)$ 来确保预测的高斯图的位置属性接近标准空间下的人体，而不是在 position map 上加。并且对其进行正则化 $\mathcal{L}_{reg}=||\Delta\mathcal{O}(\Theta)||_2^2$ 防止位移过大。本文的 loss 函数如下：
 $$
